@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.study.ngy.web.mapper.ReservationMapper">
+
+    <insert id="insertReservation" parameterType="com.study.ngy.web.model.ReservationDTO">
+        INSERT INTO reservation(
+            name,
+            phone,
+            memo,
+            ip,
+            kakao_send_yn
+            insert_time
+        )
+        VALUES(
+            #{name},
+            #{phone},
+            #{memo},
+            #{ip},
+            #{kakaoSendYn},
+            now()
+        )
+    </insert>
+
+</mapper>
