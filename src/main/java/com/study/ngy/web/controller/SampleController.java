@@ -38,4 +38,9 @@ public class SampleController {
 
         return "thymeleaf/index";
     }
+
+    @RequestMapping("/bootstrapSampleThymeleaf")
+    public String bootstrapSampleThymeleaf(Model model){
+        return "thymeleaf/bootstrapSample";
+    }
 }
