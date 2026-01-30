@@ -10855,7 +10855,7 @@ p {
 
 @media (min-width: 768px) {
   section {
-    padding: 9rem 0;
+    //padding: 9rem 0;
   }
 }
 .btn-xl {
@@ -11327,3 +11327,16 @@ section#contact form#contactForm :-ms-input-placeholder {
     height: 250px;
     overflow-y: auto;
 }*/
+
+.carousel-item{
+    height: 700px;
+    /*padding-top: 10.5rem;
+    padding-bottom: 6rem;
+    text-align: center;
+    color: #fff;
+    background-repeat: no-repeat;
+    background-attachment: scroll;
+    background-position: center center;
+    background-size: cover;
+    */
+}

@@ -9,7 +9,7 @@
             phone,
             memo,
             ip,
-            kakao_send_yn
+            kakao_send_yn,
             insert_time
         )
         VALUES(

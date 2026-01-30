@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="kr" xmlns:th="http://www.thymeleaf.org">
+<th:block th:fragment="common">
+    <!-- Favicon-->
+    <link rel="icon" type="image/x-icon" href="assets/favicon.ico" />
+
+    <!-- Jquery Load -->
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+
+    <!-- common.js Load -->
+    <script src="js/common.js" crossorigin="anonymous"></script>
+
+    <!-- Font Awesome icons (free version)-->
+    <script src="js/all.js" crossorigin="anonymous"></script>
+
+    <!-- sweet alert -->
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+
+    <!-- Google fonts-->
+    <link rel="stylesheet" type="text/css" href="css/fontMontserrat.css" th:href="@{css/fontMontserrat.css}">
+    <link rel="stylesheet" type="text/css" href="css/fontRoboto.css" th:href="@{css/fontRoboto.css}">
+
+    <!-- Core theme CSS (includes Bootstrap)-->
+
+    <!--<link href="css/styles.css" rel="stylesheet" />-->
+    <link rel="stylesheet" href="css/styles.css" th:href="@{css/styles.css}">
+
+    <!-- Bootstrap core JS-->
+    <script src="js/bootstrap.bundle.min.js"></script>
+
+    <!-- Core theme JS-->
+    <script src="js/scripts.js"></script>
+</th:block>
+</html>
