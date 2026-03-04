@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<body>
+
+    <!-- =============================================
+         CTA 버튼 쌍: 전화상담 + 카카오톡 견적문의
+         사용법: <div th:replace="~{fragments/subpage :: ctaPairFragment}"></div>
+         ============================================= -->
+    <div th:fragment="ctaPairFragment" class="cta-pair">
+        <a href="tel:010-8916-7074" class="btn btn-phone-call">
+            <i class="fas fa-phone-alt"></i>전화상담
+        </a>
+        <a href="https://pf.kakao.com/_cEzZX/chat" target="_blank" rel="noopener" class="btn btn-kakao">
+            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="#191919"
+                style="flex-shrink:0">
+                <path
+                    d="M12 3C6.477 3 2 6.477 2 10.5c0 2.63 1.576 4.955 3.97 6.33L4.5 21l5.02-2.67A11.26 11.26 0 0 0 12 18c5.523 0 10-3.477 10-7.5S17.523 3 12 3z" />
+            </svg>카카오톡 견적문의
+        </a>
+    </div>
+
+    <!-- =============================================
+         원산지 표기 섹션
+         사용법:
+           <section th:replace="~{fragments/subpage :: originSection(~{:: #origin-rows})}">
+               <tbody id="origin-rows">
+                   <tr><td>품목</td><td>해당음식</td><td>원산지</td></tr>
+                   ...
+               </tbody>
+           </section>
+         ============================================= -->
+    <section th:fragment="originSection(tableRows)" class="origin-section">
+        <div class="container">
+            <div class="section-title text-center mb-4">
+                <h2>원산지 표기</h2>
+                <p>농수산물의 원산지 표시에 관한 법령에 따라 주요 식재료의 원산지를 표기합니다.</p>
+            </div>
+            <div class="row justify-content-center">
+                <div class="col-lg-8">
+                    <div class="table-responsive">
+                        <table class="origin-table">
+                            <thead>
+                                <tr>
+                                    <th style="width: 30%;">품목</th>
+                                    <th style="width: 40%;">해당 음식</th>
+                                    <th style="width: 30%;">원산지</th>
+                                </tr>
+                            </thead>
+                            <tbody th:replace="${tableRows}">
+                            </tbody>
+                        </table>
+                    </div>
+                    <p class="origin-note">
+                        * <span class="origin-confirm">붉은색 항목</span>은 아버지께 확인 후 실제 원산지로 교체해 주세요.<br>
+                        * 원산지는 국내산 / 수입산(국가명) 형식으로 표기합니다. 예: 수입산(중국산)<br>
+                        * 원산지는 구매처 및 시장 상황에 따라 변경될 수 있으며, 변경 시 즉시 업데이트합니다.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+</body>
+
+</html>

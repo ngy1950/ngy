@@ -371,3 +371,193 @@
         font-size: 1.4rem;
     }
 }
+
+/* 자주 묻는 질문 (FAQ) */
+.faq-section {
+    padding: 60px 0;
+    background: #fff;
+}
+
+.faq-item {
+    padding: 24px 28px;
+    border-radius: 12px;
+    border: 1.5px solid #ede8e0;
+    margin-bottom: 16px;
+    background: #fff;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.faq-item:hover {
+    border-color: var(--secondary-color);
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.06);
+}
+
+.faq-q {
+    font-size: 1.08rem;
+    font-weight: 700;
+    color: var(--primary-color);
+    margin-bottom: 10px;
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+}
+
+.faq-q::before {
+    content: "Q";
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 28px;
+    height: 28px;
+    background: var(--secondary-color);
+    color: white;
+    font-size: 0.85rem;
+    font-weight: 800;
+    border-radius: 6px;
+    margin-top: 1px;
+}
+
+.faq-a {
+    font-size: 1rem;
+    color: #555;
+    line-height: 1.7;
+    padding-left: 38px;
+    margin: 0;
+}
+
+/* 주문 마감 안내 배너 */
+.order-deadline-banner {
+    background: linear-gradient(135deg, #fff8f0, #fff3e6);
+    border: 2px solid var(--secondary-color);
+    border-radius: 12px;
+    padding: 18px 24px;
+    margin-bottom: 40px;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    flex-wrap: wrap;
+}
+
+.order-deadline-banner i {
+    font-size: 1.5rem;
+    color: var(--secondary-color);
+    flex-shrink: 0;
+}
+
+.order-deadline-banner .banner-text strong {
+    font-size: 1rem;
+    color: var(--primary-color);
+    display: block;
+    margin-bottom: 2px;
+}
+
+.order-deadline-banner .banner-text span {
+    font-size: 0.92rem;
+    color: #666;
+}
+
+/* 원산지 표기 섹션 */
+.origin-section {
+    padding: 50px 0;
+    background: var(--bg-light);
+}
+
+.origin-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.97rem;
+}
+
+.origin-table thead th {
+    background: var(--primary-color);
+    color: white;
+    padding: 13px 16px;
+    font-weight: 700;
+    text-align: center;
+    border: 1px solid var(--primary-color);
+}
+
+.origin-table tbody td {
+    padding: 11px 16px;
+    border: 1px solid #ddd;
+    text-align: center;
+    color: #444;
+    background: #fff;
+    vertical-align: middle;
+}
+
+.origin-table tbody tr:hover td {
+    background: #fdf8f3;
+}
+
+.origin-table .origin-confirm {
+    color: #c0392b;
+    font-weight: 600;
+    font-size: 0.85rem;
+}
+
+.origin-note {
+    font-size: 0.85rem;
+    color: #888;
+    margin-top: 12px;
+    line-height: 1.6;
+}
+
+/* 전화상담 + 카카오톡 CTA 버튼 쌍 */
+.cta-pair {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+}
+
+.cta-pair .btn {
+    flex: 1;
+    min-width: 140px;
+    padding: 14px 20px;
+    border-radius: 50px;
+    font-size: 1rem;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    transition: all 0.2s ease;
+}
+
+.btn-phone-call {
+    background-color: var(--primary-color);
+    color: #fff !important;
+    border: 2px solid var(--primary-color);
+}
+
+.btn-phone-call:hover {
+    background-color: #1a1512;
+    border-color: #1a1512;
+    color: #fff !important;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 18px rgba(0,0,0,0.18);
+}
+
+.btn-kakao {
+    background-color: #FEE500;
+    color: #191919 !important;
+    border: 2px solid #FEE500;
+}
+
+.btn-kakao:hover {
+    background-color: #f5dc00;
+    border-color: #f5dc00;
+    color: #191919 !important;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 18px rgba(254,229,0,0.35);
+}
+
+@media (max-width: 576px) {
+    .cta-pair {
+        flex-direction: column;
+    }
+
+    .cta-pair .btn {
+        width: 100%;
+    }
+}

@@ -43,9 +43,18 @@
     <!-- 메뉴 구성 -->
     <section class="package-list-section" style="background-color: var(--bg-light);">
         <div class="container">
-            <div class="section-title text-center mb-5">
+            <div class="section-title text-center mb-4">
                 <h2>메뉴 구성 안내</h2>
                 <p>기본 상차림에 원하시는 메뉴를 추가하실 수 있습니다. 인원·구성에 따라 가격을 협의해 드립니다.</p>
+            </div>
+
+            <!-- 주문 마감 안내 배너 -->
+            <div class="order-deadline-banner">
+                <i class="fas fa-phone-alt"></i>
+                <div class="banner-text">
+                    <strong>24시간 긴급 상담 가능 — 갑작스러운 장례에도 바로 연락 주세요</strong>
+                    <span>장소와 인원을 알려주시면 가능 여부를 즉시 확인해 드립니다. 늦은 밤·새벽도 전화 주시면 됩니다.</span>
+                </div>
             </div>
 
             <!-- 기본 상차림 -->
@@ -76,9 +85,7 @@
                                 <span class="package-price-value">인원·구성 협의</span>
                             </div>
 
-                            <a th:href="@{/#contact}" class="btn btn-point px-5 py-3 w-100" style="border-radius: 50px; font-size: 1.05rem;">
-                                <i class="fas fa-comment-dots me-2"></i>기본 상차림 문의하기
-                            </a>
+                            <div th:replace="~{fragments/subpage :: ctaPairFragment}"></div>
                         </div>
                     </div>
                 </div>
@@ -112,9 +119,7 @@
                                 <span class="package-price-value">메뉴별 별도 협의</span>
                             </div>
 
-                            <a th:href="@{/#contact}" class="btn btn-outline-dark px-5 py-3 w-100" style="border-radius: 50px; font-size: 1.05rem;">
-                                <i class="fas fa-plus-circle me-2"></i>추가 메뉴 상담하기
-                            </a>
+                            <div th:replace="~{fragments/subpage :: ctaPairFragment}"></div>
                         </div>
                     </div>
                 </div>
@@ -154,6 +159,72 @@
                 </div>
             </div>
         </div>
+    </section>
+
+    <!-- 자주 묻는 질문 -->
+    <section class="faq-section">
+        <div class="container">
+            <div class="section-title text-center mb-4">
+                <h2>자주 묻는 질문</h2>
+                <p>전화하시기 전에 먼저 확인해 보세요.</p>
+            </div>
+            <div class="row justify-content-center">
+                <div class="col-lg-8">
+                    <div class="faq-item">
+                        <p class="faq-q">갑자기 연락해도 준비가 되나요?</p>
+                        <p class="faq-a">24시간 상담이 가능합니다. 장례는 갑작스럽게 찾아오는 만큼, 급박한 상황에서도 최대한 빠르게 준비해 드립니다. 먼저 전화 주시면 가능 여부를 바로 확인해 드립니다.</p>
+                    </div>
+                    <div class="faq-item">
+                        <p class="faq-q">산속 납골당, 공원묘지도 배달이 되나요?</p>
+                        <p class="faq-a">장소에 관계없이 현장 배송이 가능합니다. 장지 위치를 공유해 주시면 도착 시간과 접근 경로를 함께 조율해 드립니다.</p>
+                    </div>
+                    <div class="faq-item">
+                        <p class="faq-q">인원이 막판에 달라져도 되나요?</p>
+                        <p class="faq-a">어느 정도 유동적으로 대응 가능합니다. 다만 조리 시작 후에는 변경이 어려울 수 있으니, 변동 사항은 최대한 빨리 연락 주시면 최선을 다해 조율해 드립니다.</p>
+                    </div>
+                    <div class="faq-item">
+                        <p class="faq-q">배송비는 얼마인가요?</p>
+                        <p class="faq-a">배달 지역과 거리에 따라 달라집니다. 수도권 근거리는 기본 배송비 내에 포함되며, 먼 지역은 상담 시 별도 안내해 드립니다.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 원산지 표기 -->
+    <section th:replace="~{fragments/subpage :: originSection(~{:: #jangji-origin-rows})}">
+        <tbody id="jangji-origin-rows">
+            <tr>
+                <td>쌀</td>
+                <td>갱죽, 국밥류</td>
+                <td>국내산</td>
+            </tr>
+            <tr>
+                <td>돼지고기</td>
+                <td>전류 일부</td>
+                <td class="origin-confirm">※ 확인 후 기재</td>
+            </tr>
+            <tr>
+                <td>쇠고기</td>
+                <td>전류·반찬 일부</td>
+                <td class="origin-confirm">※ 확인 후 기재</td>
+            </tr>
+            <tr>
+                <td>수산물</td>
+                <td>생선전·구이류</td>
+                <td class="origin-confirm">※ 확인 후 기재</td>
+            </tr>
+            <tr>
+                <td>채소류</td>
+                <td>나물·반찬류</td>
+                <td>국내산</td>
+            </tr>
+            <tr>
+                <td>배추김치</td>
+                <td>김치류</td>
+                <td class="origin-confirm">※ 확인 후 기재</td>
+            </tr>
+        </tbody>
     </section>
 
     <div th:replace="~{fragments/footer :: footerFragment}"></div>
