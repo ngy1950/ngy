@@ -4,7 +4,7 @@
 <!-- Head 공통 레이아웃 교체 -->
 
 <head
-    th:replace="~{fragments/head :: headFragment('대원밥집 | 제사·시제음식', '조상님을 모시는 정성 그대로, 대원밥집 제사음식 세트 안내입니다.', '제사음식, 시제음식, 제상차림, 차례상')}">
+    th:replace="~{fragments/head :: headFragment('대원 | 제사·시제음식', '조상님을 모시는 정성 그대로, 대원 제사음식 세트 안내입니다.', '제사음식, 시제음식, 제상차림, 차례상')}">
 </head>
 
 <body>
@@ -20,17 +20,17 @@
         </div>
     </header>
 
-    <!-- Detail Content Section -->
+    <!-- 소개 섹션 -->
     <section class="section-padding">
         <div class="container">
-            <div class="row mb-5">
+            <div class="row mb-2 align-items-center">
                 <div class="col-lg-6 mb-4 mb-lg-0">
                     <img src="https://images.unsplash.com/photo-1547592180-85f173990554?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
                         alt="정성스런 제사상" class="img-fluid rounded shadow-sm detail-img">
                 </div>
                 <div class="col-lg-6 d-flex flex-column justify-content-center">
                     <h3 class="mb-4" style="color: var(--primary-color);">소중한 날, 정성스러운 한 상을 올립니다</h3>
-                    <p class="text-muted mb-3">저희 대원밥집의 제사음식은 100% 엄선된 국내산 식재료만을 사용하여 가족이 먹는다는 생각으로 정성껏 조리합니다.</p>
+                    <p class="text-muted mb-3">저희 대원의 제사음식은 100% 엄선된 국내산 식재료만을 사용하여 가족이 먹는다는 생각으로 정성껏 조리합니다.</p>
                     <p class="text-muted mb-4">제사의 형식과 가문의 전통을 존중하며, 번거로운 준비는 저희에게 맡기시고 제사에 온전히 집중하실 수 있도록 돕겠습니다.</p>
 
                     <ul class="list-unstyled detail-list">
@@ -43,50 +43,151 @@
                     </ul>
                 </div>
             </div>
+        </div>
+    </section>
 
-            <!-- Price/Menu Table -->
-            <div class="menu-price-table mt-5">
-                <h4 class="text-center mb-4">대표 상차림 구성</h4>
-                <div class="table-responsive">
-                    <table class="table table-bordered text-center align-middle">
-                        <thead class="table-light">
-                            <tr>
-                                <th style="width: 25%;">구분</th>
-                                <th style="width: 50%;">기본 구성 품목</th>
-                                <th style="width: 25%;">비용</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td class="fw-bold">기본 제사상<br>(5~7인용)</td>
-                                <td class="text-start">
-                                    <ul class="mb-0">
-                                        <li>적류 : 육적, 어적, 계적</li>
-                                        <li>전/튀김류 : 호박전, 동태전, 육원전 등 5종</li>
-                                        <li>나물류 : 시금치, 고사리, 도라지 (삼색나물)</li>
-                                        <li>국/탕류 : 무국, 어탕, 육탕</li>
-                                        <li>기타 : 과일 5종, 떡, 포, 한과 등</li>
-                                    </ul>
-                                </td>
-                                <td class="fw-bold fs-5" style="color: var(--secondary-color);">250,000원</td>
-                            </tr>
-                            <tr>
-                                <td class="fw-bold">프리미엄 제사상<br>(10인용 이상)</td>
-                                <td class="text-start">
-                                    <ul class="mb-0">
-                                        <li>기본 제사상 품목 전반 양 증대</li>
-                                        <li>고급 전복적, 특대 참조기 추가</li>
-                                        <li>다식, 약과 등 고급 다과류 추가</li>
-                                    </ul>
-                                </td>
-                                <td class="fw-bold fs-5" style="color: var(--secondary-color);">350,000원</td>
-                            </tr>
-                        </tbody>
-                    </table>
+    <!-- 패키지 상차림 리스트 -->
+    <section class="package-list-section" style="background-color: var(--bg-light);">
+        <div class="container">
+            <div class="section-title text-center mb-5">
+                <h2>대표 상차림 선택</h2>
+                <p>인원과 상황에 맞는 상차림을 선택하세요. 자세한 구성은 문의 주시면 안내해 드립니다.</p>
+            </div>
+
+            <!-- 패키지 1: 기본 제사상 -->
+            <div class="package-card">
+                <div class="row g-0 align-items-stretch">
+                    <div class="col-lg-5">
+                        <!-- TODO: AI 생성 이미지로 교체 -->
+                        <img src="https://picsum.photos/seed/jesa1/800/600" alt="기본 제사상 차림"
+                            class="package-card-img">
+                    </div>
+                    <div class="col-lg-7">
+                        <div class="package-card-body">
+                            <span class="package-badge">기본</span>
+                            <h3>기본 제사상</h3>
+                            <p class="package-sub">5 ~ 7인용 · 기제사 / 차례 / 명절에 적합</p>
+
+                            <ul class="package-item-list">
+                                <li><strong>적류</strong> : 육적, 어적, 계적</li>
+                                <li><strong>전·튀김류</strong> : 호박전, 동태전, 육원전 등 5종</li>
+                                <li><strong>나물류</strong> : 시금치, 고사리, 도라지 (삼색나물)</li>
+                                <li><strong>국·탕류</strong> : 무국, 어탕, 육탕</li>
+                                <li><strong>기타</strong> : 과일 5종, 떡, 포, 한과 등</li>
+                            </ul>
+
+                            <div class="package-price-wrap">
+                                <span class="package-price-label">가격</span>
+                                <span class="package-price-value">250,000원</span>
+                            </div>
+
+                            <a th:href="@{/#contact}" class="btn btn-point px-5 py-3 w-100" style="border-radius: 50px; font-size: 1.05rem;">
+                                <i class="fas fa-comment-dots me-2"></i>이 상차림 문의하기
+                            </a>
+                        </div>
+                    </div>
                 </div>
-                <div class="text-center mt-4">
-                    <p class="text-muted fst-italic">* 계절 및 시장 상황에 따라 일부 품목은 변동될 수 있습니다.</p>
-                    <a th:href="@{/SampleThymeleaf#contact}" class="btn btn-point px-4 py-2 mt-2">견적 및 예약 문의하기</a>
+            </div>
+
+            <!-- 패키지 2: 프리미엄 제사상 (사진 우측) -->
+            <div class="package-card">
+                <div class="row g-0 align-items-stretch flex-lg-row-reverse">
+                    <div class="col-lg-5">
+                        <!-- TODO: AI 생성 이미지로 교체 -->
+                        <img src="https://picsum.photos/seed/jesa2/800/600" alt="프리미엄 제사상 차림"
+                            class="package-card-img">
+                    </div>
+                    <div class="col-lg-7">
+                        <div class="package-card-body">
+                            <span class="package-badge" style="background: var(--primary-color);">프리미엄</span>
+                            <h3>프리미엄 제사상</h3>
+                            <p class="package-sub">10인 이상 · 문중 시제 / 대규모 차례에 적합</p>
+
+                            <ul class="package-item-list">
+                                <li><strong>기본 제사상 품목 전반</strong> + 양 증대</li>
+                                <li><strong>고급 추가</strong> : 전복적, 특대 참조기</li>
+                                <li><strong>다과류</strong> : 다식, 약과, 정과 등 고급 구성</li>
+                                <li><strong>상차림 연출</strong> : 격식에 맞춘 배치 및 포장</li>
+                            </ul>
+
+                            <div class="package-price-wrap">
+                                <span class="package-price-label">가격</span>
+                                <span class="package-price-value">350,000원~</span>
+                            </div>
+
+                            <a th:href="@{/#contact}" class="btn btn-point px-5 py-3 w-100" style="border-radius: 50px; font-size: 1.05rem;">
+                                <i class="fas fa-comment-dots me-2"></i>이 상차림 문의하기
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 패키지 3: 시제 대형 상차림 -->
+            <div class="package-card mb-0">
+                <div class="row g-0 align-items-stretch">
+                    <div class="col-lg-5">
+                        <!-- TODO: AI 생성 이미지로 교체 -->
+                        <img src="https://picsum.photos/seed/jesa3/800/600" alt="문중 시제 대형 상차림"
+                            class="package-card-img">
+                    </div>
+                    <div class="col-lg-7">
+                        <div class="package-card-body">
+                            <span class="package-badge" style="background: #6c757d;">단체·시제</span>
+                            <h3>문중 시제 대형 상차림</h3>
+                            <p class="package-sub">30인 이상 · 문중 시제 / 대규모 행사 맞춤</p>
+
+                            <ul class="package-item-list">
+                                <li><strong>규모</strong> : 30인 ~ 수백 인 대응 가능</li>
+                                <li><strong>구성</strong> : 인원·예산에 맞춘 완전 맞춤 세팅</li>
+                                <li><strong>운반·배치</strong> : 현장 직접 세팅 서비스 가능</li>
+                                <li><strong>가격</strong> : 인원 및 구성에 따라 협의</li>
+                            </ul>
+
+                            <div class="package-price-wrap">
+                                <span class="package-price-label">가격</span>
+                                <span class="package-price-value">별도 협의</span>
+                            </div>
+
+                            <a th:href="@{/#contact}" class="btn btn-point px-5 py-3 w-100" style="border-radius: 50px; font-size: 1.05rem;">
+                                <i class="fas fa-phone-alt me-2"></i>규모·구성 상담하기
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <p class="text-center text-muted fst-italic mt-4">* 계절 및 시장 상황에 따라 일부 품목은 변동될 수 있습니다.</p>
+        </div>
+    </section>
+
+    <!-- 이런 분께 추천합니다 -->
+    <section class="recommend-section">
+        <div class="container">
+            <div class="section-title text-center">
+                <h2>이런 분께 추천합니다</h2>
+            </div>
+            <div class="row g-4 mt-3">
+                <div class="col-md-4">
+                    <div class="recommend-card">
+                        <i class="fas fa-calendar-alt"></i>
+                        <h5>기제사를 준비하시는 분</h5>
+                        <p>매년 돌아오는 기제사, 번거로운 음식 준비는 저희에게 맡기세요.</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="recommend-card">
+                        <i class="fas fa-moon"></i>
+                        <h5>설·추석 차례를 앞두신 분</h5>
+                        <p>명절 차례상을 격식에 맞게 정갈하게 준비해 드립니다.</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="recommend-card">
+                        <i class="fas fa-users"></i>
+                        <h5>문중 시제를 준비하시는 분</h5>
+                        <p>대규모 문중 시제도 인원에 맞춰 넉넉하게 준비합니다.</p>
+                    </div>
                 </div>
             </div>
         </div>

@@ -1,0 +1,373 @@
+/* -------------------------------------
+ *  7. Subpages (Detail Menu)
+ * ------------------------------------- */
+
+.sub-hero-section {
+    position: relative;
+    padding: 180px 0 100px;
+    background-size: cover;
+    background-position: center;
+    background-color: var(--primary-color);
+    background-blend-mode: multiply;
+}
+
+/* 각 카테고리별 배경 이미지 (placeholder) */
+.jesa-bg {
+    background-image: linear-gradient(rgba(44, 39, 36, 0.7), rgba(44, 39, 36, 0.7)), url('https://images.unsplash.com/photo-1547592180-85f173990554?auto=format&fit=crop&w=1920&q=80');
+}
+
+.jangji-bg {
+    background-image: linear-gradient(rgba(44, 39, 36, 0.7), rgba(44, 39, 36, 0.7)), url('https://images.unsplash.com/photo-1588123190131-1c3fac394f4b?auto=format&fit=crop&w=1920&q=80');
+}
+
+.group-bg {
+    background-image: linear-gradient(rgba(44, 39, 36, 0.7), rgba(44, 39, 36, 0.7)), url('https://images.unsplash.com/photo-1555244162-803834f70033?auto=format&fit=crop&w=1920&q=80');
+}
+
+.dosirak-bg {
+    background-image: linear-gradient(rgba(44, 39, 36, 0.7), rgba(44, 39, 36, 0.7)), url('https://images.unsplash.com/photo-1580476262798-bddd9f4b7369?auto=format&fit=crop&w=1920&q=80');
+}
+
+.sub-hero-section h1 {
+    font-size: 3rem;
+    font-weight: 800;
+    color: var(--white);
+    margin-bottom: 10px;
+}
+
+.detail-img {
+    height: 400px;
+    object-fit: cover;
+    width: 100%;
+}
+
+.detail-list li {
+    font-size: 1.1rem;
+    margin-bottom: 15px;
+    line-height: 1.6;
+}
+
+.menu-price-table .table {
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.menu-price-table th {
+    background-color: var(--primary-color) !important;
+    color: white !important;
+    padding: 15px;
+    font-weight: 600;
+}
+
+.menu-price-table td {
+    padding: 20px 15px;
+    vertical-align: middle;
+}
+
+.menu-price-table ul li {
+    margin-bottom: 8px;
+    color: var(--text-muted);
+}
+
+/* 메뉴 이미지 그리드 */
+.menu-img-grid {
+    margin-top: 60px;
+}
+
+.menu-img-grid img {
+    height: 220px;
+    object-fit: cover;
+    border-radius: 10px;
+    width: 100%;
+    transition: transform 0.3s ease;
+    display: block;
+}
+
+.menu-img-grid img:hover {
+    transform: scale(1.03);
+}
+
+.img-caption {
+    text-align: center;
+    font-size: 0.88rem;
+    color: var(--text-muted);
+    margin-top: 8px;
+}
+
+/* 이런 분께 추천 섹션 */
+.recommend-section {
+    background-color: var(--bg-light);
+    padding: 60px 0;
+}
+
+.recommend-card {
+    background: white;
+    border-radius: 12px;
+    padding: 28px 20px;
+    text-align: center;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.06);
+    height: 100%;
+    transition: transform 0.3s ease;
+}
+
+.recommend-card:hover {
+    transform: translateY(-4px);
+}
+
+.recommend-card i {
+    font-size: 2.2rem;
+    color: var(--secondary-color);
+    margin-bottom: 15px;
+    display: block;
+}
+
+.recommend-card h5 {
+    color: var(--primary-color);
+    font-weight: 700;
+    margin-bottom: 8px;
+}
+
+.recommend-card p {
+    font-size: 0.92rem;
+    color: var(--text-muted);
+    margin: 0;
+}
+
+/* 주문 프로세스 섹션 */
+.order-process-section {
+    background-color: var(--bg-light);
+}
+
+.process-step {
+    text-align: center;
+    padding: 30px 18px;
+    background: #fff;
+    border-radius: 14px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.06);
+    transition: transform 0.3s ease;
+    height: 100%;
+}
+
+.process-step:hover {
+    transform: translateY(-5px);
+}
+
+.process-step > i {
+    font-size: 2.4rem;
+    color: var(--secondary-color);
+    margin-bottom: 14px;
+    display: block;
+}
+
+.process-step-num {
+    width: 36px;
+    height: 36px;
+    background: var(--primary-color);
+    color: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1rem;
+    font-weight: bold;
+    margin: 0 auto 12px;
+}
+
+.process-step h5 {
+    color: var(--primary-color);
+    font-weight: 700;
+    margin-bottom: 8px;
+}
+
+.process-arrow {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.4rem;
+    color: var(--secondary-color);
+    padding-top: 15px;
+}
+
+/* 갤러리 페이지 */
+.gallery-filter-wrap {
+    text-align: center;
+    margin-bottom: 36px;
+}
+
+.gallery-filter-btn {
+    padding: 8px 22px;
+    border-radius: 50px;
+    border: 2px solid var(--primary-color);
+    background: transparent;
+    color: var(--primary-color);
+    font-weight: 600;
+    font-size: 0.95rem;
+    transition: all 0.25s ease;
+    margin: 4px;
+    cursor: pointer;
+}
+
+.gallery-filter-btn.active,
+.gallery-filter-btn:hover {
+    background: var(--primary-color);
+    color: white;
+}
+
+.gallery-item {
+    overflow: hidden;
+    border-radius: 10px;
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
+    margin-bottom: 24px;
+    transition: box-shadow 0.3s ease;
+}
+
+.gallery-item:hover {
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.14);
+}
+
+.gallery-item img {
+    width: 100%;
+    height: 240px;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.4s ease;
+}
+
+.gallery-item:hover img {
+    transform: scale(1.07);
+}
+
+.gallery-item-label {
+    text-align: center;
+    padding: 10px;
+    font-size: 0.88rem;
+    color: var(--text-muted);
+    background: #fff;
+}
+
+@media (max-width: 768px) {
+    .process-arrow {
+        display: none;
+    }
+
+    .gallery-item img {
+        height: 200px;
+    }
+}
+
+/* 패키지 상품 카드 (상세 메뉴 페이지) */
+.package-list-section {
+    padding: 70px 0;
+}
+
+.package-card {
+    background: #fff;
+    border-radius: 16px;
+    box-shadow: 0 6px 24px rgba(0, 0, 0, 0.07);
+    overflow: hidden;
+    margin-bottom: 50px;
+}
+
+.package-card-img {
+    width: 100%;
+    height: 100%;
+    min-height: 320px;
+    object-fit: cover;
+    display: block;
+}
+
+.package-card-body {
+    padding: 40px 36px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.package-badge {
+    display: inline-block;
+    background: var(--secondary-color);
+    color: white;
+    font-size: 0.82rem;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    padding: 4px 14px;
+    border-radius: 50px;
+    margin-bottom: 14px;
+}
+
+.package-card-body h3 {
+    font-size: 1.7rem;
+    font-weight: 800;
+    color: var(--primary-color);
+    margin-bottom: 6px;
+}
+
+.package-card-body .package-sub {
+    font-size: 1rem;
+    color: var(--text-muted);
+    margin-bottom: 20px;
+}
+
+.package-item-list {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 24px;
+}
+
+.package-item-list li {
+    font-size: 1.05rem;
+    color: #444;
+    padding: 7px 0;
+    border-bottom: 1px dashed #e8e0d5;
+    line-height: 1.5;
+}
+
+.package-item-list li:last-child {
+    border-bottom: none;
+}
+
+.package-item-list li::before {
+    content: "✦";
+    color: var(--secondary-color);
+    font-size: 0.7rem;
+    margin-right: 8px;
+    vertical-align: middle;
+}
+
+.package-price-wrap {
+    margin: 20px 0 24px;
+    padding: 16px 20px;
+    background: var(--bg-light);
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.package-price-label {
+    font-size: 0.95rem;
+    color: var(--text-muted);
+    font-weight: 600;
+}
+
+.package-price-value {
+    font-size: 1.6rem;
+    font-weight: 800;
+    color: var(--secondary-color);
+}
+
+@media (max-width: 991px) {
+    .package-card-img {
+        min-height: 240px;
+        height: 240px;
+    }
+
+    .package-card-body {
+        padding: 28px 22px;
+    }
+
+    .package-card-body h3 {
+        font-size: 1.4rem;
+    }
+}

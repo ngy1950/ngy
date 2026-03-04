@@ -11,13 +11,30 @@ public class ViewController {
      * thtmeleaf 일반 호출 에제
      */
     @RequestMapping("/")
-    public String sampleThymeleaf() {
-        return "thymeleaf/index";
+    public String index() {
+        System.out.println("@@@@@@@@@@@@@@@@@ index");
+        return "index";
     }
 
-    @RequestMapping("/menu/jesa")
+    // --- 추가된 상세 메뉴 페이지 라우팅 ---
+    @GetMapping("/menu/jesa")
     public String menuJesa() {
-        return "thymeleaf/menu/jesa";
+        return "menu/jesa";
+    }
+
+    @GetMapping("/menu/jangji")
+    public String menuJangji() {
+        return "menu/jangji";
+    }
+
+    @GetMapping("/menu/group")
+    public String menuGroup() {
+        return "menu/group";
+    }
+
+    @GetMapping("/menu/gallery")
+    public String menuGallery() {
+        return "menu/gallery";
     }
 
 }

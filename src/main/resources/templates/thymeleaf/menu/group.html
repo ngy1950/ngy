@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+
+<head
+    th:replace="~{fragments/head :: headFragment('대원 | 단체·행사음식', '체육대회, 야유회, 기업행사 등 단체 행사 맞춤 케이터링. 기본 메뉴에 원하는 구성을 추가해 견적을 받아보세요.', '단체음식, 행사음식, 케이터링, 출장뷔페, 단체급식')}">
+</head>
+
+<body>
+    <div th:replace="~{fragments/header :: headerFragment}"></div>
+
+    <!-- Subpage Hero -->
+    <header class="sub-hero-section group-bg">
+        <div class="container text-center text-white">
+            <h1 class="animate__animated animate__fadeInDown">단체 · 행사음식</h1>
+            <p class="animate__animated animate__fadeInUp mt-3" style="font-size: 1.2rem;">체육대회, 야유회, 기업 행사까지 — 인원과 상황에 맞게
+                풍성하게 준비합니다</p>
+        </div>
+    </header>
+
+    <!-- 소개 섹션 -->
+    <section class="section-padding">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-6 mb-4 mb-lg-0">
+                    <img src="https://images.unsplash.com/photo-1555244162-803834f70033?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+                        alt="단체행사 음식" class="img-fluid rounded shadow-sm detail-img">
+                </div>
+                <div class="col-lg-6 d-flex flex-column justify-content-center">
+                    <h3 class="mb-4" style="color: var(--primary-color);">많은 인원도 걱정 없이, 맛과 양을 함께</h3>
+                    <p class="text-muted mb-3">기본 구성에 원하시는 메뉴를 자유롭게 추가하실 수 있습니다. 행사 성격과 인원에 맞는 최적의 구성을 상담을 통해 함께 결정해 드립니다.</p>
+                    <p class="text-muted mb-4">50인부터 수백 인 규모까지 대응 가능하며, 현장 세팅·배식 지원 서비스도 요청하실 수 있습니다.</p>
+
+                    <ul class="list-unstyled detail-list">
+                        <li><i class="fas fa-check-circle text-success me-2"></i><strong>규모 무관 :</strong> 50인~수백 인 단체 행사 풍부한 경험</li>
+                        <li><i class="fas fa-check-circle text-success me-2"></i><strong>현장 대응 :</strong> 세팅·배식·수거까지 원스톱 지원 가능</li>
+                        <li><i class="fas fa-check-circle text-success me-2"></i><strong>맞춤 견적 :</strong> 예산과 인원에 맞춘 합리적인 구성 제안</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 메뉴 구성 -->
+    <section class="package-list-section" style="background-color: var(--bg-light);">
+        <div class="container">
+            <div class="section-title text-center mb-5">
+                <h2>메뉴 구성 안내</h2>
+                <p>기본 구성에 원하시는 메뉴를 추가하세요. 인원·행사 성격에 따라 가격을 견적으로 안내해 드립니다.</p>
+            </div>
+
+            <!-- 기본 상차림 -->
+            <div class="package-card">
+                <div class="row g-0 align-items-stretch">
+                    <div class="col-lg-5">
+                        <!-- TODO: AI 생성 이미지로 교체 -->
+                        <img src="https://picsum.photos/seed/group1/800/600" alt="단체행사 기본 메뉴"
+                            class="package-card-img">
+                    </div>
+                    <div class="col-lg-7">
+                        <div class="package-card-body">
+                            <span class="package-badge">기본 포함</span>
+                            <h3>기본 행사 메뉴</h3>
+                            <p class="package-sub">모든 주문에 기본으로 포함되는 구성입니다</p>
+
+                            <ul class="package-item-list">
+                                <li><strong>밥류</strong> : 흰밥 (또는 볶음밥·비빔밥 선택)</li>
+                                <li><strong>국·탕류</strong> : 미역국, 된장찌개 등 (1종 선택)</li>
+                                <li><strong>메인 반찬</strong> : 불고기, 닭볶음탕 중 1종</li>
+                                <li><strong>나물·조림</strong> : 기본 반찬 3종</li>
+                                <li><strong>김치류</strong> : 배추김치, 깍두기</li>
+                                <li><strong>후식</strong> : 음료 (식혜 또는 생수)</li>
+                            </ul>
+
+                            <div class="package-price-wrap">
+                                <span class="package-price-label">가격</span>
+                                <span class="package-price-value">인원·구성 협의</span>
+                            </div>
+
+                            <a th:href="@{/#contact}" class="btn btn-point px-5 py-3 w-100" style="border-radius: 50px; font-size: 1.05rem;">
+                                <i class="fas fa-comment-dots me-2"></i>기본 메뉴 견적 문의
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 추가 선택 메뉴 -->
+            <div class="package-card mb-0">
+                <div class="row g-0 align-items-stretch flex-lg-row-reverse">
+                    <div class="col-lg-5">
+                        <!-- TODO: AI 생성 이미지로 교체 -->
+                        <img src="https://picsum.photos/seed/group2/800/600" alt="단체행사 추가 메뉴"
+                            class="package-card-img">
+                    </div>
+                    <div class="col-lg-7">
+                        <div class="package-card-body">
+                            <span class="package-badge" style="background: #6c757d;">추가 가능</span>
+                            <h3>원하시는 메뉴 추가</h3>
+                            <p class="package-sub">행사 성격에 맞게 자유롭게 추가하실 수 있습니다</p>
+
+                            <ul class="package-item-list">
+                                <li><strong>전·튀김류</strong> : 잡채, 육전, 튀김모둠 등</li>
+                                <li><strong>찜·구이류</strong> : 갈비찜, 바베큐, 삼겹살 구이 등</li>
+                                <li><strong>분식류</strong> : 떡볶이, 순대, 어묵 등</li>
+                                <li><strong>후식 업그레이드</strong> : 과일모둠, 케이크, 음료 추가</li>
+                                <li><strong>현장 서비스</strong> : 배식 인력, 세팅·수거 지원</li>
+                                <li><strong>그 외</strong> : 원하시는 메뉴 자유 요청 가능</li>
+                            </ul>
+
+                            <div class="package-price-wrap">
+                                <span class="package-price-label">추가 비용</span>
+                                <span class="package-price-value">메뉴·규모별 견적</span>
+                            </div>
+
+                            <a th:href="@{/#contact}" class="btn btn-outline-dark px-5 py-3 w-100" style="border-radius: 50px; font-size: 1.05rem;">
+                                <i class="fas fa-plus-circle me-2"></i>추가 구성 상담하기
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <p class="text-center text-muted fst-italic mt-4">* 인원, 장소(거리), 서비스 범위에 따라 최종 견적이 결정됩니다. 부담 없이 문의 주세요.</p>
+        </div>
+    </section>
+
+    <!-- 이런 분께 추천합니다 -->
+    <section class="recommend-section">
+        <div class="container">
+            <div class="section-title text-center">
+                <h2>이런 분께 추천합니다</h2>
+            </div>
+            <div class="row g-4 mt-3">
+                <div class="col-md-4">
+                    <div class="recommend-card">
+                        <i class="fas fa-running"></i>
+                        <h5>체육대회·야유회를 기획하시는 분</h5>
+                        <p>50인 이상 야외 행사 배식 경험 풍부. 현장 세팅·수거까지 원스톱으로 지원합니다.</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="recommend-card">
+                        <i class="fas fa-building"></i>
+                        <h5>기업 워크샵·행사 담당자</h5>
+                        <p>담당자와 1:1 전담 커뮤니케이션으로 변경 사항에도 빠르게 대응합니다.</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="recommend-card">
+                        <i class="fas fa-pray"></i>
+                        <h5>종교·동호회 대규모 모임</h5>
+                        <p>100인 이상 대규모 행사도 맛과 양의 편차 없이 균일하게 제공합니다.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div th:replace="~{fragments/footer :: footerFragment}"></div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>

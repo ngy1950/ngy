@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+
+<head
+    th:replace="~{fragments/head :: headFragment('대원 | 장지음식', '엄숙한 장지 자리에 정성스러운 음식을 준비합니다. 기본 상차림부터 맞춤 추가 메뉴까지 협의 가능합니다.', '장지음식, 장지상차림, 조문객음식, 장례음식')}">
+</head>
+
+<body>
+    <div th:replace="~{fragments/header :: headerFragment}"></div>
+
+    <!-- Subpage Hero -->
+    <header class="sub-hero-section jangji-bg">
+        <div class="container text-center text-white">
+            <h1 class="animate__animated animate__fadeInDown">장지음식</h1>
+            <p class="animate__animated animate__fadeInUp mt-3" style="font-size: 1.2rem;">엄숙한 자리에 어울리는 정성스러운 음식,
+                위로의 마음을 담아 준비합니다</p>
+        </div>
+    </header>
+
+    <!-- 소개 섹션 -->
+    <section class="section-padding">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-6 mb-4 mb-lg-0">
+                    <img src="https://images.unsplash.com/photo-1588123190131-1c3fac394f4b?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+                        alt="장지음식" class="img-fluid rounded shadow-sm detail-img">
+                </div>
+                <div class="col-lg-6 d-flex flex-column justify-content-center">
+                    <h3 class="mb-4" style="color: var(--primary-color);">슬픔의 자리, 음식 걱정은 저희에게 맡기세요</h3>
+                    <p class="text-muted mb-3">갑작스러운 장례 상황에서도 빠르게 준비해 드립니다. 기본 상차림 외에 원하시는 메뉴를 추가하실 수 있으며, 인원과 구성에 따라 가격을 협의해 드립니다.</p>
+                    <p class="text-muted mb-4">산속·공원묘지 등 접근이 어려운 장지도 현장 배송이 가능합니다. 위치를 공유해 주시면 최선을 다해 조율해 드립니다.</p>
+
+                    <ul class="list-unstyled detail-list">
+                        <li><i class="fas fa-check-circle text-success me-2"></i><strong>24시간 상담 가능 :</strong> 급박한 상황에도 언제든 연락 주세요</li>
+                        <li><i class="fas fa-check-circle text-success me-2"></i><strong>현장 배송 :</strong> 장소에 관계없이 약속 시간에 맞춰 배송</li>
+                        <li><i class="fas fa-check-circle text-success me-2"></i><strong>인원 유동 대응 :</strong> 30인~수백 인 규모까지 유연하게 준비</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 메뉴 구성 -->
+    <section class="package-list-section" style="background-color: var(--bg-light);">
+        <div class="container">
+            <div class="section-title text-center mb-5">
+                <h2>메뉴 구성 안내</h2>
+                <p>기본 상차림에 원하시는 메뉴를 추가하실 수 있습니다. 인원·구성에 따라 가격을 협의해 드립니다.</p>
+            </div>
+
+            <!-- 기본 상차림 -->
+            <div class="package-card">
+                <div class="row g-0 align-items-stretch">
+                    <div class="col-lg-5">
+                        <!-- TODO: AI 생성 이미지로 교체 -->
+                        <img src="https://picsum.photos/seed/jangji1/800/600" alt="장지 기본 상차림"
+                            class="package-card-img">
+                    </div>
+                    <div class="col-lg-7">
+                        <div class="package-card-body">
+                            <span class="package-badge">기본 포함</span>
+                            <h3>기본 장지 상차림</h3>
+                            <p class="package-sub">모든 주문에 기본으로 포함되는 구성입니다</p>
+
+                            <ul class="package-item-list">
+                                <li><strong>국·탕류</strong> : 갱죽 또는 국밥 (선택)</li>
+                                <li><strong>면류</strong> : 잡채</li>
+                                <li><strong>나물·반찬</strong> : 삼색나물, 조림 반찬 2종</li>
+                                <li><strong>김치류</strong> : 배추김치, 깍두기</li>
+                                <li><strong>과일</strong> : 제철 과일 모듬</li>
+                                <li><strong>음청류</strong> : 식혜 또는 음료</li>
+                            </ul>
+
+                            <div class="package-price-wrap">
+                                <span class="package-price-label">가격</span>
+                                <span class="package-price-value">인원·구성 협의</span>
+                            </div>
+
+                            <a th:href="@{/#contact}" class="btn btn-point px-5 py-3 w-100" style="border-radius: 50px; font-size: 1.05rem;">
+                                <i class="fas fa-comment-dots me-2"></i>기본 상차림 문의하기
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 추가 선택 메뉴 -->
+            <div class="package-card mb-0">
+                <div class="row g-0 align-items-stretch flex-lg-row-reverse">
+                    <div class="col-lg-5">
+                        <!-- TODO: AI 생성 이미지로 교체 -->
+                        <img src="https://picsum.photos/seed/jangji2/800/600" alt="장지음식 추가 메뉴"
+                            class="package-card-img">
+                    </div>
+                    <div class="col-lg-7">
+                        <div class="package-card-body">
+                            <span class="package-badge" style="background: #6c757d;">추가 가능</span>
+                            <h3>원하시는 메뉴 추가</h3>
+                            <p class="package-sub">아래 메뉴 중 원하시는 항목을 추가하실 수 있습니다</p>
+
+                            <ul class="package-item-list">
+                                <li><strong>전·튀김류</strong> : 육전, 동태전, 호박전 등</li>
+                                <li><strong>찜·조림류</strong> : 갈비찜, 해물찜, 두부조림 등</li>
+                                <li><strong>구이류</strong> : 불고기, 생선구이 등</li>
+                                <li><strong>떡·한과류</strong> : 떡모둠, 약과 등</li>
+                                <li><strong>과일 업그레이드</strong> : 고급 과일 추가</li>
+                                <li><strong>그 외</strong> : 원하시는 메뉴 자유 요청 가능</li>
+                            </ul>
+
+                            <div class="package-price-wrap">
+                                <span class="package-price-label">추가 비용</span>
+                                <span class="package-price-value">메뉴별 별도 협의</span>
+                            </div>
+
+                            <a th:href="@{/#contact}" class="btn btn-outline-dark px-5 py-3 w-100" style="border-radius: 50px; font-size: 1.05rem;">
+                                <i class="fas fa-plus-circle me-2"></i>추가 메뉴 상담하기
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <p class="text-center text-muted fst-italic mt-4">* 장소(거리) 및 인원에 따라 배송비가 추가될 수 있습니다. 자세한 사항은 문의 바랍니다.</p>
+        </div>
+    </section>
+
+    <!-- 이런 분께 추천합니다 -->
+    <section class="recommend-section">
+        <div class="container">
+            <div class="section-title text-center">
+                <h2>이런 분께 추천합니다</h2>
+            </div>
+            <div class="row g-4 mt-3">
+                <div class="col-md-4">
+                    <div class="recommend-card">
+                        <i class="fas fa-heart"></i>
+                        <h5>갑작스러운 장례를 맞이하신 유가족</h5>
+                        <p>급박한 상황에서도 빠르게 준비해 드립니다. 24시간 상담 가능합니다.</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="recommend-card">
+                        <i class="fas fa-map-marker-alt"></i>
+                        <h5>산속·공원묘지 등 접근이 어려운 장지</h5>
+                        <p>장소에 관계없이 현장 배송이 가능합니다. 위치 공유 후 조율해 드립니다.</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="recommend-card">
+                        <i class="fas fa-people-arrows"></i>
+                        <h5>조문객 식사 걱정이 많으신 분</h5>
+                        <p>인원 변동에 유연하게 대응하며 30인~수백 인 규모까지 준비합니다.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div th:replace="~{fragments/footer :: footerFragment}"></div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>

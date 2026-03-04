@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+
+<!-- Head 공통 레이아웃 교체 -->
+
+<head
+    th:replace="~{fragments/head :: headFragment('대원 | 프리미엄 도시락', '회의, 세미나, 야유회 등 언제 어디서나 품격있게 즐기는 프리미엄 맞춤 도시락입니다.', '수제도시락, 프리미엄도시락, 회의도시락, 세미나도시락, 조찬도시락')}">
+</head>
+
+<body>
+    <!-- Navigation 공통 레이아웃 교체 -->
+    <div th:replace="~{fragments/header :: headerFragment}"></div>
+
+    <!-- Subpage Hero -->
+    <header class="sub-hero-section dosirak-bg">
+        <div class="container text-center text-white">
+            <h1 class="animate__animated animate__fadeInDown">프리미엄 수제 도시락</h1>
+            <p class="animate__animated animate__fadeInUp mt-3" style="font-size: 1.2rem;">세미나, 회의, 야외 촬영 등 중요한 순간을 위한
+                맞춤 도시락</p>
+        </div>
+    </header>
+
+    <!-- Detail Content Section -->
+    <section class="section-padding">
+        <div class="container">
+            <div class="row mb-5">
+                <div class="col-lg-6 mb-4 mb-lg-0 order-lg-2">
+                    <img src="https://images.unsplash.com/photo-1580476262798-bddd9f4b7369?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+                        alt="정갈한 수제 도시락" class="img-fluid rounded shadow-sm detail-img">
+                </div>
+                <div class="col-lg-6 d-flex flex-column justify-content-center order-lg-1">
+                    <h3 class="mb-4" style="color: var(--primary-color);">어디서든 한식당의 정찬을 느끼도록</h3>
+                    <p class="text-muted mb-3">딱딱하고 차가운 일반 도시락과는 다릅니다. 대원의 도시락은 '보온'과 '영양 밸런스'를 최우선으로 고려합니다.</p>
+                    <p class="text-muted mb-4">중요한 VIP 손님 대접부터 가벼운 점심 식사 회의까지, 상황과 예산에 맞는 맞춤형 도시락을 제작해 드립니다.</p>
+
+                    <ul class="list-unstyled detail-list">
+                        <li><i class="fas fa-check-circle text-success me-2"></i><strong>고급 패키징 :</strong> 한식의 멋을 살린 정갈한
+                            포장과 수저 세트 제공</li>
+                        <li><i class="fas fa-check-circle text-success me-2"></i><strong>보온 특화 배송 :</strong> 전용 보온 상자로
+                            배송 직전 온도 유지 최적화</li>
+                        <li><i class="fas fa-check-circle text-success me-2"></i><strong>다양한 입맛 충족 :</strong> 채식 지향, 매운맛
+                            선호도 등 세부 요건 맞춤형 조율 가능</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Price/Menu Table -->
+            <div class="menu-price-table mt-5">
+                <h4 class="text-center mb-4">대표 상차림 구성</h4>
+                <div class="table-responsive">
+                    <table class="table table-bordered text-center align-middle">
+                        <thead class="table-light">
+                            <tr>
+                                <th style="width: 25%;">유형별 추천</th>
+                                <th style="width: 50%;">특징 및 메뉴 구성 예시</th>
+                                <th style="width: 25%;">단가 (1인 기준, 부가세 별도)</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td class="fw-bold">이그제큐티브 도시락<br>(임원 회의/VIP용)</td>
+                                <td class="text-start">
+                                    <ul class="mb-0">
+                                        <li>고급 원목 느낌의 2단 프리미엄 박스 포장</li>
+                                        <li>메인 : 소갈비, 전복버터구이, 장어구이 중 2종 선택</li>
+                                        <li>서브 : 무지개떡, 신선한 계절 과일 포함</li>
+                                        <li>생수 및 후식차(오미자/수정과) 무료 제공</li>
+                                    </ul>
+                                </td>
+                                <td class="fw-bold fs-5" style="color: var(--secondary-color);">30,000 ~
+                                    50,000원<br><small class="text-muted fs-6">(최소 10개 이상)</small></td>
+                            </tr>
+                            <tr>
+                                <td class="fw-bold">비즈니스 런치 도시락<br>(일반 회의/세미나)</td>
+                                <td class="text-start">
+                                    <ul class="mb-0">
+                                        <li>먹기 편한 칸막이형 모던 박스 포장</li>
+                                        <li>메인 : 떡갈비, 제육볶음 등 메인 반찬 1종 + 서브 반찬 4종</li>
+                                        <li>간단한 컵과일 추가 옵션 (알당 +2,000원)</li>
+                                    </ul>
+                                </td>
+                                <td class="fw-bold fs-5" style="color: var(--secondary-color);">12,000 ~
+                                    18,000원<br><small class="text-muted fs-6">(최소 20개 이상)</small></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="text-center mt-5">
+                <h4 class="mb-3 text-dark">대량 주문 문의 환영</h4>
+                <p class="text-muted mb-4">100개 이상의 대형 행사, 정기 배송 등은 별도 할인 단가가 적용됩니다. 고객센터로 연락주세요.</p>
+                <a th:href="@{/#contact}" class="btn btn-point btn-lg px-5 py-3 shadow-sm" style="border-radius: 50px;">
+                    <i class="fas fa-file-invoice-dollar me-2"></i>견적 의뢰하기
+                </a>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- 사진 갤러리 -->
+    <section class="section-padding bg-light">
+        <div class="container">
+            <div class="section-title text-center">
+                <h2>도시락 사진</h2>
+                <p>실제 납품된 프리미엄 도시락 모습입니다. (실제 사진으로 교체 예정)</p>
+            </div>
+            <div class="row g-3 menu-img-grid mt-3">
+                <div class="col-md-4">
+                    <!-- TODO: AI 생성 이미지로 교체 -->
+                    <img src="https://picsum.photos/seed/dosirak1/600/440" alt="프리미엄 도시락 1">
+                    <p class="img-caption">이그제큐티브 2단 도시락</p>
+                </div>
+                <div class="col-md-4">
+                    <img src="https://picsum.photos/seed/dosirak2/600/440" alt="프리미엄 도시락 2">
+                    <p class="img-caption">비즈니스 런치 도시락</p>
+                </div>
+                <div class="col-md-4">
+                    <img src="https://picsum.photos/seed/dosirak3/600/440" alt="프리미엄 도시락 3">
+                    <p class="img-caption">세미나 단체 도시락 납품</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 이런 분께 추천합니다 -->
+    <section class="recommend-section">
+        <div class="container">
+            <div class="section-title text-center">
+                <h2>이런 분께 추천합니다</h2>
+            </div>
+            <div class="row g-4 mt-3">
+                <div class="col-md-4">
+                    <div class="recommend-card">
+                        <i class="fas fa-chalkboard-teacher"></i>
+                        <h5>회의·세미나 케이터링이 필요하신 분</h5>
+                        <p>깔끔한 포장과 정시 배달로 비즈니스 미팅을 품격 있게 만들어드립니다.</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="recommend-card">
+                        <i class="fas fa-star"></i>
+                        <h5>VIP 손님 대접이 필요하신 분</h5>
+                        <p>이그제큐티브 도시락으로 중요한 손님께 한식의 품격을 선사하세요.</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="recommend-card">
+                        <i class="fas fa-film"></i>
+                        <h5>촬영팀·스태프 식사를 준비하시는 분</h5>
+                        <p>현장 상황에 맞춰 빠른 배달과 개별 포장으로 스태프 식사를 지원합니다.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer 공통 레이아웃 교체 -->
+    <div th:replace="~{fragments/footer :: footerFragment}"></div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>
