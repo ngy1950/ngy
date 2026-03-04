@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg fixed-top" id="mainNav" th:fragment="headerFragment">
+        <div class="container">
+            <a class="navbar-brand" th:href="@{/SampleThymeleaf}">대원<span>밥집</span></a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive"
+                aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+                <i class="fas fa-bars"></i>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarResponsive">
+                <ul class="navbar-nav ms-auto py-4 py-lg-0">
+                    <li class="nav-item"><a class="nav-link" th:href="@{/SampleThymeleaf#about}">소개</a></li>
+
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="menuDropdown" role="button"
+                            data-bs-toggle="dropdown" aria-expanded="false">
+                            메뉴안내
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="menuDropdown"
+                            style="border:none; box-shadow:0 5px 15px rgba(0,0,0,0.1); border-radius:8px; margin-top: 10px;">
+                            <li><a class="dropdown-item py-2 fw-semibold" th:href="@{/menu/jesa}">제사 · 시제음식</a></li>
+                            <li><a class="dropdown-item py-2 fw-semibold" th:href="@{/menu/jangji}">장지음식</a></li>
+                            <li><a class="dropdown-item py-2 fw-semibold" th:href="@{/menu/group}">단체 · 행사음식</a></li>
+                            <li><a class="dropdown-item py-2 fw-semibold" th:href="@{/menu/dosirak}">프리미엄 도시락</a></li>
+                        </ul>
+                    </li>
+
+                    <li class="nav-item"><a class="nav-link" th:href="@{/SampleThymeleaf#features}">특장점</a></li>
+                    <li class="nav-item"><a class="nav-link" th:href="@{/SampleThymeleaf#contact}">견적문의</a></li>
+                </ul>
+                <div class="d-none d-lg-block ms-3">
+                    <a href="tel:010-0000-0000" class="btn btn-point"><i class="fas fa-phone-alt me-2"></i>상담전화</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+</body>
+
+</html>

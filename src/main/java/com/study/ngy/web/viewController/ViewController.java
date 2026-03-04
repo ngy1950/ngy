@@ -8,18 +8,16 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class ViewController {
 
     /*
-     *  thtmeleaf 일반 호출 에제
+     * thtmeleaf 일반 호출 에제
      */
-    @RequestMapping("/SampleThymeleaf")
-    public String sampleThymeleaf(){
+    @RequestMapping("/")
+    public String sampleThymeleaf() {
         return "thymeleaf/index";
     }
 
-    @RequestMapping("/bootstrapSampleThymeleaf")
-    public String bootstrapSampleThymeleaf(){
-        System.out.println("@@@@@@@@@@@@@@@@@ /bootstrapSampleThymeleaf");
-        return "thymeleaf/bootstrapSample";
+    @RequestMapping("/menu/jesa")
+    public String menuJesa() {
+        return "thymeleaf/menu/jesa";
     }
-
 
 }

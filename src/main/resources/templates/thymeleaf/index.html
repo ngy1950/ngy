@@ -1,1 +1,208 @@
-<b>hello world</b>
+<!DOCTYPE html>
+<html lang="ko">
+
+<head
+    th:replace="~{fragments/head :: headFragment('대원밥집 | 정성을 담은 프리미엄 한 상', '정성을 담은 한 상, 대원밥집. 제사음식, 시제음식, 장지음식, 단체음식을 정성을 다해 준비합니다.', '대원밥집, 제사음식, 시제음식, 장지음식, 단체음식, 맞춤도시락, 출장뷔페')}">
+</head>
+
+<body data-bs-spy="scroll" data-bs-target="#mainNav" data-bs-offset="100">
+
+    <!-- Navigation -->
+    <div th:replace="~{fragments/header :: headerFragment}"></div>
+
+    <!-- Hero Section -->
+    <header class="hero-section" id="page-top">
+        <div class="container">
+            <div class="hero-content">
+                <h1 class="animate__animated animate__fadeInDown">정성을 다해 준비하는<br>품격 있는 한 상</h1>
+                <p class="animate__animated animate__fadeInUp animate__delay-1s">제사음식 · 장지음식 · 단체음식 전문가
+                    <strong>대원밥집</strong>
+                </p>
+                <div class="animate__animated animate__zoomIn animate__delay-2s mt-4">
+                    <a href="#services" class="btn btn-point btn-lg me-3 px-5 py-3">메뉴 보기</a>
+                    <a href="#contact" class="btn btn-outline-light btn-lg px-5 py-3"
+                        style="border-radius: 50px;">빠른견적문의</a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Services Section -->
+    <section class="section-padding bg-light" id="services">
+        <div class="container">
+            <div class="section-title">
+                <h2>대원밥집 메뉴안내</h2>
+                <p>상황과 모임의 성격에 맞는 최상의 식사를 제공합니다.</p>
+            </div>
+
+            <div class="row g-4">
+                <!-- Service 1 -->
+                <div class="col-lg-3 col-md-6">
+                    <div class="service-card" th:onclick="|location.href='@{/menu/jesa}'|" style="cursor: pointer;">
+                        <div class="service-img-wrapper">
+                            <!-- Placeholder image, 배포전 실제 음식 사진으로 교체 요망 -->
+                            <img src="https://images.unsplash.com/photo-1547592180-85f173990554?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+                                alt="제사음식">
+                        </div>
+                        <div class="service-content">
+                            <h3>제사 · 시제음식</h3>
+                            <p>조상님을 모시는 정성 그대로, 격식에 맞춘 깔끔하고 정갈한 제사 상차림 세트입니다.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Service 2 -->
+                <div class="col-lg-3 col-md-6">
+                    <div class="service-card" th:onclick="|location.href='@{/menu/jangji}'|" style="cursor: pointer;">
+                        <div class="service-img-wrapper">
+                            <img src="https://images.unsplash.com/photo-1588123190131-1c3fac394f4b?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+                                alt="장지음식">
+                        </div>
+                        <div class="service-content">
+                            <h3>장지음식</h3>
+                            <p>엄숙한 자리에 어울리는 정성스러운 음식과 위로의 마음을 담아 조문객 상차림을 준비합니다.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Service 3 -->
+                <div class="col-lg-3 col-md-6">
+                    <div class="service-card" th:onclick="|location.href='@{/menu/group}'|" style="cursor: pointer;">
+                        <div class="service-img-wrapper">
+                            <img src="https://images.unsplash.com/photo-1555244162-803834f70033?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+                                alt="단체음식">
+                        </div>
+                        <div class="service-content">
+                            <h3>단체 · 행사음식</h3>
+                            <p>체육대회, 야유회, 기업 행사 등 많은 인원이 함께 즐길 수 있는 맛있고 풍성한 식사입니다.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Service 4 -->
+                <div class="col-lg-3 col-md-6">
+                    <div class="service-card" th:onclick="|location.href='@{/menu/dosirak}'|" style="cursor: pointer;">
+                        <div class="service-img-wrapper">
+                            <img src="https://images.unsplash.com/photo-1580476262798-bddd9f4b7369?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+                                alt="프리미엄 도시락">
+                        </div>
+                        <div class="service-content">
+                            <h3>프리미엄 도시락</h3>
+                            <p>세미나, 회의, 촬영장 등 언제 어디서나 간편하면서도 든든하게 드실 수 있는 맞춤 도시락입니다.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="section-padding about-section" id="features">
+        <div class="container">
+            <div class="section-title text-center">
+                <h2>대원밥집의 약속</h2>
+                <p>고객님의 중요한 하루를 위해 원칙을 지킵니다.</p>
+            </div>
+            <div class="row mt-5">
+                <div class="col-md-4">
+                    <div class="feature-box">
+                        <i class="fas fa-leaf feature-icon"></i>
+                        <h4>신선하고 엄선된 식재료</h4>
+                        <p>매일 아침 가장 신선한 재료만을 선별하여 요리합니다. 가족이 먹는다는 생각으로 아낌없이 준비합니다.</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="feature-box">
+                        <i class="fas fa-hand-sparkles feature-icon"></i>
+                        <h4>철저한 위생 관리</h4>
+                        <p>조리부터 포장, 배송까지 모든 과정에서 철저한 위생 수칙을 준수하여 안전하고 깨끗한 음식을 제공합니다.</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="feature-box">
+                        <i class="fas fa-clock feature-icon"></i>
+                        <h4>정확하고 신속한 배달</h4>
+                        <p>행사 일정에 차질이 없도록 원하시는 시간에 맞추어 따뜻함과 신선함을 그대로 전달해 드립니다.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section class="section-padding" id="contact">
+        <div class="container">
+            <div class="section-title">
+                <h2>견적 및 예약 문의</h2>
+                <p>언제든 편하게 연락 주시면 친절하게 상담해 드립니다.</p>
+            </div>
+
+            <div class="row align-items-center">
+                <div class="col-lg-6 mb-5 mb-lg-0">
+                    <div class="contact-info-box">
+                        <h3 class="mb-4" style="color: var(--primary-color); font-weight: 800;">대원밥집 문의처</h3>
+
+                        <div class="contact-detail">
+                            <i class="fas fa-phone-square-alt"></i>
+                            <div>
+                                <h5>대표전화 (24시간 상담가능)</h5>
+                                <p class="phone-highlight mt-2">010-0000-0000</p>
+                            </div>
+                        </div>
+
+                        <div class="contact-detail">
+                            <i class="fas fa-map-marker-alt"></i>
+                            <div>
+                                <h5>오시는 길</h5>
+                                <p>서울특별시 ㅇㅇ구 ㅇㅇ로 123, 대원밥집 본점</p>
+                            </div>
+                        </div>
+
+                        <div class="contact-detail">
+                            <i class="fas fa-envelope"></i>
+                            <div>
+                                <h5>이메일 문의</h5>
+                                <p>daewon_food@example.com</p>
+                            </div>
+                        </div>
+
+                        <div class="mt-4 pt-4 border-top">
+                            <p class="text-muted"><i class="fas fa-info-circle me-1"></i> 행사의 성격, 인원, 날짜를 미리 알려주시면 더욱
+                                빠르고 정확한 상담이 가능합니다.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-6">
+                    <!-- Kakao Map Area -->
+                    <div
+                        style="width:100%; height:450px; background-color: #eee; border-radius: 12px; display: flex; align-items: center; justify-content: center;">
+                        <span class="text-muted"><i class="fas fa-map me-2"></i>이곳에 실제 지도 iframe(카카오맵/구글맵)이
+                            들어갑니다.</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <div th:replace="~{fragments/footer :: footerFragment}"></div>
+
+    <!-- Bootstrap/jQuery JS (CDN fallback logic included in actual use or standard CDN) -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Navbar scroll effect
+        window.addEventListener('scroll', function () {
+            var navbar = document.getElementById('mainNav');
+            if (window.scrollY > 50) {
+                navbar.style.backgroundColor = 'rgba(255, 255, 255, 0.98)';
+                navbar.style.boxShadow = '0 2px 10px rgba(0, 0, 0, 0.1)';
+            } else {
+                navbar.style.backgroundColor = 'rgba(255, 255, 255, 0.95)';
+                navbar.style.boxShadow = '0 2px 10px rgba(0, 0, 0, 0.05)';
+            }
+        });
+    </script>
+</body>
+
+</html>

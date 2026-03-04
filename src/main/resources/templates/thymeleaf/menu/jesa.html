@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+
+<!-- Head 공통 레이아웃 교체 -->
+
+<head
+    th:replace="~{fragments/head :: headFragment('대원밥집 | 제사·시제음식', '조상님을 모시는 정성 그대로, 대원밥집 제사음식 세트 안내입니다.', '제사음식, 시제음식, 제상차림, 차례상')}">
+</head>
+
+<body>
+    <!-- Navigation 공통 레이아웃 교체 -->
+    <div th:replace="~{fragments/header :: headerFragment}"></div>
+
+    <!-- Subpage Hero -->
+    <header class="sub-hero-section jesa-bg">
+        <div class="container text-center text-white">
+            <h1 class="animate__animated animate__fadeInDown">제사 · 시제음식</h1>
+            <p class="animate__animated animate__fadeInUp mt-3" style="font-size: 1.2rem;">조상님을 모시는 정성 그대로, 격식에 맞춘 깔끔하고
+                정갈한 제사 상차림</p>
+        </div>
+    </header>
+
+    <!-- Detail Content Section -->
+    <section class="section-padding">
+        <div class="container">
+            <div class="row mb-5">
+                <div class="col-lg-6 mb-4 mb-lg-0">
+                    <img src="https://images.unsplash.com/photo-1547592180-85f173990554?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+                        alt="정성스런 제사상" class="img-fluid rounded shadow-sm detail-img">
+                </div>
+                <div class="col-lg-6 d-flex flex-column justify-content-center">
+                    <h3 class="mb-4" style="color: var(--primary-color);">소중한 날, 정성스러운 한 상을 올립니다</h3>
+                    <p class="text-muted mb-3">저희 대원밥집의 제사음식은 100% 엄선된 국내산 식재료만을 사용하여 가족이 먹는다는 생각으로 정성껏 조리합니다.</p>
+                    <p class="text-muted mb-4">제사의 형식과 가문의 전통을 존중하며, 번거로운 준비는 저희에게 맡기시고 제사에 온전히 집중하실 수 있도록 돕겠습니다.</p>
+
+                    <ul class="list-unstyled detail-list">
+                        <li><i class="fas fa-check-circle text-success me-2"></i><strong>당일 조리 원칙 :</strong> 신선함을 유지하기
+                            위해 행사 당일 아침 조리</li>
+                        <li><i class="fas fa-check-circle text-success me-2"></i><strong>위생적 포장 :</strong> 흔들림 없이 안전하게
+                            전달되는 팩 포장 방식</li>
+                        <li><i class="fas fa-check-circle text-success me-2"></i><strong>시간 엄수 배송 :</strong> 약속된 제사 시간에
+                            맞춰 정확히 도착</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Price/Menu Table -->
+            <div class="menu-price-table mt-5">
+                <h4 class="text-center mb-4">대표 상차림 구성</h4>
+                <div class="table-responsive">
+                    <table class="table table-bordered text-center align-middle">
+                        <thead class="table-light">
+                            <tr>
+                                <th style="width: 25%;">구분</th>
+                                <th style="width: 50%;">기본 구성 품목</th>
+                                <th style="width: 25%;">비용</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td class="fw-bold">기본 제사상<br>(5~7인용)</td>
+                                <td class="text-start">
+                                    <ul class="mb-0">
+                                        <li>적류 : 육적, 어적, 계적</li>
+                                        <li>전/튀김류 : 호박전, 동태전, 육원전 등 5종</li>
+                                        <li>나물류 : 시금치, 고사리, 도라지 (삼색나물)</li>
+                                        <li>국/탕류 : 무국, 어탕, 육탕</li>
+                                        <li>기타 : 과일 5종, 떡, 포, 한과 등</li>
+                                    </ul>
+                                </td>
+                                <td class="fw-bold fs-5" style="color: var(--secondary-color);">250,000원</td>
+                            </tr>
+                            <tr>
+                                <td class="fw-bold">프리미엄 제사상<br>(10인용 이상)</td>
+                                <td class="text-start">
+                                    <ul class="mb-0">
+                                        <li>기본 제사상 품목 전반 양 증대</li>
+                                        <li>고급 전복적, 특대 참조기 추가</li>
+                                        <li>다식, 약과 등 고급 다과류 추가</li>
+                                    </ul>
+                                </td>
+                                <td class="fw-bold fs-5" style="color: var(--secondary-color);">350,000원</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="text-center mt-4">
+                    <p class="text-muted fst-italic">* 계절 및 시장 상황에 따라 일부 품목은 변동될 수 있습니다.</p>
+                    <a th:href="@{/SampleThymeleaf#contact}" class="btn btn-point px-4 py-2 mt-2">견적 및 예약 문의하기</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer 공통 레이아웃 교체 -->
+    <div th:replace="~{fragments/footer :: footerFragment}"></div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<body>
+    <!-- Footer -->
+    <footer class="footer" th:fragment="footerFragment">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-6 footer-info mb-4 mb-lg-0">
+                    <span class="footer-brand" th:onclick="|location.href='@{/SampleThymeleaf}'|"
+                        style="cursor:pointer">대원<span>밥집</span></span>
+                    <p>대표자 : 홍길동 | 사업자등록번호 : 123-45-67890</p>
+                    <p>주소 : 서울특별시 ㅇㅇ구 ㅇㅇ로 123</p>
+                    <p>통신판매업신고 : 제 2026-서울ㅇㅇ-1234호</p>
+                </div>
+                <div class="col-lg-6 text-lg-end">
+                    <p class="mb-2"><strong>고객센터</strong></p>
+                    <h3 class="text-white mb-3">010-0000-0000</h3>
+                    <p>운영시간 : 평일 09:00 ~ 18:00 (주말 및 공휴일 예약상담 가능)</p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p class="mb-0">&copy; 2026 대원밥집 All Rights Reserved.</p>
+            </div>
+        </div>
+    </footer>
+</body>
+
+</html>
