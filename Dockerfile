@@ -13,7 +13,7 @@ RUN ./gradlew dependencies --no-daemon 2>/dev/null || true
 
 # 소스 복사 후 빌드 (테스트 제외)
 COPY src src
-RUN ./gradlew bootJar -x test --no-daemon
+RUN ./gradlew bootJar -x test --no-daemon --rerun-tasks
 
 # ── 2단계: 실행 (경량 JRE) ────────────────────────────────
 FROM eclipse-temurin:17-jre-alpine
