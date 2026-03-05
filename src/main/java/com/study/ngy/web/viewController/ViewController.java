@@ -32,9 +32,4 @@ public class ViewController {
         return "menu/group";
     }
 
-    @GetMapping("/menu/gallery")
-    public String menuGallery() {
-        return "menu/gallery";
-    }
-
 }

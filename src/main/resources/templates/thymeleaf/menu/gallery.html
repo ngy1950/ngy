@@ -2,11 +2,10 @@
 <html lang="ko" xmlns:th="http://www.thymeleaf.org">
 
 <head
-    th:replace="~{fragments/head :: headFragment('대원 | 갤러리', '대원의 정성스러운 제사음식, 장지음식, 단체음식, 프리미엄 도시락 사진을 확인하세요.', '제사음식사진, 장지음식사진, 단체음식갤러리, 도시락사진')}">
+    th:replace="~{fragments/head :: headFragment('대원 | 갤러리', '대원의 정성스러운 제사음식, 장지음식, 단체음식 현장 사진을 확인하세요.', '제사음식사진, 장지음식사진, 단체음식갤러리, 고객리뷰')}">
 </head>
 
 <body>
-    <!-- Navigation 공통 레이아웃 교체 -->
     <div th:replace="~{fragments/header :: headerFragment}"></div>
 
     <!-- Subpage Hero -->
@@ -22,115 +21,92 @@
         <div class="container">
 
             <!-- 필터 버튼 -->
-            <div class="gallery-filter-wrap">
-                <button class="gallery-filter-btn active" data-filter="all">전체</button>
-                <button class="gallery-filter-btn" data-filter="jesa">제사·시제음식</button>
-                <button class="gallery-filter-btn" data-filter="jangji">장지음식</button>
-                <button class="gallery-filter-btn" data-filter="group">단체·행사음식</button>
+            <div class="gallery-filter-wrap text-center mb-4">
+                <a th:href="@{/gallery}"
+                   th:classappend="${selectedCategory == 'all'} ? 'active' : ''"
+                   class="gallery-filter-btn btn btn-outline-secondary me-2 mb-2">전체</a>
+                <a th:href="@{/gallery(category='jesa')}"
+                   th:classappend="${selectedCategory == 'jesa'} ? 'active' : ''"
+                   class="gallery-filter-btn btn btn-outline-secondary me-2 mb-2">제사·시제음식</a>
+                <a th:href="@{/gallery(category='jangji')}"
+                   th:classappend="${selectedCategory == 'jangji'} ? 'active' : ''"
+                   class="gallery-filter-btn btn btn-outline-secondary me-2 mb-2">장지음식</a>
+                <a th:href="@{/gallery(category='group')}"
+                   th:classappend="${selectedCategory == 'group'} ? 'active' : ''"
+                   class="gallery-filter-btn btn btn-outline-secondary me-2 mb-2">단체·행사음식</a>
             </div>
 
-            <!-- 갤러리 그리드 -->
-            <!-- TODO: 아래 모든 이미지는 AI 생성 이미지 또는 실제 사진으로 교체 예정 -->
-            <div class="row" id="galleryGrid">
+            <!-- 게시물 없을 때 -->
+            <div th:if="${#lists.isEmpty(posts)}" class="text-center py-5 text-muted">
+                <i class="fas fa-images fa-3x mb-3"></i>
+                <p>아직 등록된 사진이 없습니다.</p>
+            </div>
 
-                <!-- 제사음식 -->
-                <div class="col-md-4 gallery-col" data-category="jesa">
-                    <div class="gallery-item">
-                        <img src="https://picsum.photos/seed/jesa1/600/440" alt="정성스러운 기제사 상차림">
-                        <div class="gallery-item-label">정성스러운 기제사 상차림</div>
-                    </div>
+            <!-- 갤러리 카드 그리드 -->
+            <div class="row g-4" th:unless="${#lists.isEmpty(posts)}">
+                <div class="col-12 col-sm-6 col-lg-4" th:each="post : ${posts}">
+                    <a th:href="@{/gallery/{id}(id=${post.id})}" class="text-decoration-none">
+                        <div class="gallery-card card h-100 border-0 shadow-sm">
+                            <!-- 대표 이미지 -->
+                            <div class="gallery-card-img-wrap">
+                                <img th:if="${post.thumbnailUrl != null}"
+                                     th:src="${post.thumbnailUrl}"
+                                     th:alt="${post.title}"
+                                     class="gallery-card-img">
+                                <div th:unless="${post.thumbnailUrl != null}"
+                                     class="gallery-card-img d-flex align-items-center justify-content-center bg-light text-muted">
+                                    <i class="fas fa-image fa-2x"></i>
+                                </div>
+                                <span class="gallery-category-badge" th:text="${post.categoryLabel}"></span>
+                            </div>
+                            <div class="card-body">
+                                <h5 class="card-title text-dark fw-bold mb-1" th:text="${post.title}"></h5>
+                                <p class="card-text text-muted small"
+                                   th:text="${post.eventDate != null} ? ${#temporals.format(post.eventDate, 'yyyy.MM.dd')} : ${#temporals.format(post.createdAt, 'yyyy.MM.dd')}"></p>
+                                <p class="card-text text-secondary small text-truncate"
+                                   th:if="${post.description != null}"
+                                   th:text="${post.description}"></p>
+                            </div>
+                        </div>
+                    </a>
                 </div>
-                <div class="col-md-4 gallery-col" data-category="jesa">
-                    <div class="gallery-item">
-                        <img src="https://picsum.photos/seed/jesa2/600/440" alt="추석 차례상 세트">
-                        <div class="gallery-item-label">추석 차례상 세트</div>
-                    </div>
-                </div>
-                <div class="col-md-4 gallery-col" data-category="jesa">
-                    <div class="gallery-item">
-                        <img src="https://picsum.photos/seed/jesa3/600/440" alt="문중 시제 대형 상차림">
-                        <div class="gallery-item-label">문중 시제 대형 상차림</div>
-                    </div>
-                </div>
-
-                <!-- 장지음식 -->
-                <div class="col-md-4 gallery-col" data-category="jangji">
-                    <div class="gallery-item">
-                        <img src="https://picsum.photos/seed/jangji1/600/440" alt="개별 포장 장지 상차림">
-                        <div class="gallery-item-label">개별 포장 장지 상차림</div>
-                    </div>
-                </div>
-                <div class="col-md-4 gallery-col" data-category="jangji">
-                    <div class="gallery-item">
-                        <img src="https://picsum.photos/seed/jangji2/600/440" alt="현장 배송 완료">
-                        <div class="gallery-item-label">현장 배송 완료 모습</div>
-                    </div>
-                </div>
-                <div class="col-md-4 gallery-col" data-category="jangji">
-                    <div class="gallery-item">
-                        <img src="https://picsum.photos/seed/jangji3/600/440" alt="프리미엄 조문객 상차림">
-                        <div class="gallery-item-label">프리미엄 조문객 상차림</div>
-                    </div>
-                </div>
-
-                <!-- 단체음식 -->
-                <div class="col-md-4 gallery-col" data-category="group">
-                    <div class="gallery-item">
-                        <img src="https://picsum.photos/seed/group1/600/440" alt="체육대회 배식 세팅">
-                        <div class="gallery-item-label">체육대회 현장 배식 세팅</div>
-                    </div>
-                </div>
-                <div class="col-md-4 gallery-col" data-category="group">
-                    <div class="gallery-item">
-                        <img src="https://picsum.photos/seed/group2/600/440" alt="워크샵 뷔페 배식">
-                        <div class="gallery-item-label">워크샵 뷔페 자율배식</div>
-                    </div>
-                </div>
-                <div class="col-md-4 gallery-col" data-category="group">
-                    <div class="gallery-item">
-                        <img src="https://picsum.photos/seed/group3/600/440" alt="야외 바베큐 출장">
-                        <div class="gallery-item-label">야외 바베큐 출장 현장</div>
-                    </div>
-                </div>
-
-
-            </div><!-- /galleryGrid -->
-
-            <div class="text-center mt-5">
-                <p class="text-muted fst-italic mb-4">* 위 사진들은 임시 이미지입니다. 실제 음식 사진으로 곧 교체될 예정입니다.</p>
-                <a th:href="@{/#contact}" class="btn btn-point px-5 py-3" style="border-radius: 50px;">
-                    <i class="fas fa-comment-dots me-2"></i>견적 및 예약 문의
-                </a>
             </div>
 
         </div>
     </section>
 
-    <!-- Footer 공통 레이아웃 교체 -->
     <div th:replace="~{fragments/footer :: footerFragment}"></div>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script>
-        // 갤러리 카테고리 필터
-        const filterBtns = document.querySelectorAll('.gallery-filter-btn');
-        const galleryCols = document.querySelectorAll('.gallery-col');
-
-        filterBtns.forEach(btn => {
-            btn.addEventListener('click', function () {
-                filterBtns.forEach(b => b.classList.remove('active'));
-                this.classList.add('active');
-
-                const filter = this.dataset.filter;
-                galleryCols.forEach(col => {
-                    if (filter === 'all' || col.dataset.category === filter) {
-                        col.style.display = '';
-                    } else {
-                        col.style.display = 'none';
-                    }
-                });
-            });
-        });
-    </script>
+    <style>
+        .gallery-card-img-wrap {
+            position: relative;
+            overflow: hidden;
+            height: 220px;
+        }
+        .gallery-card-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.3s ease;
+        }
+        .gallery-card:hover .gallery-card-img {
+            transform: scale(1.05);
+        }
+        .gallery-category-badge {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            background: rgba(139,90,43,0.85);
+            color: white;
+            font-size: 0.75rem;
+            padding: 3px 10px;
+            border-radius: 20px;
+        }
+        .gallery-filter-btn.active {
+            background-color: #8b5a2b;
+            border-color: #8b5a2b;
+            color: white;
+        }
+    </style>
 </body>
-
 </html>

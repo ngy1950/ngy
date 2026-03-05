@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+
+<head
+    th:replace="~{fragments/head :: headFragment(${post.title + ' | 대원 갤러리'}, ${post.description ?: '대원의 현장 사진을 확인하세요.'}, '대원갤러리, 음식사진, 고객리뷰')}">
+</head>
+
+<body>
+    <div th:replace="~{fragments/header :: headerFragment}"></div>
+
+    <!-- Subpage Hero (작게) -->
+    <header class="sub-hero-section py-4" style="background-image: linear-gradient(rgba(44,39,36,0.8), rgba(44,39,36,0.8)), url('https://images.unsplash.com/photo-1547592180-85f173990554?auto=format&fit=crop&w=1920&q=80'); background-size: cover; background-position: center;">
+        <div class="container text-center text-white">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb justify-content-center">
+                    <li class="breadcrumb-item"><a href="/" class="text-white-50">홈</a></li>
+                    <li class="breadcrumb-item"><a th:href="@{/gallery}" class="text-white-50">갤러리</a></li>
+                    <li class="breadcrumb-item active text-white" th:text="${post.title}"></li>
+                </ol>
+            </nav>
+            <h1 class="h3 mt-2" th:text="${post.title}"></h1>
+            <p class="text-white-50 small mt-1"
+               th:text="${post.eventDate != null} ? ${#temporals.format(post.eventDate, 'yyyy년 MM월 dd일')} : ${#temporals.format(post.createdAt, 'yyyy년 MM월 dd일')}"></p>
+        </div>
+    </header>
+
+    <section class="section-padding">
+        <div class="container" style="max-width: 900px;">
+
+            <!-- 카테고리 뱃지 -->
+            <div class="mb-3">
+                <span class="badge text-white" style="background:#8b5a2b; font-size:0.9rem;" th:text="${post.categoryLabel}"></span>
+            </div>
+
+            <!-- 이미지 Carousel -->
+            <div th:if="${post.images != null and !post.images.isEmpty()}">
+                <!-- 이미지 1장 -->
+                <div th:if="${#lists.size(post.images) == 1}" class="mb-4">
+                    <img th:src="${post.images[0].cloudinaryUrl}"
+                         th:alt="${post.title}"
+                         class="img-fluid rounded shadow" style="width:100%; max-height:500px; object-fit:cover;">
+                </div>
+                <!-- 이미지 여러 장 → Carousel -->
+                <div th:if="${#lists.size(post.images) > 1}"
+                     id="galleryCarousel" class="carousel slide mb-4 shadow rounded overflow-hidden" data-bs-ride="carousel">
+                    <div class="carousel-inner">
+                        <div th:each="img,idx : ${post.images}"
+                             th:classappend="${idx.first} ? 'active' : ''"
+                             class="carousel-item">
+                            <img th:src="${img.cloudinaryUrl}"
+                                 th:alt="${post.title}"
+                                 class="d-block w-100"
+                                 style="height:500px; object-fit:cover;">
+                        </div>
+                    </div>
+                    <button class="carousel-control-prev" type="button" data-bs-target="#galleryCarousel" data-bs-slide="prev">
+                        <span class="carousel-control-prev-icon"></span>
+                    </button>
+                    <button class="carousel-control-next" type="button" data-bs-target="#galleryCarousel" data-bs-slide="next">
+                        <span class="carousel-control-next-icon"></span>
+                    </button>
+                    <!-- 썸네일 스트립 -->
+                    <div class="d-flex gap-2 mt-2 overflow-auto pb-1">
+                        <img th:each="img,idx : ${post.images}"
+                             th:src="${img.cloudinaryUrl}"
+                             th:alt="${'사진' + (idx.index + 1)}"
+                             class="rounded thumbnail-strip"
+                             th:attr="data-bs-target='#galleryCarousel', data-bs-slide-to=${idx.index}"
+                             style="height:70px; width:100px; object-fit:cover; cursor:pointer; opacity:0.7;"
+                             onmouseover="this.style.opacity='1'" onmouseout="this.style.opacity='0.7'">
+                    </div>
+                </div>
+            </div>
+
+            <!-- 설명 -->
+            <div th:if="${post.description != null and !post.description.isBlank()}"
+                 class="mb-5 p-3 bg-light rounded">
+                <p class="mb-0 text-secondary" th:text="${post.description}"></p>
+            </div>
+
+            <hr class="my-5">
+
+            <!-- 리뷰 제출 성공 메시지 -->
+            <div th:if="${param.reviewSubmitted}" class="alert alert-success alert-dismissible" role="alert">
+                리뷰가 등록되었습니다. 관리자 확인 후 게시됩니다.
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            </div>
+
+            <!-- 리뷰 섹션 -->
+            <h4 class="fw-bold mb-4" style="color:#5c3d1e;">
+                <i class="fas fa-star me-2" style="color:#f5a623;"></i>
+                고객 리뷰
+                <span class="text-muted fs-6 fw-normal ms-2" th:text="'(' + ${#lists.size(reviews)} + '개)'"></span>
+            </h4>
+
+            <!-- 리뷰 목록 -->
+            <div th:if="${#lists.isEmpty(reviews)}" class="text-muted mb-4">
+                <p>아직 등록된 리뷰가 없습니다. 첫 리뷰를 남겨주세요!</p>
+            </div>
+            <div th:unless="${#lists.isEmpty(reviews)}" class="mb-5">
+                <div th:each="review : ${reviews}" class="review-item border-bottom py-3">
+                    <div class="d-flex align-items-center mb-1">
+                        <strong th:text="${review.authorName}" class="me-2"></strong>
+                        <span class="text-warning">
+                            <th:block th:each="i : ${#numbers.sequence(1, 5)}">
+                                <i th:classappend="${i <= review.rating} ? 'fas' : 'far'" class="fa-star"></i>
+                            </th:block>
+                        </span>
+                        <span class="text-muted small ms-auto"
+                              th:text="${#temporals.format(review.createdAt, 'yyyy.MM.dd')}"></span>
+                    </div>
+                    <p class="mb-0 text-secondary" th:text="${review.content}"></p>
+                </div>
+            </div>
+
+            <!-- 리뷰 작성 폼 -->
+            <div class="review-form-wrap bg-light rounded p-4 mb-4">
+                <h5 class="fw-bold mb-3" style="color:#5c3d1e;">리뷰 작성</h5>
+                <form th:action="@{/gallery/{id}/review(id=${post.id})}" method="post">
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            <label class="form-label small fw-semibold">작성자</label>
+                            <input type="text" name="authorName" class="form-control" placeholder="이름 또는 닉네임" required maxlength="100">
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label small fw-semibold">별점</label>
+                            <div class="star-rating-input d-flex gap-2 align-items-center">
+                                <th:block th:each="i : ${#numbers.sequence(5, 1, -1)}">
+                                    <input type="radio" name="rating" th:id="'star' + ${i}" th:value="${i}" class="d-none"
+                                           th:checked="${i == 5}">
+                                    <label th:for="'star' + ${i}" class="star-label fs-4" style="cursor:pointer; color:#ccc;"
+                                           th:attr="data-val=${i}">&#9733;</label>
+                                </th:block>
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <label class="form-label small fw-semibold">리뷰 내용</label>
+                            <textarea name="content" class="form-control" rows="4"
+                                      placeholder="음식은 어떠셨나요? 솔직한 리뷰를 남겨주세요." required maxlength="1000"></textarea>
+                        </div>
+                        <div class="col-12">
+                            <button type="submit" class="btn btn-primary px-4" style="background:#8b5a2b; border-color:#8b5a2b;">
+                                리뷰 등록
+                            </button>
+                            <small class="text-muted ms-2">관리자 확인 후 게시됩니다.</small>
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+            <!-- 목록으로 -->
+            <div class="text-center mt-4">
+                <a th:href="@{/gallery}" class="btn btn-outline-secondary">
+                    <i class="fas fa-arrow-left me-1"></i> 갤러리 목록
+                </a>
+            </div>
+
+        </div>
+    </section>
+
+    <div th:replace="~{fragments/footer :: footerFragment}"></div>
+
+    <style>
+        .review-item:last-child { border-bottom: none !important; }
+        .star-label { transition: color 0.1s; }
+        .star-label:hover,
+        .star-label:hover ~ .star-label { color: #f5a623; }
+        input[type=radio][name=rating]:checked + label { color: #f5a623; }
+    </style>
+
+    <script>
+        // 별점 클릭 시 색상 표시
+        document.querySelectorAll('.star-label').forEach(label => {
+            label.addEventListener('click', function () {
+                const val = parseInt(this.dataset.val);
+                document.querySelectorAll('.star-label').forEach((l, i) => {
+                    // 역순으로 렌더링되어 있으므로 (5,4,3,2,1)
+                    const lVal = parseInt(l.dataset.val);
+                    l.style.color = lVal <= val ? '#f5a623' : '#ccc';
+                });
+            });
+        });
+    </script>
+</body>
+</html>
