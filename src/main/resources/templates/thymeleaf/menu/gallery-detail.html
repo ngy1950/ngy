@@ -65,8 +65,9 @@
                              th:src="${img.cloudinaryUrl}"
                              th:alt="${'사진' + (idx.index + 1)}"
                              class="rounded thumbnail-strip"
-                             th:attr="data-bs-target='#galleryCarousel', data-bs-slide-to=${idx.index}"
+                             th:attr="data-idx=${idx.index}"
                              style="height:70px; width:100px; object-fit:cover; cursor:pointer; opacity:0.7;"
+                             onclick="goToSlide(this)"
                              onmouseover="this.style.opacity='1'" onmouseout="this.style.opacity='0.7'">
                     </div>
                 </div>
@@ -124,12 +125,12 @@
                         </div>
                         <div class="col-md-6">
                             <label class="form-label small fw-semibold">별점</label>
-                            <div class="star-rating-input d-flex gap-2 align-items-center">
-                                <th:block th:each="i : ${#numbers.sequence(5, 1, -1)}">
-                                    <input type="radio" name="rating" th:id="'star' + ${i}" th:value="${i}" class="d-none"
-                                           th:checked="${i == 5}">
-                                    <label th:for="'star' + ${i}" class="star-label fs-4" style="cursor:pointer; color:#ccc;"
-                                           th:attr="data-val=${i}">&#9733;</label>
+                            <input type="hidden" name="rating" id="ratingValue" value="5">
+                            <div class="star-rating-input d-flex gap-1 align-items-center">
+                                <th:block th:each="i : ${#numbers.sequence(1, 5)}">
+                                    <span class="star-label fs-3"
+                                          th:attr="data-val=${i}"
+                                          style="cursor:pointer; color:#f5a623;">&#9733;</span>
                                 </th:block>
                             </div>
                         </div>
@@ -162,22 +163,41 @@
 
     <style>
         .review-item:last-child { border-bottom: none !important; }
-        .star-label { transition: color 0.1s; }
-        .star-label:hover,
-        .star-label:hover ~ .star-label { color: #f5a623; }
-        input[type=radio][name=rating]:checked + label { color: #f5a623; }
+        .star-label { transition: color 0.1s; user-select: none; }
     </style>
 
     <script>
-        // 별점 클릭 시 색상 표시
-        document.querySelectorAll('.star-label').forEach(label => {
-            label.addEventListener('click', function () {
+        // 썸네일 클릭으로 캐러셀 전환
+        function goToSlide(el) {
+            const idx = parseInt(el.dataset.idx);
+            const carousel = bootstrap.Carousel.getInstance(document.getElementById('galleryCarousel'));
+            if (carousel) carousel.to(idx);
+        }
+
+        // 별점 (1→5 순서, 왼쪽→오른쪽)
+        const stars = document.querySelectorAll('.star-rating-input .star-label');
+        const ratingInput = document.getElementById('ratingValue');
+
+        function paintStars(val) {
+            stars.forEach(s => {
+                s.style.color = parseInt(s.dataset.val) <= val ? '#f5a623' : '#ccc';
+            });
+        }
+
+        // 초기값 5점
+        paintStars(5);
+
+        stars.forEach(star => {
+            star.addEventListener('click', function () {
                 const val = parseInt(this.dataset.val);
-                document.querySelectorAll('.star-label').forEach((l, i) => {
-                    // 역순으로 렌더링되어 있으므로 (5,4,3,2,1)
-                    const lVal = parseInt(l.dataset.val);
-                    l.style.color = lVal <= val ? '#f5a623' : '#ccc';
-                });
+                ratingInput.value = val;
+                paintStars(val);
+            });
+            star.addEventListener('mouseover', function () {
+                paintStars(parseInt(this.dataset.val));
+            });
+            star.addEventListener('mouseout', function () {
+                paintStars(parseInt(ratingInput.value));
             });
         });
     </script>
