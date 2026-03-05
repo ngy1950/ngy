@@ -65,3 +65,11 @@ com.study.ngy
 - 리뷰 승인 기능 현재 비활성화 (즉시 게시) — ReviewService.addReview() 참고
 - DB 드라이버 명시 필요 (H2/PostgreSQL 충돌 이력)
 - Railway Variables UI 버그로 PGHOST 대신 SPRING_DATASOURCE_URL 사용
+
+
+<!-- 
+대화 시작 시 /clear — 이전 대화 컨텍스트 초기화. 새 주제면 새로 시작하는 게 효율적
+질문을 구체적으로 — "갤러리 고쳐줘" 보다 "gallery-detail.html의 썸네일 클릭 버그 수정"이 토큰 낭비가 적음
+파일 하나씩 — 여러 파일 동시 수정 요청보다 하나씩이 컨텍스트 덜 차지함
+/compact — 대화가 길어지면 이전 내용을 요약해서 컨텍스트 줄여줌 
+-->
