@@ -32,6 +32,7 @@ public class ReviewService {
         review.setAuthorName(authorName);
         review.setRating(rating);
         review.setContent(content);
+        review.setApproved(true); // 승인 없이 바로 게시 (승인 기능 비활성화 중)
         reviewRepository.save(review);
     }
 
