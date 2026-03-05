@@ -1,0 +1,4 @@
+# Windows에서 작업 시 gradlew의 줄바꿈 문자가 CRLF로 바뀌는 것을 방지
+gradlew text eol=lf
+*.sh text eol=lf
+Dockerfile text eol=lf
