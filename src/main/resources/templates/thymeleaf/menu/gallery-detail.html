@@ -32,45 +32,12 @@
                 <span class="badge text-white" style="background:#8b5a2b; font-size:0.9rem;" th:text="${post.categoryLabel}"></span>
             </div>
 
-            <!-- 이미지 Carousel -->
-            <div th:if="${post.images != null and !post.images.isEmpty()}">
-                <!-- 이미지 1장 -->
-                <div th:if="${#lists.size(post.images) == 1}" class="mb-4">
-                    <img th:src="${post.images[0].cloudinaryUrl}"
-                         th:alt="${post.title}"
-                         class="img-fluid rounded shadow" style="width:100%; max-height:500px; object-fit:cover;">
-                </div>
-                <!-- 이미지 여러 장 → Carousel -->
-                <div th:if="${#lists.size(post.images) > 1}"
-                     id="galleryCarousel" class="carousel slide mb-4 shadow rounded overflow-hidden" data-bs-ride="carousel">
-                    <div class="carousel-inner">
-                        <div th:each="img,idx : ${post.images}"
-                             th:classappend="${idx.first} ? 'active' : ''"
-                             class="carousel-item">
-                            <img th:src="${img.cloudinaryUrl}"
-                                 th:alt="${post.title}"
-                                 class="d-block w-100"
-                                 style="height:500px; object-fit:cover;">
-                        </div>
-                    </div>
-                    <button class="carousel-control-prev" type="button" data-bs-target="#galleryCarousel" data-bs-slide="prev">
-                        <span class="carousel-control-prev-icon"></span>
-                    </button>
-                    <button class="carousel-control-next" type="button" data-bs-target="#galleryCarousel" data-bs-slide="next">
-                        <span class="carousel-control-next-icon"></span>
-                    </button>
-                    <!-- 썸네일 스트립 -->
-                    <div class="d-flex gap-2 mt-2 overflow-auto pb-1">
-                        <img th:each="img,idx : ${post.images}"
-                             th:src="${img.cloudinaryUrl}"
-                             th:alt="${'사진' + (idx.index + 1)}"
-                             class="rounded thumbnail-strip"
-                             th:attr="data-idx=${idx.index}"
-                             style="height:70px; width:100px; object-fit:cover; cursor:pointer; opacity:0.7;"
-                             onclick="goToSlide(this)"
-                             onmouseover="this.style.opacity='1'" onmouseout="this.style.opacity='0.7'">
-                    </div>
-                </div>
+            <!-- 이미지 목록 (세로 스택) -->
+            <div th:if="${post.images != null and !post.images.isEmpty()}" class="detail-img-stack mb-4">
+                <img th:each="img : ${post.images}"
+                     th:src="${img.cloudinaryUrl}"
+                     th:alt="${post.title}"
+                     class="detail-stack-img rounded shadow">
             </div>
 
             <!-- 설명 -->
@@ -162,18 +129,20 @@
     <div th:replace="~{fragments/footer :: footerFragment}"></div>
 
     <style>
+        .detail-img-stack {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+        .detail-stack-img {
+            width: 100%;
+            display: block;
+        }
         .review-item:last-child { border-bottom: none !important; }
         .star-label { transition: color 0.1s; user-select: none; }
     </style>
 
     <script>
-        // 썸네일 클릭으로 캐러셀 전환
-        function goToSlide(el) {
-            const idx = parseInt(el.dataset.idx);
-            const carousel = bootstrap.Carousel.getInstance(document.getElementById('galleryCarousel'));
-            if (carousel) carousel.to(idx);
-        }
-
         // 별점 (1→5 순서, 왼쪽→오른쪽)
         const stars = document.querySelectorAll('.star-rating-input .star-label');
         const ratingInput = document.getElementById('ratingValue');
