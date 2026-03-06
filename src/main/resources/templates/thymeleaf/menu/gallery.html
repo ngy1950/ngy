@@ -9,7 +9,8 @@
     <div th:replace="~{fragments/header :: headerFragment}"></div>
 
     <!-- Subpage Hero -->
-    <header class="sub-hero-section" style="background-image: linear-gradient(rgba(44,39,36,0.75), rgba(44,39,36,0.75)), url('https://images.unsplash.com/photo-1547592180-85f173990554?auto=format&fit=crop&w=1920&q=80'); background-size: cover; background-position: center;">
+    <header class="sub-hero-section"
+        style="background-image: linear-gradient(rgba(44,39,36,0.75), rgba(44,39,36,0.75)), url('https://images.unsplash.com/photo-1547592180-85f173990554?auto=format&fit=crop&w=1920&q=80'); background-size: cover; background-position: center;">
         <div class="container text-center text-white">
             <h1 class="animate__animated animate__fadeInDown">갤러리</h1>
             <p class="animate__animated animate__fadeInUp mt-3" style="font-size: 1.2rem;">대원의 정성스러운 음식 모습을 직접 확인하세요</p>
@@ -22,18 +23,16 @@
 
             <!-- 필터 버튼 -->
             <div class="gallery-filter-wrap text-center mb-4">
-                <a th:href="@{/gallery}"
-                   th:classappend="${selectedCategory == 'all'} ? 'active' : ''"
-                   class="gallery-filter-btn btn btn-outline-secondary me-2 mb-2">전체</a>
-                <a th:href="@{/gallery(category='jesa')}"
-                   th:classappend="${selectedCategory == 'jesa'} ? 'active' : ''"
-                   class="gallery-filter-btn btn btn-outline-secondary me-2 mb-2">제사·시제음식</a>
+                <a th:href="@{/gallery}" th:classappend="${selectedCategory == 'all'} ? 'active' : ''"
+                    class="gallery-filter-btn btn btn-outline-secondary me-2 mb-2">전체</a>
+                <a th:href="@{/gallery(category='jesa')}" th:classappend="${selectedCategory == 'jesa'} ? 'active' : ''"
+                    class="gallery-filter-btn btn btn-outline-secondary me-2 mb-2">제사·시제음식</a>
                 <a th:href="@{/gallery(category='jangji')}"
-                   th:classappend="${selectedCategory == 'jangji'} ? 'active' : ''"
-                   class="gallery-filter-btn btn btn-outline-secondary me-2 mb-2">장지음식</a>
+                    th:classappend="${selectedCategory == 'jangji'} ? 'active' : ''"
+                    class="gallery-filter-btn btn btn-outline-secondary me-2 mb-2">장지음식</a>
                 <a th:href="@{/gallery(category='group')}"
-                   th:classappend="${selectedCategory == 'group'} ? 'active' : ''"
-                   class="gallery-filter-btn btn btn-outline-secondary me-2 mb-2">단체·행사음식</a>
+                    th:classappend="${selectedCategory == 'group'} ? 'active' : ''"
+                    class="gallery-filter-btn btn btn-outline-secondary me-2 mb-2">단체·행사음식</a>
             </div>
 
             <!-- 게시물 없을 때 -->
@@ -43,43 +42,38 @@
             </div>
 
             <!-- 갤러리 카드 그리드 -->
-            <div class="row g-3" th:unless="${#lists.isEmpty(posts)}">
-                <div class="col-6 col-sm-4 col-lg-3" th:each="post : ${posts}">
+            <div class="row g-4" th:unless="${#lists.isEmpty(posts)}">
+                <div class="col-12 col-sm-6 col-lg-4" th:each="post : ${posts}">
                     <a th:href="@{/gallery/{id}(id=${post.id})}" class="text-decoration-none">
-                        <div class="gallery-card card border-0 shadow-sm">
+                        <div class="gallery-card card h-100 border-0 shadow-sm">
                             <!-- 대표 이미지 -->
                             <div class="gallery-card-img-wrap">
-                                <img th:if="${post.thumbnailUrl != null}"
-                                     th:src="${post.thumbnailUrl}"
-                                     th:alt="${post.title}"
-                                     class="gallery-card-img">
+                                <img th:if="${post.thumbnailUrl != null}" th:src="${post.thumbnailUrl}"
+                                    th:alt="${post.title}" class="gallery-card-img">
                                 <div th:unless="${post.thumbnailUrl != null}"
-                                     class="gallery-card-img d-flex align-items-center justify-content-center bg-light text-muted">
+                                    class="gallery-card-img d-flex align-items-center justify-content-center bg-light text-muted">
                                     <i class="fas fa-image fa-2x"></i>
                                 </div>
                                 <span class="gallery-category-badge" th:text="${post.categoryLabel}"></span>
-                                <!-- 호버 오버레이 -->
-                                <div class="gallery-overlay">
-                                    <p class="gallery-overlay-desc small mb-0"
-                                       th:if="${post.description != null}"
-                                       th:text="${post.description}"></p>
-                                    <p class="gallery-overlay-date small mb-0"
-                                       th:text="${post.eventDate != null} ? ${#temporals.format(post.eventDate, 'yyyy.MM.dd')} : ${#temporals.format(post.createdAt, 'yyyy.MM.dd')}"></p>
-                                </div>
                             </div>
-                            <div class="card-body px-2 py-2">
-                                <h6 class="card-title text-dark fw-bold mb-0 text-truncate" th:text="${post.title}"></h6>
+                            <div class="card-body">
+                                <h5 class="card-title text-dark fw-bold mb-1" th:text="${post.title}"></h5>
+                                <p class="card-text text-muted small mb-1"
+                                    th:text="${post.eventDate != null} ? ${#temporals.format(post.eventDate, 'yyyy.MM.dd')} : ${#temporals.format(post.createdAt, 'yyyy.MM.dd')}">
+                                </p>
                                 <!-- 별점 -->
-                                <div th:if="${ratingStats[post.id] != null}" class="d-flex align-items-center mt-1">
+                                <div th:if="${ratingStats[post.id] != null}" class="d-flex align-items-center mb-1">
                                     <span th:each="i : ${#numbers.sequence(1,5)}">
                                         <i th:class="${i <= ratingStats[post.id][0]} ? 'fas fa-star' : 'far fa-star'"
-                                           class="text-warning" style="font-size:0.75rem;"></i>
+                                            class="text-warning" style="font-size:0.8rem;"></i>
                                     </span>
-                                    <small class="ms-1 text-muted" style="font-size:0.72rem;">
+                                    <small class="ms-1 text-muted">
                                         <span th:text="${#numbers.formatDecimal(ratingStats[post.id][0], 1, 1)}"></span>
-                                        (<span th:text="${ratingStats[post.id][1].intValue()}"></span>)
+                                        (<span th:text="${ratingStats[post.id][1].intValue()}"></span>개)
                                     </small>
                                 </div>
+                                <p class="card-text text-secondary small text-truncate"
+                                    th:if="${post.description != null}" th:text="${post.description}"></p>
                             </div>
                         </div>
                     </a>
@@ -95,55 +89,31 @@
         .gallery-card-img-wrap {
             position: relative;
             overflow: hidden;
-            aspect-ratio: 4 / 3;
+            height: 220px;
         }
+
         .gallery-card-img {
             width: 100%;
             height: 100%;
             object-fit: cover;
-            transition: transform 0.35s ease;
+            transition: transform 0.3s ease;
         }
+
         .gallery-card:hover .gallery-card-img {
-            transform: scale(1.06);
+            transform: scale(1.05);
         }
+
         .gallery-category-badge {
             position: absolute;
-            top: 8px;
-            left: 8px;
-            background: rgba(139,90,43,0.85);
+            top: 10px;
+            left: 10px;
+            background: rgba(139, 90, 43, 0.85);
             color: white;
-            font-size: 0.72rem;
-            padding: 2px 9px;
+            font-size: 0.75rem;
+            padding: 3px 10px;
             border-radius: 20px;
-            z-index: 2;
         }
-        .gallery-overlay {
-            position: absolute;
-            bottom: 0; left: 0; right: 0;
-            background: linear-gradient(transparent, rgba(30,20,10,0.82));
-            color: white;
-            padding: 28px 10px 10px;
-            opacity: 0;
-            transform: translateY(6px);
-            transition: opacity 0.3s ease, transform 0.3s ease;
-            z-index: 2;
-        }
-        .gallery-card:hover .gallery-overlay {
-            opacity: 1;
-            transform: translateY(0);
-        }
-        .gallery-overlay-desc {
-            font-size: 0.78rem;
-            display: -webkit-box;
-            -webkit-line-clamp: 2;
-            -webkit-box-orient: vertical;
-            overflow: hidden;
-        }
-        .gallery-overlay-date {
-            font-size: 0.72rem;
-            opacity: 0.8;
-            margin-top: 3px;
-        }
+
         .gallery-filter-btn.active {
             background-color: #8b5a2b;
             border-color: #8b5a2b;
@@ -151,4 +121,5 @@
         }
     </style>
 </body>
+
 </html>
