@@ -6,7 +6,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 @RequiredArgsConstructor
@@ -34,6 +36,15 @@ public class ReviewService {
         review.setContent(content);
         review.setApproved(true); // 승인 없이 바로 게시 (승인 기능 비활성화 중)
         reviewRepository.save(review);
+    }
+
+    // 반환: postId → [avgRating, reviewCount]
+    public Map<Long, double[]> getRatingStats() {
+        Map<Long, double[]> result = new HashMap<>();
+        for (Object[] row : reviewRepository.findRatingStatsByPost()) {
+            result.put((Long) row[0], new double[]{(Double) row[1], ((Long) row[2]).doubleValue()});
+        }
+        return result;
     }
 
     @Transactional

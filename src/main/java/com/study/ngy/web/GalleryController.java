@@ -31,6 +31,7 @@ public class GalleryController {
             model.addAttribute("selectedCategory", "all");
         }
         model.addAttribute("posts", posts);
+        model.addAttribute("ratingStats", reviewService.getRatingStats());
         return "menu/gallery";
     }
 

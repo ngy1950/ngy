@@ -61,8 +61,19 @@
                             </div>
                             <div class="card-body">
                                 <h5 class="card-title text-dark fw-bold mb-1" th:text="${post.title}"></h5>
-                                <p class="card-text text-muted small"
+                                <p class="card-text text-muted small mb-1"
                                    th:text="${post.eventDate != null} ? ${#temporals.format(post.eventDate, 'yyyy.MM.dd')} : ${#temporals.format(post.createdAt, 'yyyy.MM.dd')}"></p>
+                                <!-- 별점 -->
+                                <div th:if="${ratingStats[post.id] != null}" class="d-flex align-items-center mb-1">
+                                    <span th:each="i : ${#numbers.sequence(1,5)}">
+                                        <i th:class="${i <= ratingStats[post.id][0]} ? 'fas fa-star' : 'far fa-star'"
+                                           class="text-warning" style="font-size:0.8rem;"></i>
+                                    </span>
+                                    <small class="ms-1 text-muted">
+                                        <span th:text="${#numbers.formatDecimal(ratingStats[post.id][0], 1, 1)}"></span>
+                                        (<span th:text="${ratingStats[post.id][1].intValue()}"></span>개)
+                                    </small>
+                                </div>
                                 <p class="card-text text-secondary small text-truncate"
                                    th:if="${post.description != null}"
                                    th:text="${post.description}"></p>
