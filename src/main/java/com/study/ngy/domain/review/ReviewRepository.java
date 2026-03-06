@@ -11,6 +11,8 @@ public interface ReviewRepository extends JpaRepository<Review, Long> {
 
     List<Review> findByApprovedFalseOrderByCreatedAtDesc();
 
+    List<Review> findTop3ByApprovedTrueOrderByCreatedAtDesc();
+
     // [postId, avgRating, reviewCount] 형태로 반환
     @Query("SELECT r.post.id, AVG(r.rating), COUNT(r) FROM Review r WHERE r.approved = true GROUP BY r.post.id")
     List<Object[]> findRatingStatsByPost();

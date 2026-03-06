@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ko">
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
 
 <head
     th:replace="~{fragments/head :: headFragment('대원 | 정성을 담은 프리미엄 한 상', '정성을 담은 한 상, 대원. 제사음식, 시제음식, 장지음식, 단체음식을 정성을 다해 준비합니다.', '대원, 제사음식, 시제음식, 장지음식, 단체음식, 맞춤도시락, 출장뷔페')}">
@@ -116,6 +116,72 @@
         </div>
     </section>
 
+    <!-- 대표 소개 섹션 -->
+    <section class="section-padding bg-light" id="about-owner">
+        <div class="container">
+            <div class="row align-items-center g-5">
+                <div class="col-md-4 text-center">
+                    <!-- 대표 사진: 실제 사진 URL로 교체하세요 -->
+                    <div class="owner-photo-wrap mx-auto">
+                        <i class="fas fa-user-chef owner-photo-icon"></i>
+                    </div>
+                </div>
+                <div class="col-md-8">
+                    <span class="badge mb-2" style="background:#8b5a2b; font-size:0.85rem;">대원 대표</span>
+                    <h2 class="fw-bold mb-3" style="color:#2c2724;">남태우</h2>
+                    <div class="d-flex flex-wrap gap-3 mb-4">
+                        <span class="owner-badge"><i class="fas fa-medal me-1" style="color:#c8963e;"></i> 한식조리기능사</span>
+                        <span class="owner-badge"><i class="fas fa-calendar-check me-1" style="color:#c8963e;"></i> 업력 [N]년</span>
+                    </div>
+                    <blockquote class="owner-quote">
+                        "직접 장을 보고, 직접 조리하고, 직접 포장을 확인합니다."
+                    </blockquote>
+                    <p class="text-muted mt-3 mb-0">대원의 모든 음식은 공장 라인이 아닌 사람의 손끝에서 완성됩니다.<br>
+                    소중한 날의 밥상을 낯선 사람에게 맡기기 어려우신 분들을 위해, 대표가 처음부터 끝까지 책임집니다.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 차별화 섹션 -->
+    <section class="section-padding" id="why-daewon">
+        <div class="container">
+            <div class="section-title text-center">
+                <h2>공장이 아닌, 사람이 만듭니다</h2>
+                <p>당신의 제사를 위해 그날 새벽에 직접 장을 봅니다.</p>
+            </div>
+            <div class="row g-4 mt-3">
+                <div class="col-md-4">
+                    <div class="diff-card text-center p-4">
+                        <div class="diff-icon-wrap mb-3">
+                            <i class="fas fa-store diff-icon"></i>
+                        </div>
+                        <h5 class="fw-bold mb-2">당일 새벽 직접 구매</h5>
+                        <p class="text-muted small mb-0">주문이 들어온 날, 대표가 직접 시장에서 재료를 고릅니다. 전날 남은 재료는 절대 쓰지 않습니다.</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="diff-card text-center p-4">
+                        <div class="diff-icon-wrap mb-3">
+                            <i class="fas fa-hands diff-icon"></i>
+                        </div>
+                        <h5 class="fw-bold mb-2">기계 없이 손으로</h5>
+                        <p class="text-muted small mb-0">모든 조리는 기계 라인이 아닌 조리사의 손끝에서 완성됩니다. 제사 상차림의 정성은 속도보다 중요합니다.</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="diff-card text-center p-4">
+                        <div class="diff-icon-wrap mb-3">
+                            <i class="fas fa-comments diff-icon"></i>
+                        </div>
+                        <h5 class="fw-bold mb-2">1:1 맞춤 상담</h5>
+                        <p class="text-muted small mb-0">제사 규모, 기제사 여부, 지역 풍습까지 상담 후 메뉴를 구성합니다. 어떤 상황도 맞춰드립니다.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
     <!-- Order Process Section -->
     <section class="section-padding order-process-section" id="order-process">
         <div class="container">
@@ -169,6 +235,47 @@
             <div class="text-center mt-5">
                 <a href="#contact" class="btn btn-point px-5 py-3" style="border-radius: 50px;">
                     <i class="fas fa-comment-dots me-2"></i>지금 바로 문의하기
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- 최근 리뷰 섹션 -->
+    <section class="section-padding bg-light" id="recent-reviews" th:if="${not #lists.isEmpty(recentReviews)}">
+        <div class="container">
+            <div class="section-title text-center">
+                <h2>고객 후기</h2>
+                <p>실제 고객님들의 솔직한 리뷰입니다.</p>
+            </div>
+            <div class="row g-4 mt-3">
+                <div class="col-md-4" th:each="review : ${recentReviews}">
+                    <div class="review-card h-100 p-4 bg-white rounded shadow-sm">
+                        <div class="d-flex align-items-center mb-3">
+                            <div class="review-avatar me-3">
+                                <i class="fas fa-user"></i>
+                            </div>
+                            <div>
+                                <strong th:text="${review.authorName}" class="d-block"></strong>
+                                <small class="text-muted" th:text="${#temporals.format(review.createdAt, 'yyyy.MM.dd')}"></small>
+                            </div>
+                            <div class="ms-auto text-warning">
+                                <th:block th:each="i : ${#numbers.sequence(1,5)}">
+                                    <i th:class="${i <= review.rating} ? 'fas fa-star' : 'far fa-star'" style="font-size:0.85rem;"></i>
+                                </th:block>
+                            </div>
+                        </div>
+                        <p class="text-secondary small mb-2 review-content-clamp" th:text="${review.content}"></p>
+                        <small class="text-muted" th:if="${review.post != null}">
+                            <i class="fas fa-images me-1"></i>
+                            <a th:href="@{/gallery/{id}(id=${review.post.id})}" th:text="${review.post.title}"
+                               class="text-muted text-decoration-none" style="font-size:0.78rem;"></a>
+                        </small>
+                    </div>
+                </div>
+            </div>
+            <div class="text-center mt-4">
+                <a th:href="@{/gallery}" class="btn btn-outline-secondary px-4">
+                    <i class="fas fa-star me-1"></i> 더 많은 후기 보기
                 </a>
             </div>
         </div>
@@ -238,6 +345,68 @@
 
     <!-- Footer -->
     <div th:replace="~{fragments/footer :: footerFragment}"></div>
+
+    <style>
+        /* 대표 소개 */
+        .owner-photo-wrap {
+            width: 160px; height: 160px;
+            border-radius: 50%;
+            background: #e8ddd0;
+            display: flex; align-items: center; justify-content: center;
+        }
+        .owner-photo-icon { font-size: 4rem; color: #8b5a2b; }
+        .owner-badge {
+            background: #f5ede3;
+            color: #5c3d1e;
+            padding: 5px 14px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+        .owner-quote {
+            border-left: 4px solid #8b5a2b;
+            padding: 10px 0 10px 18px;
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: #2c2724;
+            margin: 0;
+        }
+        /* 차별화 카드 */
+        .diff-card {
+            border: 1px solid #ede8e0;
+            border-radius: 12px;
+            transition: box-shadow 0.2s ease, transform 0.2s ease;
+        }
+        .diff-card:hover {
+            box-shadow: 0 6px 20px rgba(139,90,43,0.12);
+            transform: translateY(-4px);
+        }
+        .diff-icon-wrap {
+            width: 64px; height: 64px;
+            border-radius: 50%;
+            background: #f5ede3;
+            display: flex; align-items: center; justify-content: center;
+            margin: 0 auto;
+        }
+        .diff-icon { font-size: 1.6rem; color: #8b5a2b; }
+        /* 리뷰 카드 */
+        .review-avatar {
+            width: 40px; height: 40px;
+            border-radius: 50%;
+            background: #e8ddd0;
+            display: flex; align-items: center; justify-content: center;
+            color: #8b5a2b;
+            font-size: 1rem;
+            flex-shrink: 0;
+        }
+        .review-content-clamp {
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+            line-clamp: 3;
+            overflow: hidden;
+        }
+    </style>
 
     <script type="text/javascript"
         src="//dapi.kakao.com/v2/maps/sdk.js?appkey=27cc9f15e90f340f801f03cafd90e436&libraries=services"></script>

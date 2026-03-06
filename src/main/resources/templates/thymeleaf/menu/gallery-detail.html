@@ -9,7 +9,8 @@
     <div th:replace="~{fragments/header :: headerFragment}"></div>
 
     <!-- Subpage Hero (작게) -->
-    <header class="sub-hero-section py-4" style="background-image: linear-gradient(rgba(44,39,36,0.8), rgba(44,39,36,0.8)), url('https://images.unsplash.com/photo-1547592180-85f173990554?auto=format&fit=crop&w=1920&q=80'); background-size: cover; background-position: center;">
+    <header class="sub-hero-section py-4"
+        style="background-image: linear-gradient(rgba(44,39,36,0.8), rgba(44,39,36,0.8)), url('https://images.unsplash.com/photo-1547592180-85f173990554?auto=format&fit=crop&w=1920&q=80'); background-size: cover; background-position: center;">
         <div class="container text-center text-white">
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb justify-content-center">
@@ -20,7 +21,8 @@
             </nav>
             <h1 class="h3 mt-2" th:text="${post.title}"></h1>
             <p class="text-white-50 small mt-1"
-               th:text="${post.eventDate != null} ? ${#temporals.format(post.eventDate, 'yyyy년 MM월 dd일')} : ${#temporals.format(post.createdAt, 'yyyy년 MM월 dd일')}"></p>
+                th:text="${post.eventDate != null} ? ${#temporals.format(post.eventDate, 'yyyy년 MM월 dd일')} : ${#temporals.format(post.createdAt, 'yyyy년 MM월 dd일')}">
+            </p>
         </div>
     </header>
 
@@ -28,21 +30,18 @@
         <div class="container" style="max-width: 900px;">
 
             <!-- 카테고리 뱃지 -->
-            <div class="mb-3">
+            <!-- <div class="mb-3">
                 <span class="badge text-white" style="background:#8b5a2b; font-size:0.9rem;" th:text="${post.categoryLabel}"></span>
-            </div>
+            </div> -->
 
             <!-- 이미지 목록 (세로 스택) -->
             <div th:if="${post.images != null and !post.images.isEmpty()}" class="detail-img-stack mb-4">
-                <img th:each="img : ${post.images}"
-                     th:src="${img.cloudinaryUrl}"
-                     th:alt="${post.title}"
-                     class="detail-stack-img rounded shadow">
+                <img th:each="img : ${post.images}" th:src="${img.cloudinaryUrl}" th:alt="${post.title}"
+                    class="detail-stack-img rounded shadow">
             </div>
 
             <!-- 설명 -->
-            <div th:if="${post.description != null and !post.description.isBlank()}"
-                 class="mb-5 p-3 bg-light rounded">
+            <div th:if="${post.description != null and !post.description.isBlank()}" class="mb-5 p-3 bg-light rounded">
                 <p class="mb-0 text-secondary" th:text="${post.description}"></p>
             </div>
 
@@ -75,7 +74,7 @@
                             </th:block>
                         </span>
                         <span class="text-muted small ms-auto"
-                              th:text="${#temporals.format(review.createdAt, 'yyyy.MM.dd')}"></span>
+                            th:text="${#temporals.format(review.createdAt, 'yyyy.MM.dd')}"></span>
                     </div>
                     <p class="mb-0 text-secondary" th:text="${review.content}"></p>
                 </div>
@@ -88,26 +87,27 @@
                     <div class="row g-3">
                         <div class="col-md-6">
                             <label class="form-label small fw-semibold">작성자</label>
-                            <input type="text" name="authorName" class="form-control" placeholder="이름 또는 닉네임" required maxlength="100">
+                            <input type="text" name="authorName" class="form-control" placeholder="이름 또는 닉네임" required
+                                maxlength="100">
                         </div>
                         <div class="col-md-6">
                             <label class="form-label small fw-semibold">별점</label>
                             <input type="hidden" name="rating" id="ratingValue" value="5">
                             <div class="star-rating-input d-flex gap-1 align-items-center">
                                 <th:block th:each="i : ${#numbers.sequence(1, 5)}">
-                                    <span class="star-label fs-3"
-                                          th:attr="data-val=${i}"
-                                          style="cursor:pointer; color:#f5a623;">&#9733;</span>
+                                    <span class="star-label fs-3" th:attr="data-val=${i}"
+                                        style="cursor:pointer; color:#f5a623;">&#9733;</span>
                                 </th:block>
                             </div>
                         </div>
                         <div class="col-12">
                             <label class="form-label small fw-semibold">리뷰 내용</label>
                             <textarea name="content" class="form-control" rows="4"
-                                      placeholder="음식은 어떠셨나요? 솔직한 리뷰를 남겨주세요." required maxlength="1000"></textarea>
+                                placeholder="음식은 어떠셨나요? 솔직한 리뷰를 남겨주세요." required maxlength="1000"></textarea>
                         </div>
                         <div class="col-12">
-                            <button type="submit" class="btn btn-primary px-4" style="background:#8b5a2b; border-color:#8b5a2b;">
+                            <button type="submit" class="btn btn-primary px-4"
+                                style="background:#8b5a2b; border-color:#8b5a2b;">
                                 리뷰 등록
                             </button>
                             <!--<small class="text-muted ms-2">관리자 확인 후 게시됩니다.</small>-->
@@ -134,12 +134,20 @@
             flex-direction: column;
             gap: 16px;
         }
+
         .detail-stack-img {
             width: 100%;
             display: block;
         }
-        .review-item:last-child { border-bottom: none !important; }
-        .star-label { transition: color 0.1s; user-select: none; }
+
+        .review-item:last-child {
+            border-bottom: none !important;
+        }
+
+        .star-label {
+            transition: color 0.1s;
+            user-select: none;
+        }
     </style>
 
     <script>
@@ -171,4 +179,5 @@
         });
     </script>
 </body>
+
 </html>
