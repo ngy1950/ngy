@@ -26,6 +26,36 @@
 
     <div class="container py-4">
 
+        <!-- 방문자 통계 -->
+        <div class="card shadow-sm mb-4">
+            <div class="card-header fw-bold" style="background:#3a5a3a; color:white;">
+                <i class="fas fa-chart-bar me-2"></i> 방문자 현황 <span class="fw-normal small">(최근 14일, 페이지뷰 기준)</span>
+            </div>
+            <div class="card-body p-0">
+                <div th:if="${#lists.isEmpty(visitorStats)}" class="text-center py-4 text-muted">
+                    아직 기록된 방문자 데이터가 없습니다.
+                </div>
+                <div th:unless="${#lists.isEmpty(visitorStats)}" class="table-responsive">
+                    <table class="table table-sm table-hover mb-0 align-middle">
+                        <thead class="table-light">
+                            <tr>
+                                <th>날짜</th>
+                                <th>페이지</th>
+                                <th class="text-end">방문수</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr th:each="log : ${visitorStats}">
+                                <td class="small text-muted" th:text="${log.date}"></td>
+                                <td class="small" th:text="${log.page}"></td>
+                                <td class="text-end fw-semibold" th:text="${log.count}"></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
         <!-- 게시물 목록 -->
         <div class="card shadow-sm mb-5">
             <div class="card-header fw-bold" style="background:#8b5a2b; color:white;">

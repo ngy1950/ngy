@@ -2,6 +2,7 @@ package com.study.ngy.web;
 
 import com.study.ngy.domain.gallery.GalleryService;
 import com.study.ngy.domain.review.ReviewService;
+import com.study.ngy.domain.visitor.VisitorService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
@@ -20,6 +21,7 @@ public class AdminController {
 
     private final GalleryService galleryService;
     private final ReviewService reviewService;
+    private final VisitorService visitorService;
 
     @GetMapping("/login")
     public String loginPage() {
@@ -30,6 +32,7 @@ public class AdminController {
     public String dashboard(Model model) {
         model.addAttribute("posts", galleryService.findAll());
         model.addAttribute("pendingReviews", reviewService.findPendingReviews());
+        model.addAttribute("visitorStats", visitorService.getRecentStats());
         return "admin/dashboard";
     }
 
