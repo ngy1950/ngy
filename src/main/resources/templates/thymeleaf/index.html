@@ -67,8 +67,7 @@
                 <div class="col-lg-4 col-md-6">
                     <div class="service-card" th:onclick="|location.href='@{/menu/group}'|" style="cursor: pointer;">
                         <div class="service-img-wrapper">
-                            <img src="https://images.unsplash.com/photo-1555244162-803834f70033?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
-                                alt="단체음식">
+                            <img src="/assets/img/menu/menu-group.jpg" alt="단체음식">
                         </div>
                         <div class="service-content">
                             <h3>단체 · 행사음식</h3>
@@ -128,14 +127,16 @@
                     <span class="badge mb-2" style="background:#8b5a2b; font-size:0.85rem;">대원 대표</span>
                     <h2 class="fw-bold mb-3" style="color:#2c2724;">남태우</h2>
                     <div class="d-flex flex-wrap gap-3 mb-4">
-                        <span class="owner-badge"><i class="fas fa-medal me-1" style="color:#c8963e;"></i> 한식조리기능사</span>
-                        <span class="owner-badge"><i class="fas fa-calendar-check me-1" style="color:#c8963e;"></i> 업력 [N]년</span>
+                        <span class="owner-badge"><i class="fas fa-medal me-1" style="color:#c8963e;"></i>
+                            한식조리기능사</span>
+                        <span class="owner-badge"><i class="fas fa-calendar-check me-1" style="color:#c8963e;"></i> 업력
+                            [N]년</span>
                     </div>
                     <blockquote class="owner-quote">
                         "직접 장을 보고, 직접 조리하고, 직접 포장을 확인합니다."
                     </blockquote>
                     <p class="text-muted mt-3 mb-0">대원의 모든 음식은 공장 라인이 아닌 사람의 손끝에서 완성됩니다.<br>
-                    소중한 날의 밥상을 낯선 사람에게 맡기기 어려우신 분들을 위해, 대표가 처음부터 끝까지 책임집니다.</p>
+                        소중한 날의 밥상을 낯선 사람에게 맡기기 어려우신 분들을 위해, 대표가 처음부터 끝까지 책임집니다.</p>
                 </div>
             </div>
         </div>
@@ -254,11 +255,13 @@
                             </div>
                             <div>
                                 <strong th:text="${review.authorName}" class="d-block"></strong>
-                                <small class="text-muted" th:text="${#temporals.format(review.createdAt, 'yyyy.MM.dd')}"></small>
+                                <small class="text-muted"
+                                    th:text="${#temporals.format(review.createdAt, 'yyyy.MM.dd')}"></small>
                             </div>
                             <div class="ms-auto text-warning">
                                 <th:block th:each="i : ${#numbers.sequence(1,5)}">
-                                    <i th:class="${i <= review.rating} ? 'fas fa-star' : 'far fa-star'" style="font-size:0.85rem;"></i>
+                                    <i th:class="${i <= review.rating} ? 'fas fa-star' : 'far fa-star'"
+                                        style="font-size:0.85rem;"></i>
                                 </th:block>
                             </div>
                         </div>
@@ -266,7 +269,7 @@
                         <small class="text-muted" th:if="${review.post != null}">
                             <i class="fas fa-images me-1"></i>
                             <a th:href="@{/gallery/{id}(id=${review.post.id})}" th:text="${review.post.title}"
-                               class="text-muted text-decoration-none" style="font-size:0.78rem;"></a>
+                                class="text-muted text-decoration-none" style="font-size:0.78rem;"></a>
                         </small>
                     </div>
                 </div>
@@ -347,12 +350,20 @@
     <style>
         /* 대표 소개 */
         .owner-photo-wrap {
-            width: 160px; height: 160px;
+            width: 160px;
+            height: 160px;
             border-radius: 50%;
             background: #e8ddd0;
-            display: flex; align-items: center; justify-content: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
-        .owner-photo-icon { font-size: 4rem; color: #8b5a2b; }
+
+        .owner-photo-icon {
+            font-size: 4rem;
+            color: #8b5a2b;
+        }
+
         .owner-badge {
             background: #f5ede3;
             color: #5c3d1e;
@@ -361,6 +372,7 @@
             font-size: 0.85rem;
             font-weight: 600;
         }
+
         .owner-quote {
             border-left: 4px solid #8b5a2b;
             padding: 10px 0 10px 18px;
@@ -369,34 +381,49 @@
             color: #2c2724;
             margin: 0;
         }
+
         /* 차별화 카드 */
         .diff-card {
             border: 1px solid #ede8e0;
             border-radius: 12px;
             transition: box-shadow 0.2s ease, transform 0.2s ease;
         }
+
         .diff-card:hover {
-            box-shadow: 0 6px 20px rgba(139,90,43,0.12);
+            box-shadow: 0 6px 20px rgba(139, 90, 43, 0.12);
             transform: translateY(-4px);
         }
+
         .diff-icon-wrap {
-            width: 64px; height: 64px;
+            width: 64px;
+            height: 64px;
             border-radius: 50%;
             background: #f5ede3;
-            display: flex; align-items: center; justify-content: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
             margin: 0 auto;
         }
-        .diff-icon { font-size: 1.6rem; color: #8b5a2b; }
+
+        .diff-icon {
+            font-size: 1.6rem;
+            color: #8b5a2b;
+        }
+
         /* 리뷰 카드 */
         .review-avatar {
-            width: 40px; height: 40px;
+            width: 40px;
+            height: 40px;
             border-radius: 50%;
             background: #e8ddd0;
-            display: flex; align-items: center; justify-content: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
             color: #8b5a2b;
             font-size: 1rem;
             flex-shrink: 0;
         }
+
         .review-content-clamp {
             display: -webkit-box;
             -webkit-line-clamp: 3;
