@@ -2,7 +2,7 @@
 <html lang="ko" xmlns:th="http://www.thymeleaf.org">
 
 <head
-    th:replace="~{fragments/head :: headFragment('대원 | 갤러리', '대원의 정성스러운 제사음식, 장지음식, 단체음식 현장 사진을 확인하세요.', '제사음식사진, 장지음식사진, 단체음식갤러리, 고객리뷰')}">
+    th:replace="~{fragments/head :: headFragment('대원 | 갤러리', '대원의 정성스러운 제사음식, 시제상, 단체음식 현장 사진을 확인하세요.', '제사음식사진, 시제상사진, 단체음식갤러리, 고객리뷰')}">
 </head>
 
 <body>
@@ -26,10 +26,10 @@
                 <a th:href="@{/gallery}" th:classappend="${selectedCategory == 'all'} ? 'active' : ''"
                     class="gallery-filter-btn">전체</a>
                 <a th:href="@{/gallery(category='jesa')}" th:classappend="${selectedCategory == 'jesa'} ? 'active' : ''"
-                    class="gallery-filter-btn">제사·시제음식</a>
-                <a th:href="@{/gallery(category='jangji')}"
-                    th:classappend="${selectedCategory == 'jangji'} ? 'active' : ''"
-                    class="gallery-filter-btn">장지음식</a>
+                    class="gallery-filter-btn">제사음식</a>
+                <a th:href="@{/gallery(category='sije')}"
+                    th:classappend="${selectedCategory == 'sije'} ? 'active' : ''"
+                    class="gallery-filter-btn">시제상</a>
                 <a th:href="@{/gallery(category='group')}"
                     th:classappend="${selectedCategory == 'group'} ? 'active' : ''"
                     class="gallery-filter-btn">단체·행사음식</a>

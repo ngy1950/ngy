@@ -2,7 +2,7 @@
 <html lang="ko" xmlns:th="http://www.thymeleaf.org">
 
 <head
-    th:replace="~{fragments/head :: headFragment('대원 | 정성을 담은 프리미엄 한 상', '정성을 담은 한 상, 대원. 제사음식, 시제음식, 장지음식, 단체음식을 정성을 다해 준비합니다.', '대원, 제사음식, 시제음식, 장지음식, 단체음식, 맞춤도시락, 출장뷔페')}">
+    th:replace="~{fragments/head :: headFragment('대원 | 정성을 담은 프리미엄 한 상', '정성을 담은 한 상, 대원. 제사음식, 시제상, 단체음식을 정성을 다해 준비합니다.', '대원, 제사음식, 시제상, 시제음식, 단체음식, 맞춤도시락, 출장뷔페')}">
 </head>
 
 <body data-bs-spy="scroll" data-bs-target="#mainNav" data-bs-offset="100">
@@ -15,7 +15,7 @@
         <div class="container">
             <div class="hero-content">
                 <h1 class="animate__animated animate__fadeInDown">정성을 다해 준비하는<br>품격 있는 한 상</h1>
-                <p class="animate__animated animate__fadeInUp animate__delay-1s">제사음식 · 장지음식 · 단체음식 전문가
+                <p class="animate__animated animate__fadeInUp animate__delay-1s">제사음식 · 시제상 · 단체음식 전문가
                     <strong>대원</strong>
                 </p>
                 <div
@@ -52,14 +52,13 @@
 
                 <!-- Service 2 -->
                 <div class="col-lg-4 col-md-6">
-                    <div class="service-card" th:onclick="|location.href='@{/menu/jangji}'|" style="cursor: pointer;">
+                    <div class="service-card" th:onclick="|location.href='@{/menu/sije}'|" style="cursor: pointer;">
                         <div class="service-img-wrapper">
-                            <img src="https://images.unsplash.com/photo-1588123190131-1c3fac394f4b?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
-                                alt="시제">
+                            <img src="/assets/img/menu/menu-jesa.png" alt="시제상">
                         </div>
                         <div class="service-content">
-                            <h3>장지음식</h3>
-                            <p>엄숙한 자리에 어울리는 정성스러운 음식과 위로의 마음을 담아 조문객 상차림을 준비합니다.</p>
+                            <h3>시제상</h3>
+                            <p>문중이 함께 모여 선조를 기리는 시제, 수십~수백 인 규모도 넉넉하고 정갈하게 준비합니다.</p>
                         </div>
                     </div>
                 </div>

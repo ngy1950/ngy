@@ -49,7 +49,8 @@ public class GalleryPost {
 
     public String getCategoryLabel() {
         return switch (category) {
-            case "jesa"    -> "제사·시제음식";
+            case "jesa"    -> "제사음식";
+            case "sije"    -> "시제상";
             case "jangji"  -> "장지음식";
             case "group"   -> "단체·행사음식";
             case "dosirak" -> "도시락";
