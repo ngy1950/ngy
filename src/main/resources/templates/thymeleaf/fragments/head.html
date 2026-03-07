@@ -7,8 +7,50 @@
     <!-- SEO Meta Tags -->
     <meta name="description" th:content="${description} ?: '정성을 담은 한 상, 대원. 제사음식, 시제상, 단체음식을 정성을 다해 준비합니다.'">
     <meta name="keywords" th:content="${keywords} ?: '대원, 제사음식, 시제상, 시제음식, 단체음식, 맞춤도시락, 출장뷔페'">
+    <meta name="naver-site-verification" content="32ea92bd3cd7ebcd6f37d26300ffc25e7ce6647c" />
+    <meta name="google-site-verification" content="wlUTPoCV3ciq-c5HQFXUYQj2S54pLKEZlSXKdzViHfs" />
 
     <title th:text="${title} ?: '대원 | 정성을 담은 프리미엄 한 상'">대원 | 정성을 담은 프리미엄 한 상</title>
+
+
+    <!-- Open Graph (카카오/SNS 공유 시 미리보기) -->
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="대원">
+    <meta property="og:title" th:content="${title} ?: '대원 | 정성을 담은 프리미엄 한 상'">
+    <meta property="og:description" th:content="${description} ?: '정성을 담은 한 상, 대원. 제사음식, 시제상, 단체음식을 정성을 다해 준비합니다.'">
+    <meta property="og:image" content="https://daewonfood-production.up.railway.app/assets/img/menu/menu-jesa.png">
+    <meta property="og:url" content="https://daewonfood-production.up.railway.app/">
+    <meta property="og:locale" content="ko_KR">
+
+    <!-- JSON-LD 구조화 데이터 (구글/네이버 지역업체 인식) -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "LocalBusiness",
+      "name": "대원",
+      "description": "정성을 담은 한식 케이터링. 제사음식, 시제상, 단체음식 전문.",
+      "url": "https://daewonfood-production.up.railway.app/",
+      "telephone": "010-8916-7074",
+      "address": {
+        "@type": "PostalAddress",
+        "streetAddress": "비하로 27",
+        "addressLocality": "청주시 흥덕구",
+        "addressRegion": "충청북도",
+        "addressCountry": "KR"
+      },
+      "geo": {
+        "@type": "GeoCoordinates",
+        "latitude": 36.6425,
+        "longitude": 127.4293
+      },
+      "servesCuisine": "Korean",
+      "priceRange": "$$",
+      "image": "https://daewonfood-production.up.railway.app/assets/img/menu/menu-jesa.png",
+      "sameAs": [
+        "https://pf.kakao.com/_cEzZX"
+      ]
+    }
+    </script>
 
     <!-- Bootstrap CSS -->
     <link href="/assets/bootstrap/css/bootstrap.min.css" rel="stylesheet"
