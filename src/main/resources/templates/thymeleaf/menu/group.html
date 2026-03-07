@@ -66,9 +66,12 @@
             <!-- 기본 행사 메뉴 -->
             <div class="package-card">
                 <div class="row g-0 align-items-stretch">
-                    <div class="col-lg-5">
+                    <div class="col-lg-5 d-flex flex-column">
                         <!-- TODO: 실제 단체행사 음식 사진으로 교체 -->
                         <img src="https://picsum.photos/seed/group1/800/600" alt="단체행사 기본 메뉴" class="package-card-img">
+                        <a th:href="@{/gallery(category='group')}" class="pkg-gallery-link">
+                            <i class="fas fa-images me-1"></i>후기 보러가기 →
+                        </a>
                     </div>
                     <div class="col-lg-7">
                         <div class="package-card-body">
@@ -106,9 +109,12 @@
             <!-- 추가 선택 메뉴 -->
             <div class="package-card mb-0">
                 <div class="row g-0 align-items-stretch flex-lg-row-reverse">
-                    <div class="col-lg-5">
+                    <div class="col-lg-5 d-flex flex-column">
                         <!-- TODO: 실제 단체행사 음식 사진으로 교체 -->
                         <img src="https://picsum.photos/seed/group2/800/600" alt="단체행사 추가 메뉴" class="package-card-img">
+                        <a th:href="@{/gallery(category='group')}" class="pkg-gallery-link">
+                            <i class="fas fa-images me-1"></i>후기 보러가기 →
+                        </a>
                     </div>
                     <div class="col-lg-7">
                         <div class="package-card-body">
@@ -221,7 +227,7 @@
                 <a href="https://pf.kakao.com/_cEzZX" target="_blank" rel="noopener" class="btn" style="background:#FEE500; color:#191919; border:none; border-radius:50px; padding:12px 32px; font-weight:700; font-size:1rem;">
                     <i class="fas fa-comment me-2"></i>카카오로 문의
                 </a>
-                <a th:href="@{/gallery}" class="btn" style="background:rgba(255,255,255,0.15); color:white; border:2px solid rgba(255,255,255,0.5); border-radius:50px; padding:12px 32px; font-weight:700; font-size:1rem;">
+                <a th:href="@{/gallery(category='group')}" class="btn" style="background:rgba(255,255,255,0.15); color:white; border:2px solid rgba(255,255,255,0.5); border-radius:50px; padding:12px 32px; font-weight:700; font-size:1rem;">
                     <i class="fas fa-star me-2"></i>후기 보러가기
                 </a>
             </div>

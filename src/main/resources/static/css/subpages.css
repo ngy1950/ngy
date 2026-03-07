@@ -287,6 +287,19 @@
     display: block;
 }
 
+.pkg-gallery-link {
+    display: block;
+    text-align: center;
+    padding: 9px 12px;
+    font-size: 0.82rem;
+    font-weight: 600;
+    color: #8b5a2b;
+    text-decoration: none;
+    background: #fdf8f3;
+    border-top: 1px solid #ede8e0;
+}
+.pkg-gallery-link:hover { text-decoration: underline; color: #8b5a2b; }
+
 .package-card-body {
     padding: 40px 36px;
     display: flex;
