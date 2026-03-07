@@ -31,18 +31,70 @@
     <section class="section-padding">
         <div class="container" style="max-width: 860px;">
 
-            <!-- 이미지 세로 스택 -->
-            <div th:if="${post.images != null and !post.images.isEmpty()}" class="detail-img-stack mb-4">
-                <img th:each="img : ${post.images}"
-                     th:src="${img.cloudinaryUrl}"
+            <!-- 대표 이미지 (Hero) -->
+            <div th:if="${post.images != null and !post.images.isEmpty()}" class="detail-hero-wrap mb-3">
+                <img th:src="${post.images[0].cloudinaryUrl}"
                      th:alt="${post.title}"
-                     class="detail-stack-img rounded shadow">
+                     class="detail-hero-img rounded shadow">
+            </div>
+
+            <!-- 나머지 이미지 그리드 -->
+            <div th:if="${post.images != null and post.images.size() > 1}" class="row g-2 mb-3">
+                <div th:each="img, stat : ${post.images}"
+                     th:if="${stat.index > 0}"
+                     class="col-6 col-md-4">
+                    <img th:src="${img.cloudinaryUrl}"
+                         th:alt="${post.title}"
+                         class="detail-grid-img rounded">
+                </div>
+            </div>
+
+            <!-- 3-B: 평점 요약 배지 (이미지 바로 아래) -->
+            <div th:if="${reviewCount > 0}" class="rating-badge-bar mb-4">
+                <span class="text-warning">
+                    <th:block th:each="i : ${#numbers.sequence(1,5)}">
+                        <i th:class="${i <= avgRating} ? 'fas fa-star' : (${i - 0.5 <= avgRating} ? 'fas fa-star-half-alt' : 'far fa-star')" style="font-size:0.9rem;"></i>
+                    </th:block>
+                </span>
+                <span class="rating-badge-score" th:text="${#numbers.formatDecimal(avgRating, 1, 1)}"></span>
+                <span class="rating-badge-count" th:text="'· 후기 ' + ${reviewCount} + '개'"></span>
+                <a href="#reviews" class="rating-badge-link">바로 보기 ↓</a>
             </div>
 
             <!-- 스토리 박스 (설명) -->
             <div th:if="${post.description != null and !post.description.isBlank()}" class="story-box mb-4">
                 <i class="fas fa-quote-left story-quote-icon"></i>
                 <p class="story-text mb-0" th:text="${post.description}"></p>
+            </div>
+
+            <!-- 3-A: 행사 정보 카드 -->
+            <div class="info-card mb-4">
+                <div class="info-card-item">
+                    <i class="fas fa-tag info-card-icon"></i>
+                    <div>
+                        <div class="info-card-label">카테고리</div>
+                        <div class="info-card-value" th:text="${post.categoryLabel}"></div>
+                    </div>
+                </div>
+                <div class="info-card-divider"></div>
+                <div class="info-card-item">
+                    <i class="fas fa-calendar-alt info-card-icon"></i>
+                    <div>
+                        <div class="info-card-label">행사일</div>
+                        <div class="info-card-value"
+                             th:text="${post.eventDate != null} ? ${#temporals.format(post.eventDate, 'yyyy년 MM월 dd일')} : '미지정'"></div>
+                    </div>
+                </div>
+                <div class="info-card-divider"></div>
+                <div class="info-card-item">
+                    <i class="fas fa-star info-card-icon" style="color:#f5a623;"></i>
+                    <div>
+                        <div class="info-card-label">고객 평점</div>
+                        <div class="info-card-value" th:if="${reviewCount > 0}"
+                             th:text="${#numbers.formatDecimal(avgRating, 1, 1)} + '점 (' + ${reviewCount} + '개)'"></div>
+                        <div class="info-card-value text-muted" th:unless="${reviewCount > 0}">후기 없음</div>
+                    </div>
+                </div>
             </div>
 
             <!-- 신뢰 미니 배너 -->
@@ -81,6 +133,9 @@
             </div>
 
             <hr class="my-5">
+
+            <!-- 리뷰 섹션 앵커 -->
+            <div id="reviews"></div>
 
             <!-- 리뷰 제출 성공 메시지 -->
             <div th:if="${param.reviewSubmitted}" class="alert alert-success alert-dismissible" role="alert">
@@ -177,9 +232,12 @@
     <div th:replace="~{fragments/footer :: footerFragment}"></div>
 
     <style>
-        /* 이미지 스택 */
-        .detail-img-stack { display: flex; flex-direction: column; gap: 16px; }
-        .detail-stack-img { width: 100%; max-height: 520px; object-fit: cover; display: block; }
+        /* 대표 이미지 */
+        .detail-hero-img { width: 100%; max-height: 520px; object-fit: cover; display: block; }
+
+        /* 나머지 이미지 그리드 */
+        .detail-grid-img { width: 100%; height: 200px; object-fit: cover; display: block; transition: transform 0.3s ease; }
+        .detail-grid-img:hover { transform: scale(1.03); }
 
         /* 스토리 박스 */
         .story-box {
@@ -288,6 +346,47 @@
 
         /* 별점 입력 */
         .star-label { transition: color 0.1s; user-select: none; }
+
+        /* 3-B: 평점 배지 바 */
+        .rating-badge-bar {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: #fdf8f3;
+            border: 1px solid #ede8e0;
+            border-radius: 8px;
+            padding: 10px 16px;
+            font-size: 0.9rem;
+        }
+        .rating-badge-score { font-weight: 800; color: #2c2724; font-size: 1rem; }
+        .rating-badge-count { color: #706b67; }
+        .rating-badge-link { margin-left: auto; color: #8b5a2b; font-weight: 600; text-decoration: none; font-size: 0.85rem; }
+        .rating-badge-link:hover { text-decoration: underline; color: #8b5a2b; }
+
+        /* 3-A: 행사 정보 카드 */
+        .info-card {
+            display: flex;
+            align-items: stretch;
+            background: #fff;
+            border: 1px solid #ede8e0;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+        .info-card-item {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 16px 20px;
+        }
+        .info-card-icon { font-size: 1.2rem; color: #8b5a2b; flex-shrink: 0; }
+        .info-card-label { font-size: 0.75rem; color: #706b67; margin-bottom: 2px; }
+        .info-card-value { font-size: 0.9rem; font-weight: 700; color: #2c2724; }
+        .info-card-divider { width: 1px; background: #ede8e0; align-self: stretch; }
+        @media (max-width: 576px) {
+            .info-card { flex-direction: column; }
+            .info-card-divider { width: auto; height: 1px; }
+        }
     </style>
 
     <script>
