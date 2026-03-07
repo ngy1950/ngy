@@ -561,3 +561,24 @@
         width: 100%;
     }
 }
+
+@media (max-width: 768px) {
+    /* 서브페이지 히어로 상단 패딩 축소 */
+    .sub-hero-section {
+        padding: 130px 0 70px;
+    }
+
+    .sub-hero-section h1 {
+        font-size: 2rem;
+    }
+
+    /* 패키지 카드 이미지 높이 축소 */
+    .package-card-img {
+        min-height: 220px;
+    }
+
+    /* 패키지 카드 본문 패딩 축소 */
+    .package-card-body {
+        padding: 24px 18px;
+    }
+}

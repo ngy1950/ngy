@@ -340,4 +340,34 @@ h6 {
     .section-title h2 {
         font-size: 2rem;
     }
+
+    /* iOS Safari background-attachment: fixed 렌더링 버그 해결 */
+    .hero-section {
+        background-attachment: scroll;
+    }
+
+    /* 전화번호 폰트 축소 */
+    .phone-highlight {
+        font-size: 1.8rem !important;
+    }
+
+    /* 연락처 카드 패딩 축소 */
+    .contact-info-box {
+        padding: 24px;
+    }
+}
+
+@media (max-width: 480px) {
+    .hero-content h1 {
+        font-size: 1.9rem;
+    }
+
+    .hero-content p {
+        font-size: 1rem;
+        margin-bottom: 28px;
+    }
+
+    .section-title h2 {
+        font-size: 1.7rem;
+    }
 }
