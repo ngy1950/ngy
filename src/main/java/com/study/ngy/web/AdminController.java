@@ -33,7 +33,26 @@ public class AdminController {
         model.addAttribute("posts", galleryService.findAll());
         model.addAttribute("pendingReviews", reviewService.findPendingReviews());
         model.addAttribute("visitorStats", visitorService.getRecentStats());
+        model.addAttribute("recentRawLogs", visitorService.getRecentRawLogs());
+        model.addAttribute("deviceStats", visitorService.getDeviceStats());
+        model.addAttribute("referrerStats", visitorService.getReferrerStats());
+        model.addAttribute("ipStats", visitorService.getIpStats());
+        model.addAttribute("recentSessionIds", visitorService.getRecentSessionIds());
         return "admin/dashboard";
+    }
+
+    @GetMapping("/visitor/session/{sessionId}")
+    @ResponseBody
+    public java.util.List<java.util.Map<String, Object>> sessionFlow(@PathVariable String sessionId) {
+        return visitorService.getSessionFlow(sessionId).stream()
+                .<java.util.Map<String, Object>>map(log -> {
+                    java.util.Map<String, Object> map = new java.util.LinkedHashMap<>();
+                    map.put("time", log.getVisitedAt().toString());
+                    map.put("page", log.getPage());
+                    map.put("device", log.getDeviceType());
+                    return map;
+                })
+                .toList();
     }
 
     @GetMapping("/gallery/new")

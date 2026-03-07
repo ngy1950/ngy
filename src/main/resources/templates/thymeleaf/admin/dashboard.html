@@ -26,12 +26,129 @@
 
     <div class="container py-4">
 
-        <!-- 방문자 통계 -->
+        <!-- 방문자 통계 요약 카드 -->
+        <div class="row g-3 mb-4">
+            <!-- 기기 분포 -->
+            <div class="col-md-4">
+                <div class="card shadow-sm h-100">
+                    <div class="card-header fw-bold small" style="background:#3a5a3a; color:white;">
+                        <i class="fas fa-mobile-alt me-1"></i> 기기 유형 <span class="fw-normal">(최근 7일)</span>
+                    </div>
+                    <div class="card-body">
+                        <div th:if="${deviceStats.isEmpty()}" class="text-center text-muted small py-2">데이터 없음</div>
+                        <div th:unless="${deviceStats.isEmpty()}">
+                            <div th:each="entry : ${deviceStats}" class="d-flex justify-content-between align-items-center mb-2">
+                                <span class="small">
+                                    <i th:classappend="${entry.key == 'MOBILE'} ? 'fa-mobile-alt' : (${entry.key == 'TABLET'} ? 'fa-tablet-alt' : 'fa-desktop')"
+                                       class="fas me-1 text-muted"></i>
+                                    <span th:text="${entry.key}"></span>
+                                </span>
+                                <span class="badge bg-secondary" th:text="${entry.value}"></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- 유입 경로 -->
+            <div class="col-md-4">
+                <div class="card shadow-sm h-100">
+                    <div class="card-header fw-bold small" style="background:#3a5a3a; color:white;">
+                        <i class="fas fa-route me-1"></i> 유입 경로 <span class="fw-normal">(최근 7일)</span>
+                    </div>
+                    <div class="card-body">
+                        <div th:if="${referrerStats.isEmpty()}" class="text-center text-muted small py-2">데이터 없음</div>
+                        <div th:unless="${referrerStats.isEmpty()}">
+                            <div th:each="entry : ${referrerStats}" class="d-flex justify-content-between align-items-center mb-2">
+                                <span class="small" th:text="${entry.key}"></span>
+                                <span class="badge bg-secondary" th:text="${entry.value}"></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- IP 현황 -->
+            <div class="col-md-4">
+                <div class="card shadow-sm h-100">
+                    <div class="card-header fw-bold small" style="background:#3a5a3a; color:white;">
+                        <i class="fas fa-network-wired me-1"></i> IP 현황 <span class="fw-normal">(최근 24h)</span>
+                    </div>
+                    <div class="card-body">
+                        <div th:if="${ipStats.isEmpty()}" class="text-center text-muted small py-2">데이터 없음</div>
+                        <div th:unless="${ipStats.isEmpty()}">
+                            <div th:each="entry : ${ipStats}" class="d-flex justify-content-between align-items-center mb-1">
+                                <span class="small text-monospace" style="font-family:monospace;" th:text="${entry.key}"></span>
+                                <span class="badge bg-secondary" th:text="${entry.value}"></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 최근 방문 로그 -->
         <div class="card shadow-sm mb-4">
             <div class="card-header fw-bold" style="background:#3a5a3a; color:white;">
-                <i class="fas fa-chart-bar me-2"></i> 방문자 현황 <span class="fw-normal small">(최근 14일, 페이지뷰 기준)</span>
+                <i class="fas fa-list-alt me-2"></i> 최근 방문 로그
+                <button class="btn btn-sm btn-outline-light ms-2 float-end" type="button"
+                        data-bs-toggle="collapse" data-bs-target="#rawLogTable">펼치기/접기</button>
             </div>
-            <div class="card-body p-0">
+            <div class="collapse show" id="rawLogTable">
+                <div th:if="${#lists.isEmpty(recentRawLogs)}" class="text-center py-4 text-muted">
+                    아직 기록된 방문자 데이터가 없습니다.
+                </div>
+                <div th:unless="${#lists.isEmpty(recentRawLogs)}" class="table-responsive">
+                    <table class="table table-sm table-hover mb-0 align-middle">
+                        <thead class="table-light">
+                            <tr>
+                                <th>시각</th>
+                                <th>페이지</th>
+                                <th>IP</th>
+                                <th>유입</th>
+                                <th>기기</th>
+                                <th>세션 흐름</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr th:each="log : ${recentRawLogs}">
+                                <td class="small text-muted text-nowrap"
+                                    th:text="${#temporals.format(log.visitedAt, 'MM-dd HH:mm')}"></td>
+                                <td class="small" th:text="${log.page}"></td>
+                                <td class="small" style="font-family:monospace;" th:text="${log.ip}"></td>
+                                <td>
+                                    <span class="badge"
+                                          th:classappend="${log.referrerSource == 'DIRECT'} ? 'bg-secondary' :
+                                                          (${log.referrerSource == 'NAVER'} ? 'bg-success' :
+                                                          (${log.referrerSource == 'GOOGLE'} ? 'bg-primary' :
+                                                          (${log.referrerSource == 'KAKAO'} ? 'bg-warning text-dark' : 'bg-info')))"
+                                          th:text="${log.referrerSource}"></span>
+                                </td>
+                                <td>
+                                    <i th:classappend="${log.deviceType == 'MOBILE'} ? 'fa-mobile-alt' :
+                                                       (${log.deviceType == 'TABLET'} ? 'fa-tablet-alt' : 'fa-desktop')"
+                                       class="fas text-muted"></i>
+                                    <span class="small ms-1" th:text="${log.deviceType}"></span>
+                                </td>
+                                <td>
+                                    <button class="btn btn-xs btn-outline-secondary btn-sm py-0 px-1 small"
+                                            th:onclick="|showFlow('${log.sessionId}')|">
+                                        흐름 보기
+                                    </button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- 페이지별 집계 (기존) -->
+        <div class="card shadow-sm mb-4">
+            <div class="card-header fw-bold" style="background:#3a5a3a; color:white;">
+                <i class="fas fa-chart-bar me-2"></i> 페이지별 방문 집계 <span class="fw-normal small">(최근 14일)</span>
+                <button class="btn btn-sm btn-outline-light ms-2 float-end" type="button"
+                        data-bs-toggle="collapse" data-bs-target="#aggregateTable">펼치기/접기</button>
+            </div>
+            <div class="collapse" id="aggregateTable">
                 <div th:if="${#lists.isEmpty(visitorStats)}" class="text-center py-4 text-muted">
                     아직 기록된 방문자 데이터가 없습니다.
                 </div>
@@ -52,6 +169,21 @@
                             </tr>
                         </tbody>
                     </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- 세션 흐름 모달 -->
+        <div class="modal fade" id="flowModal" tabindex="-1">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h6 class="modal-title">방문자 페이지 이동 흐름</h6>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                    </div>
+                    <div class="modal-body" id="flowBody">
+                        <div class="text-center text-muted">불러오는 중...</div>
+                    </div>
                 </div>
             </div>
         </div>
