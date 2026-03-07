@@ -8,7 +8,7 @@
 <body>
     <div th:replace="~{fragments/header :: headerFragment}"></div>
 
-    <!-- Subpage Hero (작게) -->
+    <!-- Subpage Hero -->
     <header class="sub-hero-section py-4"
         style="background-image: linear-gradient(rgba(44,39,36,0.8), rgba(44,39,36,0.8)), url('https://images.unsplash.com/photo-1547592180-85f173990554?auto=format&fit=crop&w=1920&q=80'); background-size: cover; background-position: center;">
         <div class="container text-center text-white">
@@ -20,61 +20,111 @@
                 </ol>
             </nav>
             <h1 class="h3 mt-2" th:text="${post.title}"></h1>
-            <p class="text-white-50 small mt-1"
-                th:text="${post.eventDate != null} ? ${#temporals.format(post.eventDate, 'yyyy년 MM월 dd일')} : ${#temporals.format(post.createdAt, 'yyyy년 MM월 dd일')}">
-            </p>
+            <div class="mt-2 d-flex align-items-center justify-content-center gap-2 flex-wrap">
+                <span class="badge" style="background:rgba(139,90,43,0.9); font-size:0.85rem;" th:text="${post.categoryLabel}"></span>
+                <span class="text-white-50 small"
+                    th:text="${post.eventDate != null} ? ${#temporals.format(post.eventDate, 'yyyy년 MM월 dd일')} + ' 행사' : ${#temporals.format(post.createdAt, 'yyyy년 MM월 dd일')} + ' 등록'"></span>
+            </div>
         </div>
     </header>
 
     <section class="section-padding">
-        <div class="container" style="max-width: 900px;">
+        <div class="container" style="max-width: 860px;">
 
-            <!-- 카테고리 뱃지 -->
-            <!-- <div class="mb-3">
-                <span class="badge text-white" style="background:#8b5a2b; font-size:0.9rem;" th:text="${post.categoryLabel}"></span>
-            </div> -->
-
-            <!-- 이미지 목록 (세로 스택) -->
+            <!-- 이미지 세로 스택 -->
             <div th:if="${post.images != null and !post.images.isEmpty()}" class="detail-img-stack mb-4">
-                <img th:each="img : ${post.images}" th:src="${img.cloudinaryUrl}" th:alt="${post.title}"
-                    class="detail-stack-img rounded shadow">
+                <img th:each="img : ${post.images}"
+                     th:src="${img.cloudinaryUrl}"
+                     th:alt="${post.title}"
+                     class="detail-stack-img rounded shadow">
             </div>
 
-            <!-- 설명 -->
-            <div th:if="${post.description != null and !post.description.isBlank()}" class="mb-5 p-3 bg-light rounded">
-                <p class="mb-0 text-secondary" th:text="${post.description}"></p>
+            <!-- 스토리 박스 (설명) -->
+            <div th:if="${post.description != null and !post.description.isBlank()}" class="story-box mb-4">
+                <i class="fas fa-quote-left story-quote-icon"></i>
+                <p class="story-text mb-0" th:text="${post.description}"></p>
+            </div>
+
+            <!-- 신뢰 미니 배너 -->
+            <div class="trust-mini-banner mb-5">
+                <div class="trust-mini-item">
+                    <i class="fas fa-moon"></i>
+                    <span>당일 새벽 직접 조리</span>
+                </div>
+                <div class="trust-mini-divider"></div>
+                <div class="trust-mini-item">
+                    <i class="fas fa-leaf"></i>
+                    <span>국내산 재료</span>
+                </div>
+                <div class="trust-mini-divider"></div>
+                <div class="trust-mini-item">
+                    <i class="fas fa-user-check"></i>
+                    <span>대표 직접 확인</span>
+                </div>
+            </div>
+
+            <!-- CTA 섹션 -->
+            <div class="cta-section mb-5">
+                <p class="cta-title">같은 행사를 준비 중이신가요?</p>
+                <p class="cta-sub" th:if="${post.category == 'jesa'}">제사 준비, 혼자 다 하실 필요 없습니다.<br>전화 한 통으로 메뉴부터 배달까지 해결해 드립니다.</p>
+                <p class="cta-sub" th:if="${post.category == 'jangji'}">슬픈 날, 음식 걱정까지 하지 않으셔도 됩니다.<br>정성스럽게 준비해 약속된 시간에 맞춰 드리겠습니다.</p>
+                <p class="cta-sub" th:if="${post.category == 'group' or post.category == 'dosirak'}">인원이 몇 명이든 맞춤 견적 바로 드립니다.<br>규모와 예산에 맞게 상담해 드리겠습니다.</p>
+                <p class="cta-sub" th:if="${post.category != 'jesa' and post.category != 'jangji' and post.category != 'group' and post.category != 'dosirak'}">전화 한 통으로 메뉴부터 배달까지 해결해 드립니다.</p>
+                <div class="d-flex gap-3 justify-content-center flex-wrap mt-3">
+                    <a href="tel:010-8916-7074" class="btn btn-cta-call">
+                        <i class="fas fa-phone me-2"></i>전화 상담하기
+                    </a>
+                    <a href="https://pf.kakao.com/_cEzZX" target="_blank" rel="noopener" class="btn btn-cta-kakao">
+                        <i class="fas fa-comment me-2"></i>카카오로 문의
+                    </a>
+                </div>
             </div>
 
             <hr class="my-5">
 
             <!-- 리뷰 제출 성공 메시지 -->
             <div th:if="${param.reviewSubmitted}" class="alert alert-success alert-dismissible" role="alert">
-                리뷰가 등록되었습니다.
+                리뷰가 등록되었습니다. 소중한 후기 감사합니다.
                 <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
             </div>
 
-            <!-- 리뷰 섹션 -->
-            <h4 class="fw-bold mb-4" style="color:#5c3d1e;">
-                <i class="fas fa-star me-2" style="color:#f5a623;"></i>
-                고객 리뷰
-                <span class="text-muted fs-6 fw-normal ms-2" th:text="'(' + ${#lists.size(reviews)} + '개)'"></span>
-            </h4>
+            <!-- 리뷰 섹션 헤더 -->
+            <div class="d-flex align-items-center justify-content-between mb-3">
+                <h4 class="fw-bold mb-0" style="color:#5c3d1e;">
+                    <i class="fas fa-star me-2" style="color:#f5a623;"></i>고객 후기
+                </h4>
+                <span class="text-muted small" th:text="'총 ' + ${reviewCount} + '개'"></span>
+            </div>
+
+            <!-- 별점 요약 바 -->
+            <div th:if="${reviewCount > 0}" class="rating-summary mb-4">
+                <span class="rating-big" th:text="${#numbers.formatDecimal(avgRating, 1, 1)}"></span>
+                <div class="d-flex flex-column ms-3">
+                    <div class="text-warning mb-1">
+                        <th:block th:each="i : ${#numbers.sequence(1,5)}">
+                            <i th:class="${i <= avgRating} ? 'fas fa-star' : (${i - 0.5 <= avgRating} ? 'fas fa-star-half-alt' : 'far fa-star')" style="font-size:1.1rem;"></i>
+                        </th:block>
+                    </div>
+                    <small class="text-muted" th:text="${reviewCount} + '명의 고객 후기'"></small>
+                </div>
+            </div>
 
             <!-- 리뷰 목록 -->
-            <div th:if="${#lists.isEmpty(reviews)}" class="text-muted mb-4">
-                <p>아직 등록된 리뷰가 없습니다. 첫 리뷰를 남겨주세요!</p>
+            <div th:if="${#lists.isEmpty(reviews)}" class="text-muted mb-4 py-3 text-center">
+                <i class="far fa-comment-dots fa-2x mb-2 d-block" style="color:#d4b896;"></i>
+                아직 후기가 없습니다. 첫 번째 후기를 남겨주세요!
             </div>
             <div th:unless="${#lists.isEmpty(reviews)}" class="mb-5">
-                <div th:each="review : ${reviews}" class="review-item border-bottom py-3">
+                <div th:each="review : ${reviews}" class="review-item py-3">
                     <div class="d-flex align-items-center mb-1">
                         <strong th:text="${review.authorName}" class="me-2"></strong>
                         <span class="text-warning">
                             <th:block th:each="i : ${#numbers.sequence(1, 5)}">
-                                <i th:classappend="${i <= review.rating} ? 'fas' : 'far'" class="fa-star"></i>
+                                <i th:classappend="${i <= review.rating} ? 'fas' : 'far'" class="fa-star" style="font-size:0.85rem;"></i>
                             </th:block>
                         </span>
                         <span class="text-muted small ms-auto"
-                            th:text="${#temporals.format(review.createdAt, 'yyyy.MM.dd')}"></span>
+                              th:text="${#temporals.format(review.createdAt, 'yyyy.MM.dd')}"></span>
                     </div>
                     <p class="mb-0 text-secondary" th:text="${review.content}"></p>
                 </div>
@@ -82,13 +132,13 @@
 
             <!-- 리뷰 작성 폼 -->
             <div class="review-form-wrap bg-light rounded p-4 mb-4">
-                <h5 class="fw-bold mb-3" style="color:#5c3d1e;">리뷰 작성</h5>
+                <h5 class="fw-bold mb-1" style="color:#5c3d1e;">후기 남기기</h5>
+                <p class="text-muted small mb-3">이 날 음식은 어떠셨나요? 한 줄만 남겨주셔도 다음 분께 큰 도움이 됩니다.</p>
                 <form th:action="@{/gallery/{id}/review(id=${post.id})}" method="post">
                     <div class="row g-3">
                         <div class="col-md-6">
                             <label class="form-label small fw-semibold">작성자</label>
-                            <input type="text" name="authorName" class="form-control" placeholder="이름 또는 닉네임" required
-                                maxlength="100">
+                            <input type="text" name="authorName" class="form-control" placeholder="이름 또는 닉네임" required maxlength="100">
                         </div>
                         <div class="col-md-6">
                             <label class="form-label small fw-semibold">별점</label>
@@ -96,21 +146,19 @@
                             <div class="star-rating-input d-flex gap-1 align-items-center">
                                 <th:block th:each="i : ${#numbers.sequence(1, 5)}">
                                     <span class="star-label fs-3" th:attr="data-val=${i}"
-                                        style="cursor:pointer; color:#f5a623;">&#9733;</span>
+                                          style="cursor:pointer; color:#f5a623;">&#9733;</span>
                                 </th:block>
                             </div>
                         </div>
                         <div class="col-12">
-                            <label class="form-label small fw-semibold">리뷰 내용</label>
-                            <textarea name="content" class="form-control" rows="4"
-                                placeholder="음식은 어떠셨나요? 솔직한 리뷰를 남겨주세요." required maxlength="1000"></textarea>
+                            <label class="form-label small fw-semibold">후기 내용</label>
+                            <textarea name="content" class="form-control" rows="3"
+                                      placeholder="음식 맛, 양, 배달 등 자유롭게 적어주세요." required maxlength="1000"></textarea>
                         </div>
                         <div class="col-12">
-                            <button type="submit" class="btn btn-primary px-4"
-                                style="background:#8b5a2b; border-color:#8b5a2b;">
-                                리뷰 등록
+                            <button type="submit" class="btn btn-primary px-4" style="background:#8b5a2b; border-color:#8b5a2b;">
+                                후기 등록
                             </button>
-                            <!--<small class="text-muted ms-2">관리자 확인 후 게시됩니다.</small>-->
                         </div>
                     </div>
                 </form>
@@ -129,29 +177,121 @@
     <div th:replace="~{fragments/footer :: footerFragment}"></div>
 
     <style>
-        .detail-img-stack {
-            display: flex;
-            flex-direction: column;
-            gap: 16px;
-        }
+        /* 이미지 스택 */
+        .detail-img-stack { display: flex; flex-direction: column; gap: 16px; }
+        .detail-stack-img { width: 100%; display: block; }
 
-        .detail-stack-img {
-            width: 100%;
+        /* 스토리 박스 */
+        .story-box {
+            border-left: 4px solid #8b5a2b;
+            padding: 16px 20px;
+            background: #fdf8f3;
+            border-radius: 0 8px 8px 0;
+            position: relative;
+        }
+        .story-quote-icon {
+            color: #d4b896;
+            font-size: 1.2rem;
+            margin-bottom: 8px;
             display: block;
         }
+        .story-text { color: #5c3d1e; line-height: 1.8; }
 
-        .review-item:last-child {
-            border-bottom: none !important;
+        /* 신뢰 미니 배너 */
+        .trust-mini-banner {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0;
+            background: #f5ede3;
+            border-radius: 10px;
+            padding: 14px 20px;
+            flex-wrap: wrap;
+        }
+        .trust-mini-item {
+            display: flex;
+            align-items: center;
+            gap: 7px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: #5c3d1e;
+            padding: 4px 16px;
+        }
+        .trust-mini-item i { color: #8b5a2b; font-size: 0.9rem; }
+        .trust-mini-divider {
+            width: 1px; height: 20px;
+            background: #d4b896;
+        }
+        @media (max-width: 576px) {
+            .trust-mini-divider { display: none; }
+            .trust-mini-item { width: 100%; justify-content: center; border-bottom: 1px solid #ede8e0; padding: 8px 0; }
+            .trust-mini-item:last-child { border-bottom: none; }
         }
 
-        .star-label {
-            transition: color 0.1s;
-            user-select: none;
+        /* CTA 섹션 */
+        .cta-section {
+            background: linear-gradient(135deg, #2c2724 0%, #4a3728 100%);
+            color: white;
+            border-radius: 14px;
+            padding: 36px 28px;
+            text-align: center;
         }
+        .cta-title {
+            font-size: 1.4rem;
+            font-weight: 800;
+            margin-bottom: 10px;
+        }
+        .cta-sub {
+            font-size: 0.95rem;
+            opacity: 0.85;
+            line-height: 1.7;
+            margin-bottom: 0;
+        }
+        .btn-cta-call {
+            background: #8b5a2b;
+            color: white;
+            border: none;
+            border-radius: 50px;
+            padding: 10px 28px;
+            font-weight: 700;
+        }
+        .btn-cta-call:hover { background: #a06835; color: white; }
+        .btn-cta-kakao {
+            background: #FEE500;
+            color: #191919;
+            border: none;
+            border-radius: 50px;
+            padding: 10px 28px;
+            font-weight: 700;
+        }
+        .btn-cta-kakao:hover { background: #e6cf00; color: #191919; }
+
+        /* 별점 요약 */
+        .rating-summary {
+            display: flex;
+            align-items: center;
+            background: #fdf8f3;
+            border-radius: 10px;
+            padding: 16px 20px;
+            border: 1px solid #ede8e0;
+        }
+        .rating-big {
+            font-size: 2.8rem;
+            font-weight: 800;
+            color: #2c2724;
+            line-height: 1;
+        }
+
+        /* 리뷰 목록 */
+        .review-item { border-bottom: 1px solid #f0ebe4; }
+        .review-item:last-child { border-bottom: none; }
+
+        /* 별점 입력 */
+        .star-label { transition: color 0.1s; user-select: none; }
     </style>
 
     <script>
-        // 별점 (1→5 순서, 왼쪽→오른쪽)
+        // 별점 입력
         const stars = document.querySelectorAll('.star-rating-input .star-label');
         const ratingInput = document.getElementById('ratingValue');
 
@@ -160,22 +300,14 @@
                 s.style.color = parseInt(s.dataset.val) <= val ? '#f5a623' : '#ccc';
             });
         }
-
-        // 초기값 5점
         paintStars(5);
-
         stars.forEach(star => {
             star.addEventListener('click', function () {
-                const val = parseInt(this.dataset.val);
-                ratingInput.value = val;
-                paintStars(val);
-            });
-            star.addEventListener('mouseover', function () {
+                ratingInput.value = this.dataset.val;
                 paintStars(parseInt(this.dataset.val));
             });
-            star.addEventListener('mouseout', function () {
-                paintStars(parseInt(ratingInput.value));
-            });
+            star.addEventListener('mouseover', function () { paintStars(parseInt(this.dataset.val)); });
+            star.addEventListener('mouseout', function () { paintStars(parseInt(ratingInput.value)); });
         });
     </script>
 </body>

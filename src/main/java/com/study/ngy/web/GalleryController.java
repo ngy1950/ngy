@@ -39,8 +39,11 @@ public class GalleryController {
     public String detail(@PathVariable Long id, Model model) {
         GalleryPost post = galleryService.findById(id);
         List<Review> reviews = reviewService.findApprovedByPostId(id);
+        double avgRating = reviews.stream().mapToInt(Review::getRating).average().orElse(0.0);
         model.addAttribute("post", post);
         model.addAttribute("reviews", reviews);
+        model.addAttribute("avgRating", avgRating);
+        model.addAttribute("reviewCount", reviews.size());
         return "menu/gallery-detail";
     }
 }
