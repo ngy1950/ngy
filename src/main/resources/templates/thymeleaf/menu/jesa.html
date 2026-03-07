@@ -55,9 +55,15 @@
             <div class="order-deadline-banner">
                 <i class="fas fa-clock"></i>
                 <div class="banner-text">
-                    <strong>주문 마감 안내 — 행사 전날 오전까지 연락 주세요</strong>
+                    <strong>예약 안내 — 행사 최소 3일 전에 연락 주세요</strong>
                     <span>당일 새벽 조리 후 행사 시간에 맞춰 배달해 드립니다. 급하신 경우 당일 접수도 가능하오니 먼저 전화 주세요.</span>
                 </div>
+            </div>
+            <!-- 배송·예약 인포 배지 -->
+            <div class="d-flex gap-2 flex-wrap justify-content-center mt-3 mb-2">
+                <span class="badge rounded-pill" style="background:#8b5a2b; font-size:0.82rem; padding:7px 14px; font-weight:600;">🚗 전국 배달 가능 (배송비 별도)</span>
+                <span class="badge rounded-pill" style="background:#8b5a2b; font-size:0.82rem; padding:7px 14px; font-weight:600;">📅 최소 3일 전 예약 권장</span>
+                <span class="badge rounded-pill" style="background:#5c3d1e; font-size:0.82rem; padding:7px 14px; font-weight:600;">📞 급한 경우 당일 전화 문의</span>
             </div>
 
             <!-- 패키지 1: 기본 제사상 -->
@@ -75,19 +81,26 @@
                             <p class="package-sub">5 ~ 7인용 · 기제사 / 차례 / 명절에 적합</p>
 
                             <ul class="package-item-list">
-                                <li><strong>적류</strong> : 육적, 어적, 계적</li>
-                                <li><strong>전·튀김류</strong> : 호박전, 동태전, 육원전 등 5종</li>
-                                <li><strong>나물류</strong> : 시금치, 고사리, 도라지 (삼색나물)</li>
-                                <li><strong>국·탕류</strong> : 무국, 어탕, 육탕</li>
-                                <li><strong>기타</strong> : 과일 5종, 떡, 포, 한과 등</li>
+                                <li><i class="fas fa-check text-success me-2" style="font-size:0.8rem;"></i><strong>적류</strong> : 육적, 어적, 계적</li>
+                                <li><i class="fas fa-check text-success me-2" style="font-size:0.8rem;"></i><strong>전·튀김류</strong> : 호박전, 동태전, 육원전 등 5종</li>
+                                <li><i class="fas fa-check text-success me-2" style="font-size:0.8rem;"></i><strong>나물류</strong> : 시금치, 고사리, 도라지 (삼색나물)</li>
+                                <li><i class="fas fa-check text-success me-2" style="font-size:0.8rem;"></i><strong>국·탕류</strong> : 무국, 어탕, 육탕</li>
+                                <li><i class="fas fa-check text-success me-2" style="font-size:0.8rem;"></i><strong>기타</strong> : 과일 5종, 떡, 포, 한과 등</li>
                             </ul>
 
                             <div class="package-price-wrap">
                                 <span class="package-price-label">가격</span>
-                                <span class="package-price-value">250,000원</span>
+                                <span class="package-price-value">250,000원부터~</span>
                             </div>
 
-                            <div th:replace="~{fragments/subpage :: ctaPairFragment}"></div>
+                            <div class="cta-pair mt-3">
+                                <a href="tel:010-8916-7074" class="btn btn-phone-call">
+                                    <i class="fas fa-phone-alt"></i>이 구성으로 전화 상담
+                                </a>
+                                <a href="https://pf.kakao.com/_cEzZX/chat" target="_blank" rel="noopener" class="btn btn-kakao">
+                                    카카오로 견적 문의
+                                </a>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -108,10 +121,10 @@
                             <p class="package-sub">10인 이상 · 문중 시제 / 대규모 차례에 적합</p>
 
                             <ul class="package-item-list">
-                                <li><strong>기본 제사상 품목 전반</strong> + 양 증대</li>
-                                <li><strong>고급 추가</strong> : 전복적, 특대 참조기</li>
-                                <li><strong>다과류</strong> : 다식, 약과, 정과 등 고급 구성</li>
-                                <li><strong>상차림 연출</strong> : 격식에 맞춘 배치 및 포장</li>
+                                <li><i class="fas fa-check text-success me-2" style="font-size:0.8rem;"></i><strong>기본 제사상 품목 전반</strong> + 양 증대</li>
+                                <li><i class="fas fa-check text-success me-2" style="font-size:0.8rem;"></i><strong>고급 추가</strong> : 전복적, 특대 참조기</li>
+                                <li><i class="fas fa-check text-success me-2" style="font-size:0.8rem;"></i><strong>다과류</strong> : 다식, 약과, 정과 등 고급 구성</li>
+                                <li><i class="fas fa-check text-success me-2" style="font-size:0.8rem;"></i><strong>상차림 연출</strong> : 격식에 맞춘 배치 및 포장</li>
                             </ul>
 
                             <div class="package-price-wrap">
@@ -119,7 +132,14 @@
                                 <span class="package-price-value">350,000원~</span>
                             </div>
 
-                            <div th:replace="~{fragments/subpage :: ctaPairFragment}"></div>
+                            <div class="cta-pair mt-3">
+                                <a href="tel:010-8916-7074" class="btn btn-phone-call">
+                                    <i class="fas fa-phone-alt"></i>이 구성으로 전화 상담
+                                </a>
+                                <a href="https://pf.kakao.com/_cEzZX/chat" target="_blank" rel="noopener" class="btn btn-kakao">
+                                    카카오로 견적 문의
+                                </a>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -140,10 +160,10 @@
                             <p class="package-sub">30인 이상 · 문중 시제 / 대규모 행사 맞춤</p>
 
                             <ul class="package-item-list">
-                                <li><strong>규모</strong> : 30인 ~ 수백 인 대응 가능</li>
-                                <li><strong>구성</strong> : 인원·예산에 맞춘 완전 맞춤 세팅</li>
-                                <li><strong>운반·배치</strong> : 현장 직접 세팅 서비스 가능</li>
-                                <li><strong>가격</strong> : 인원 및 구성에 따라 협의</li>
+                                <li><i class="fas fa-check text-success me-2" style="font-size:0.8rem;"></i><strong>규모</strong> : 30인 ~ 수백 인 대응 가능</li>
+                                <li><i class="fas fa-check text-success me-2" style="font-size:0.8rem;"></i><strong>구성</strong> : 인원·예산에 맞춘 완전 맞춤 세팅</li>
+                                <li><i class="fas fa-check text-success me-2" style="font-size:0.8rem;"></i><strong>운반·배치</strong> : 현장 직접 세팅 서비스 가능</li>
+                                <li><i class="fas fa-check text-success me-2" style="font-size:0.8rem;"></i><strong>가격</strong> : 인원 및 구성에 따라 협의</li>
                             </ul>
 
                             <div class="package-price-wrap">
@@ -151,7 +171,14 @@
                                 <span class="package-price-value">별도 협의</span>
                             </div>
 
-                            <div th:replace="~{fragments/subpage :: ctaPairFragment}"></div>
+                            <div class="cta-pair mt-3">
+                                <a href="tel:010-8916-7074" class="btn btn-phone-call">
+                                    <i class="fas fa-phone-alt"></i>이 구성으로 전화 상담
+                                </a>
+                                <a href="https://pf.kakao.com/_cEzZX/chat" target="_blank" rel="noopener" class="btn btn-kakao">
+                                    카카오로 견적 문의
+                                </a>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -204,7 +231,7 @@
                 <div class="col-lg-8">
                     <div class="faq-item">
                         <p class="faq-q">언제까지 주문해야 하나요?</p>
-                        <p class="faq-a">행사 전날 오전까지 연락 주시면 당일 새벽 조리 후 행사 시간에 맞춰 배달해 드립니다. 급하신 경우 당일 접수도 가능하오니 먼저 전화 주세요. <a href="tel:010-8916-7074" style="color: var(--primary-color); font-weight:700;">📞 010-8916-7074</a></p>
+                        <p class="faq-a">행사 최소 3일 전에 연락 주시면 여유 있게 준비해 드립니다. 당일 새벽 조리 후 행사 시간에 맞춰 배달해 드립니다. 급하신 경우 당일 접수도 가능하오니 먼저 전화 주세요. <a href="tel:010-8916-7074" style="color: var(--primary-color); font-weight:700;">📞 010-8916-7074</a></p>
                     </div>
                     <div class="faq-item">
                         <p class="faq-q">멀리 있어도 배달이 되나요?</p>
