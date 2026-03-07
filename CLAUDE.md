@@ -12,6 +12,7 @@
 - 배포: Railway (Dockerfile 기반)
 
 ## 주요 경로
+- 에이전트: `agents/` (Python — Claude Agent SDK 기반 자율 점검·개선 스크립트)
 - 템플릿: `src/main/resources/templates/thymeleaf/`
 - 공통 fragment: `fragments/` (header, footer, head, subpage)
 - 메뉴 페이지: `menu/` (jesa, jangji, group, gallery, gallery-detail)
