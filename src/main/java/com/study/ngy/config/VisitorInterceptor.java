@@ -13,12 +13,18 @@ public class VisitorInterceptor implements HandlerInterceptor {
 
     private final VisitorService visitorService;
 
+    private static final String STATIC_EXT_REGEX =
+            ".*\\.(css|js|ico|png|jpg|jpeg|gif|svg|webp|woff|woff2|ttf|eot|map)$";
+
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) {
         if (!"GET".equalsIgnoreCase(request.getMethod())) {
             return true;
         }
         String uri = request.getRequestURI();
+        if (uri.matches(STATIC_EXT_REGEX)) {
+            return true;
+        }
         visitorService.recordVisit(normalise(uri));
         return true;
     }
