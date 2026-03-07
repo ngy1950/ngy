@@ -39,4 +39,9 @@ public class ViewController {
         return "menu/group";
     }
 
+    @GetMapping("/menu/sije")
+    public String menuSije() {
+        return "menu/sije";
+    }
+
 }
