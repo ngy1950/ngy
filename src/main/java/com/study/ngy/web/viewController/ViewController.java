@@ -29,11 +29,6 @@ public class ViewController {
         return "menu/jesa";
     }
 
-    @GetMapping("/menu/jangji")
-    public String menuJangji() {
-        return "menu/jangji";
-    }
-
     @GetMapping("/menu/group")
     public String menuGroup() {
         return "menu/group";
