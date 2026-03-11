@@ -130,7 +130,8 @@
                                 </td>
                                 <td>
                                     <button class="btn btn-xs btn-outline-secondary btn-sm py-0 px-1 small"
-                                            th:onclick="|showFlow('${log.sessionId}')|">
+                                            th:data-session-id="${log.sessionId}"
+                                            onclick="showFlow(this.dataset.sessionId)">
                                         흐름 보기
                                     </button>
                                 </td>
