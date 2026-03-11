@@ -41,6 +41,13 @@
     width: 100%;
 }
 
+@media (max-width: 991px) {
+    .detail-img {
+        height: auto;
+        aspect-ratio: 4 / 3;
+    }
+}
+
 .detail-list li {
     font-size: 1.1rem;
     margin-bottom: 15px;
@@ -382,8 +389,9 @@
 
 @media (max-width: 991px) {
     .package-card-img {
-        min-height: 240px;
-        height: 240px;
+        height: auto;
+        min-height: 0;
+        aspect-ratio: 4 / 3;
     }
 
     .package-card-body {
@@ -595,9 +603,9 @@
         font-size: 2rem;
     }
 
-    /* 패키지 카드 이미지 높이 축소 */
+    /* 패키지 카드 이미지 — 모바일 세로 쌓임 시 16:9 비율로 조정 */
     .package-card-img {
-        min-height: 220px;
+        aspect-ratio: 16 / 9;
     }
 
     /* 패키지 카드 본문 패딩 축소 */
