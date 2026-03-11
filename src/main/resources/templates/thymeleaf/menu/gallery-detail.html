@@ -31,21 +31,12 @@
     <section class="section-padding">
         <div class="container" style="max-width: 860px;">
 
-            <!-- 대표 이미지 (Hero) -->
-            <div th:if="${post.images != null and !post.images.isEmpty()}" class="detail-hero-wrap mb-3">
-                <img th:src="${post.images[0].cloudinaryUrl}"
-                     th:alt="${post.title}"
-                     class="detail-hero-img rounded shadow">
-            </div>
-
-            <!-- 나머지 이미지 그리드 -->
-            <div th:if="${post.images != null and post.images.size() > 1}" class="row g-2 mb-3">
-                <div th:each="img, stat : ${post.images}"
-                     th:if="${stat.index > 0}"
-                     class="col-6 col-md-4">
+            <!-- 이미지 목록 (전체 너비 세로 1열) -->
+            <div th:if="${post.images != null and !post.images.isEmpty()}" class="d-flex flex-column gap-2 mb-3">
+                <div th:each="img : ${post.images}">
                     <img th:src="${img.cloudinaryUrl}"
                          th:alt="${post.title}"
-                         class="detail-grid-img rounded">
+                         class="detail-full-img rounded shadow">
                 </div>
             </div>
 
@@ -232,17 +223,10 @@
     <div th:replace="~{fragments/footer :: footerFragment}"></div>
 
     <style>
-        /* 대표 이미지 */
-        .detail-hero-img { width: 100%; aspect-ratio: 16/9; max-height: 480px; object-fit: cover; display: block; }
+        /* 이미지 (전체 너비 세로 1열) */
+        .detail-full-img { width: 100%; aspect-ratio: 4/3; object-fit: cover; display: block; }
         @media (max-width: 576px) {
-            .detail-hero-img { aspect-ratio: 4/3; max-height: none; }
-        }
-
-        /* 나머지 이미지 그리드 */
-        .detail-grid-img { width: 100%; aspect-ratio: 4/3; object-fit: cover; display: block; transition: transform 0.3s ease; }
-        .detail-grid-img:hover { transform: scale(1.03); }
-        @media (max-width: 576px) {
-            .detail-grid-img { aspect-ratio: 1/1; }
+            .detail-full-img { aspect-ratio: 3/4; }
         }
 
         /* 스토리 박스 */
