@@ -2,7 +2,7 @@
 <html lang="ko" xmlns:th="http://www.thymeleaf.org">
 
 <head
-    th:replace="~{fragments/head :: headFragment(${post.title + ' | 대원 갤러리'}, ${post.description ?: '대원의 현장 사진을 확인하세요.'}, '대원갤러리, 음식사진, 고객리뷰')}">
+    th:replace="~{fragments/head :: headFragment(${post.title + ' | 대원 갤러리'}, ${post.description ?: '대원의 현장 사진을 확인하세요.'}, '대원갤러리, 음식사진, 고객리뷰', ${canonicalUrl})}">
 </head>
 
 <body>

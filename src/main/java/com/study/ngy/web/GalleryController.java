@@ -44,6 +44,7 @@ public class GalleryController {
         model.addAttribute("reviews", reviews);
         model.addAttribute("avgRating", avgRating);
         model.addAttribute("reviewCount", reviews.size());
+        model.addAttribute("canonicalUrl", "https://daewonfood-production.up.railway.app/gallery/" + id);
         return "menu/gallery-detail";
     }
 }
