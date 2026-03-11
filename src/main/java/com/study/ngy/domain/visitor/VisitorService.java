@@ -101,4 +101,17 @@ public class VisitorService {
         LocalDateTime from = LocalDateTime.now().minusHours(24);
         return visitorRawLogRepository.findRecentSessionIds(from);
     }
+
+    /** 순 방문자 수 (오늘 / 최근 7일 / 최근 30일) — IP 기준 중복 제거 */
+    @Transactional(readOnly = true)
+    public Map<String, Long> getUniqueVisitorCounts() {
+        Map<String, Long> map = new LinkedHashMap<>();
+        map.put("오늘", visitorRawLogRepository.countDistinctIpSince(
+                LocalDate.now().atStartOfDay()));
+        map.put("7일", visitorRawLogRepository.countDistinctIpSince(
+                LocalDateTime.now().minusDays(7)));
+        map.put("30일", visitorRawLogRepository.countDistinctIpSince(
+                LocalDateTime.now().minusDays(30)));
+        return map;
+    }
 }

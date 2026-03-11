@@ -31,4 +31,8 @@ public interface VisitorRawLogRepository extends JpaRepository<VisitorRawLog, Lo
     /** 기간 내 IP별 방문 횟수 상위 */
     @Query("SELECT v.ip, COUNT(v) FROM VisitorRawLog v WHERE v.visitedAt >= :from GROUP BY v.ip ORDER BY COUNT(v) DESC")
     List<Object[]> countByIpSince(@Param("from") LocalDateTime from);
+
+    /** 기간 내 순 방문자 수 (IP 기준 중복 제거) */
+    @Query("SELECT COUNT(DISTINCT v.ip) FROM VisitorRawLog v WHERE v.visitedAt >= :from")
+    Long countDistinctIpSince(@Param("from") LocalDateTime from);
 }

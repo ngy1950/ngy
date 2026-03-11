@@ -26,6 +26,18 @@
 
     <div class="container py-4">
 
+        <!-- 순 방문자 요약 (IP 기준 중복 제거) -->
+        <div class="row g-3 mb-3">
+            <div th:each="entry : ${uniqueVisitorCounts}" class="col-4">
+                <div class="card shadow-sm text-center border-0" style="background:#f8f4ef;">
+                    <div class="card-body py-2">
+                        <div class="fw-bold fs-3" style="color:#5c3d1e;" th:text="${entry.value}">0</div>
+                        <div class="small text-muted">순 방문자 <span th:text="'(' + ${entry.key} + ')'"></span></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <!-- 방문자 통계 요약 카드 -->
         <div class="row g-3 mb-4">
             <!-- 기기 분포 -->

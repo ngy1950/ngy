@@ -38,6 +38,7 @@ public class AdminController {
         model.addAttribute("referrerStats", visitorService.getReferrerStats());
         model.addAttribute("ipStats", visitorService.getIpStats());
         model.addAttribute("recentSessionIds", visitorService.getRecentSessionIds());
+        model.addAttribute("uniqueVisitorCounts", visitorService.getUniqueVisitorCounts());
         return "admin/dashboard";
     }
 
