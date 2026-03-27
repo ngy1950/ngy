@@ -19,11 +19,11 @@ public class GalleryService {
     private final CloudinaryService cloudinaryService;
 
     public List<GalleryPost> findAll() {
-        return postRepository.findByOrderByCreatedAtDesc();
+        return postRepository.findByOrderByEventDateDescCreatedAtDesc();
     }
 
     public List<GalleryPost> findByCategory(String category) {
-        return postRepository.findByCategoryOrderByCreatedAtDesc(category);
+        return postRepository.findByCategoryOrderByEventDateDescCreatedAtDesc(category);
     }
 
     public GalleryPost findById(Long id) {
