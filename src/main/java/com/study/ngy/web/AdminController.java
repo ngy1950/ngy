@@ -5,6 +5,9 @@ import com.study.ngy.domain.review.ReviewService;
 import com.study.ngy.domain.visitor.VisitorService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -29,11 +32,12 @@ public class AdminController {
     }
 
     @GetMapping("/dashboard")
-    public String dashboard(Model model) {
+    public String dashboard(Model model,
+                            @PageableDefault(size = 20, sort = "visitedAt", direction = Sort.Direction.DESC) Pageable pageable) {
         model.addAttribute("posts", galleryService.findAll());
         model.addAttribute("pendingReviews", reviewService.findPendingReviews());
         model.addAttribute("visitorStats", visitorService.getRecentStats());
-        model.addAttribute("recentRawLogs", visitorService.getRecentRawLogs());
+        model.addAttribute("recentRawLogs", visitorService.getRecentRawLogs(pageable));
         model.addAttribute("deviceStats", visitorService.getDeviceStats());
         model.addAttribute("referrerStats", visitorService.getReferrerStats());
         model.addAttribute("ipStats", visitorService.getIpStats());

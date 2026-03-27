@@ -1,5 +1,7 @@
 package com.study.ngy.domain.visitor;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -9,8 +11,11 @@ import java.util.List;
 
 public interface VisitorRawLogRepository extends JpaRepository<VisitorRawLog, Long> {
 
-    /** 최근 방문 로그 N건 */
+    /** 최근 방문 로그 N건 (페이징 미적용 시 사용) */
     List<VisitorRawLog> findTop100ByOrderByVisitedAtDesc();
+
+    /** 최근 방문 로그 페이징 처리 */
+    Page<VisitorRawLog> findAllByOrderByVisitedAtDesc(Pageable pageable);
 
     /** 기간 내 기기 유형별 카운트 */
     @Query("SELECT v.deviceType, COUNT(v) FROM VisitorRawLog v WHERE v.visitedAt >= :from GROUP BY v.deviceType")

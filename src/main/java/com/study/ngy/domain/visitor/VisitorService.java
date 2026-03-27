@@ -1,6 +1,8 @@
 package com.study.ngy.domain.visitor;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -45,10 +47,10 @@ public class VisitorService {
         return visitorLogRepository.findByDateGreaterThanEqualOrderByDateDesc(from);
     }
 
-    /** 최근 방문 로그 100건 */
+    /** 최근 방문 로그 페이징 처리 */
     @Transactional(readOnly = true)
-    public List<VisitorRawLog> getRecentRawLogs() {
-        return visitorRawLogRepository.findTop100ByOrderByVisitedAtDesc();
+    public Page<VisitorRawLog> getRecentRawLogs(Pageable pageable) {
+        return visitorRawLogRepository.findAllByOrderByVisitedAtDesc(pageable);
     }
 
     /** 최근 7일 기기 유형별 비율 */

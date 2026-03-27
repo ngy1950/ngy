@@ -105,10 +105,10 @@
                         data-bs-toggle="collapse" data-bs-target="#rawLogTable">펼치기/접기</button>
             </div>
             <div class="collapse show" id="rawLogTable">
-                <div th:if="${#lists.isEmpty(recentRawLogs)}" class="text-center py-4 text-muted">
+                <div th:if="${recentRawLogs.totalElements == 0}" class="text-center py-4 text-muted">
                     아직 기록된 방문자 데이터가 없습니다.
                 </div>
-                <div th:unless="${#lists.isEmpty(recentRawLogs)}" class="table-responsive">
+                <div th:unless="${recentRawLogs.totalElements == 0}" class="table-responsive">
                     <table class="table table-sm table-hover mb-0 align-middle">
                         <thead class="table-light">
                             <tr>
@@ -121,7 +121,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr th:each="log : ${recentRawLogs}">
+                            <tr th:each="log : ${recentRawLogs.content}">
                                 <td class="small text-muted text-nowrap"
                                     th:text="${#temporals.format(log.visitedAt, 'MM-dd HH:mm')}"></td>
                                 <td class="small" th:text="${log.page}"></td>
@@ -150,6 +150,39 @@
                             </tr>
                         </tbody>
                     </table>
+                </div>
+
+                <!-- 방문 로그 페이징 컨트롤 -->
+                <div th:if="${recentRawLogs.totalPages > 1}" class="card-footer bg-white border-top-0 py-3">
+                    <nav aria-label="Page navigation">
+                        <ul class="pagination pagination-sm justify-content-center mb-0">
+                            <!-- 이전 페이지 -->
+                            <li class="page-item" th:classappend="${recentRawLogs.first} ? 'disabled'">
+                                <a class="page-link" th:href="@{/admin/dashboard(page=${recentRawLogs.number - 1})}" aria-label="Previous">
+                                    <span aria-hidden="true">&laquo;</span>
+                                </a>
+                            </li>
+
+                            <!-- 페이지 번호 -->
+                            <th:block th:with="start=${(recentRawLogs.number / 10) * 10}, end=${(start + 9 < recentRawLogs.totalPages) ? start + 9 : recentRawLogs.totalPages - 1}">
+                                <li class="page-item" th:each="pageNo : ${#numbers.sequence(start, end)}"
+                                    th:classappend="${pageNo == recentRawLogs.number} ? 'active'">
+                                    <a class="page-link" th:href="@{/admin/dashboard(page=${pageNo})}" th:text="${pageNo + 1}">1</a>
+                                </li>
+                            </th:block>
+
+                            <!-- 다음 페이지 -->
+                            <li class="page-item" th:classappend="${recentRawLogs.last} ? 'disabled'">
+                                <a class="page-link" th:href="@{/admin/dashboard(page=${recentRawLogs.number + 1})}" aria-label="Next">
+                                    <span aria-hidden="true">&raquo;</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </nav>
+                    <div class="text-center mt-2 small text-muted">
+                        Total <span th:text="${recentRawLogs.totalElements}">0</span> logs |
+                        Page <span th:text="${recentRawLogs.number + 1}">1</span> of <span th:text="${recentRawLogs.totalPages}">1</span>
+                    </div>
                 </div>
             </div>
         </div>
