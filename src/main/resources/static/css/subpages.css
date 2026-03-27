@@ -4,11 +4,12 @@
 
 .sub-hero-section {
     position: relative;
-    padding: 180px 0 100px;
+    padding: 160px 0 120px;
     background-size: cover;
     background-position: center;
     background-color: var(--primary-color);
     background-blend-mode: multiply;
+    z-index: 1;
 }
 
 /* 각 카테고리별 배경 이미지 (placeholder) */
@@ -596,7 +597,7 @@
 @media (max-width: 768px) {
     /* 서브페이지 히어로 상단 패딩 축소 */
     .sub-hero-section {
-        padding: 130px 0 70px;
+        padding: 130px 0 90px;
     }
 
     .sub-hero-section h1 {
