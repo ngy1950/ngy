@@ -17,6 +17,11 @@ public interface VisitorRawLogRepository extends JpaRepository<VisitorRawLog, Lo
     /** 최근 방문 로그 페이징 처리 */
     Page<VisitorRawLog> findAllByOrderByVisitedAtDesc(Pageable pageable);
 
+    /** IP별 가장 최근 로그만 가져오는 페이징 쿼리 */
+    @Query(value = "SELECT v FROM VisitorRawLog v WHERE v.id IN (SELECT MAX(v2.id) FROM VisitorRawLog v2 GROUP BY v2.ip)",
+           countQuery = "SELECT COUNT(DISTINCT v.ip) FROM VisitorRawLog v")
+    Page<VisitorRawLog> findLatestLogsPerIp(Pageable pageable);
+
     /** 기간 내 기기 유형별 카운트 */
     @Query("SELECT v.deviceType, COUNT(v) FROM VisitorRawLog v WHERE v.visitedAt >= :from GROUP BY v.deviceType")
     List<Object[]> countByDeviceTypeSince(@Param("from") LocalDateTime from);

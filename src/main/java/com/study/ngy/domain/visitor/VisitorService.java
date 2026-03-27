@@ -47,10 +47,10 @@ public class VisitorService {
         return visitorLogRepository.findByDateGreaterThanEqualOrderByDateDesc(from);
     }
 
-    /** 최근 방문 로그 페이징 처리 */
+    /** 최근 방문 로그 페이징 처리 (IP별 최신 로그 1건) */
     @Transactional(readOnly = true)
     public Page<VisitorRawLog> getRecentRawLogs(Pageable pageable) {
-        return visitorRawLogRepository.findAllByOrderByVisitedAtDesc(pageable);
+        return visitorRawLogRepository.findLatestLogsPerIp(pageable);
     }
 
     /** 최근 7일 기기 유형별 비율 */
