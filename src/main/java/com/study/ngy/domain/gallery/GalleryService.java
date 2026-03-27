@@ -18,6 +18,10 @@ public class GalleryService {
     private final GalleryImageRepository imageRepository;
     private final CloudinaryService cloudinaryService;
 
+    public List<GalleryPost> findRecent() {
+        return postRepository.findTop4ByOrderByEventDateDescCreatedAtDesc();
+    }
+
     public List<GalleryPost> findAll() {
         return postRepository.findByOrderByEventDateDescCreatedAtDesc();
     }

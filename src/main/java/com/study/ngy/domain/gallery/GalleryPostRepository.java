@@ -7,6 +7,8 @@ import java.util.List;
 
 public interface GalleryPostRepository extends JpaRepository<GalleryPost, Long> {
 
+    List<GalleryPost> findTop4ByOrderByEventDateDescCreatedAtDesc();
+
     List<GalleryPost> findByOrderByEventDateDescCreatedAtDesc();
 
     List<GalleryPost> findByCategoryOrderByEventDateDescCreatedAtDesc(String category);

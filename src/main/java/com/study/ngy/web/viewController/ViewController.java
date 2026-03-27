@@ -1,5 +1,6 @@
 package com.study.ngy.web.viewController;
 
+import com.study.ngy.domain.gallery.GalleryService;
 import com.study.ngy.domain.review.ReviewRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -13,6 +14,9 @@ public class ViewController {
     @Autowired
     private ReviewRepository reviewRepository;
 
+    @Autowired
+    private GalleryService galleryService;
+
     /*
      * thtmeleaf 일반 호출 에제
      */
@@ -20,6 +24,7 @@ public class ViewController {
     public String index(Model model) {
         System.out.println("@@@@@@@@@@@@@@@@@ index");
         model.addAttribute("recentReviews", reviewRepository.findTop3ByApprovedTrueOrderByCreatedAtDesc());
+        model.addAttribute("recentGallery", galleryService.findRecent());
         return "index";
     }
 

@@ -238,6 +238,35 @@
         </div>
     </section>
 
+    <!-- 최근 갤러리 섹션 -->
+    <section class="section-padding" id="recent-gallery" th:if="${not #lists.isEmpty(recentGallery)}">
+        <div class="container">
+            <div class="section-title text-center">
+                <h2>대원 갤러리</h2>
+                <p>생생한 행사 상차림 사진을 확인해 보세요.</p>
+            </div>
+            <div class="row g-4 mt-3">
+                <div class="col-lg-3 col-md-6" th:each="post : ${recentGallery}">
+                    <a th:href="@{/gallery/{id}(id=${post.id})}" class="text-decoration-none">
+                        <div class="gallery-item h-100 bg-white shadow-sm mb-0">
+                            <img th:if="${not #lists.isEmpty(post.images)}" th:src="${post.images[0].cloudinaryUrl}" th:alt="${post.title}" class="img-fluid" style="height: 200px; object-fit: cover; width: 100%;">
+                            <img th:unless="${not #lists.isEmpty(post.images)}" src="/assets/img/menu/menu-jesa.jpg" th:alt="${post.title}" class="img-fluid" style="height: 200px; object-fit: cover; width: 100%;">
+                            <div class="gallery-item-label">
+                                <strong class="d-block text-dark mb-1" th:text="${post.title}" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;"></strong>
+                                <small th:text="${#temporals.format(post.eventDate, 'yyyy.MM.dd')}" class="text-muted"></small>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+            </div>
+            <div class="text-center mt-5">
+                <a th:href="@{/gallery}" class="btn btn-outline-secondary px-4" style="border-radius: 50px;">
+                    <i class="fas fa-camera retro-icon me-2"></i>갤러리 전체보기
+                </a>
+            </div>
+        </div>
+    </section>
+
     <!-- 최근 리뷰 섹션 -->
     <section class="section-padding bg-light" id="recent-reviews" th:if="${not #lists.isEmpty(recentReviews)}">
         <div class="container">
