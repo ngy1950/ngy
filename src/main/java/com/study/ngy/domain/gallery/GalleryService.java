@@ -60,6 +60,34 @@ public class GalleryService {
     }
 
     @Transactional
+    public GalleryPost update(Long id, String title, String description, String category,
+                              LocalDate eventDate, List<MultipartFile> files) throws IOException {
+        GalleryPost post = findById(id);
+        post.setTitle(title);
+        post.setDescription(description);
+        post.setCategory(category);
+        post.setEventDate(eventDate);
+
+        if (files != null && !files.isEmpty() && !files.get(0).isEmpty()) {
+            imageRepository.deleteAll(post.getImages());
+            post.getImages().clear();
+
+            int order = 0;
+            for (MultipartFile file : files) {
+                if (file.isEmpty()) continue;
+                String url = cloudinaryService.upload(file);
+                GalleryImage image = new GalleryImage();
+                image.setPost(post);
+                image.setCloudinaryUrl(url);
+                image.setDisplayOrder(order++);
+                imageRepository.save(image);
+                post.getImages().add(image);
+            }
+        }
+        return post;
+    }
+
+    @Transactional
     public void delete(Long id) {
         GalleryPost post = findById(id);
         // Cloudinary 이미지는 무료 플랜에서 API로 삭제 가능하나 여기서는 DB만 삭제

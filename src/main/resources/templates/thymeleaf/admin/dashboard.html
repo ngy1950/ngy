@@ -277,12 +277,17 @@
                             <td th:text="${#temporals.format(post.createdAt, 'yyyy.MM.dd')}" class="small text-muted">
                             </td>
                             <td>
-                                <form th:action="@{/admin/gallery/{id}/delete(id=${post.id})}" method="post"
-                                    onsubmit="return confirm('정말 삭제하시겠습니까?')">
-                                    <button type="submit" class="btn btn-sm btn-outline-danger">
-                                        <i class="fas fa-trash"></i> 삭제
-                                    </button>
-                                </form>
+                                <div class="d-flex flex-wrap gap-1">
+                                    <a th:href="@{/admin/gallery/{id}/edit(id=${post.id})}" class="btn btn-sm btn-outline-primary">
+                                        <i class="fas fa-edit"></i> 수정
+                                    </a>
+                                    <form th:action="@{/admin/gallery/{id}/delete(id=${post.id})}" method="post"
+                                        onsubmit="return confirm('정말 삭제하시겠습니까?')">
+                                        <button type="submit" class="btn btn-sm btn-outline-danger">
+                                            <i class="fas fa-trash"></i> 삭제
+                                        </button>
+                                    </form>
+                                </div>
                             </td>
                         </tr>
                     </tbody>

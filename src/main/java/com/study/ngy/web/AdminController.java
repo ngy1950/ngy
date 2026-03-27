@@ -75,6 +75,23 @@ public class AdminController {
         return "redirect:/admin/dashboard";
     }
 
+    @GetMapping("/gallery/{id}/edit")
+    public String editForm(@PathVariable Long id, Model model) {
+        model.addAttribute("post", galleryService.findById(id));
+        return "admin/edit";
+    }
+
+    @PostMapping("/gallery/{id}/edit")
+    public String updatePost(@PathVariable Long id,
+                             @RequestParam String title,
+                             @RequestParam String description,
+                             @RequestParam String category,
+                             @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate eventDate,
+                             @RequestParam(value = "images", required = false) List<MultipartFile> images) throws IOException {
+        galleryService.update(id, title, description, category, eventDate, images);
+        return "redirect:/admin/dashboard";
+    }
+
     @PostMapping("/gallery/{id}/delete")
     public String deletePost(@PathVariable Long id) {
         galleryService.delete(id);
