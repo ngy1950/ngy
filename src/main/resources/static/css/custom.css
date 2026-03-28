@@ -54,6 +54,7 @@ h6 {
     font-weight: 800;
     color: var(--primary-color) !important;
     letter-spacing: -1px;
+    padding: 0; /* 로고 이미지가 영역을 온전히 쓰도록 패딩 제거 */
 }
 
 .navbar-brand span {
@@ -61,10 +62,17 @@ h6 {
 }
 
 .navbar-logo {
-    height: 45px;
+    height: 70px; /* PC에서는 충분히 크게 */
     width: auto;
     object-fit: contain;
     display: block;
+    transition: all 0.3s ease;
+}
+
+@media (max-width: 991px) {
+    .navbar-logo {
+        height: 50px; /* 모바일 화면에서는 비율에 맞게 축소 */
+    }
 }
 
 .footer-logo {
