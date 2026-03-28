@@ -60,6 +60,22 @@ h6 {
     color: var(--secondary-color);
 }
 
+.navbar-logo {
+    height: 45px;
+    width: auto;
+    object-fit: contain;
+    display: block;
+}
+
+.footer-logo {
+    height: 50px;
+    width: auto;
+    object-fit: contain;
+    display: block;
+    margin-bottom: 16px;
+    mix-blend-mode: screen;
+}
+
 .nav-link {
     font-weight: 600;
     color: var(--text-main) !important;
