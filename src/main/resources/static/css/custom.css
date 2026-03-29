@@ -115,64 +115,40 @@ h6 {
 }
 
 /* -------------------------------------
- *  2. Hero Section - Split Layout
+ *  2. Hero Section - Poster Display
  * ------------------------------------- */
 .hero-section {
-    display: flex;
+    position: relative;
     height: 100vh;
     min-height: 600px;
-}
-
-.hero-split-left {
-    flex: 0 0 52%;
-    background-color: #2c2724;
+    padding-top: 70px;
+    background-color: #f5ede3;
+    background-image: url('/assets/img/banner.png');
+    background-size: cover;
+    background-position: top center;
+    background-repeat: no-repeat;
     display: flex;
-    align-items: center;
-    padding: 80px 60px 60px 80px;
+    align-items: flex-end;
 }
 
-.hero-split-right {
-    flex: 1;
-    background: url('/assets/img/banner.png') no-repeat center center / cover;
+.hero-section::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 35%;
+    background: linear-gradient(to bottom, transparent 0%, rgba(44, 39, 36, 0.92) 100%);
+    pointer-events: none;
 }
 
-.hero-badge {
-    display: inline-block;
-    background: rgba(184, 151, 104, 0.2);
-    border: 1px solid rgba(184, 151, 104, 0.5);
-    color: #b89768;
-    font-size: 0.8rem;
-    font-weight: 600;
-    letter-spacing: 0.08em;
-    padding: 6px 14px;
-    border-radius: 20px;
-    margin-bottom: 24px;
-}
-
-.hero-content {
-    max-width: 520px;
-    padding-left: 0;
-}
-
-.hero-content h1 {
-    color: #fff;
-    font-size: 3.6rem;
-    font-weight: 800;
-    line-height: 1.15;
-    margin-bottom: 20px;
-    text-shadow: none;
-}
-
-.hero-content p {
-    font-size: 1.2rem;
-    font-weight: 300;
-    color: rgba(255, 255, 255, 0.8);
-    margin-bottom: 40px;
-    text-shadow: none;
-}
-
-.hero-cta-group {
+.hero-cta-bar {
+    position: relative;
+    z-index: 2;
+    width: 100%;
+    padding: 0 20px 48px;
     display: flex;
+    justify-content: center;
     gap: 1rem;
     flex-wrap: wrap;
 }
@@ -378,14 +354,6 @@ h6 {
 
 /* Responsive Adjustments */
 @media (max-width: 768px) {
-    .hero-content h1 {
-        font-size: 2.5rem;
-    }
-
-    .hero-content p {
-        font-size: 1.2rem;
-    }
-
     .section-padding {
         padding: 60px 0;
     }
@@ -394,27 +362,19 @@ h6 {
         font-size: 2rem;
     }
 
-    .hero-split-left {
-        flex: 1;
-        padding: 100px 28px 60px;
-        text-align: center;
-        justify-content: center;
+    .hero-section {
+        background-attachment: scroll;
     }
 
-    .hero-split-right {
-        display: none;
+    .hero-cta-bar {
+        flex-direction: column;
+        align-items: center;
+        padding-bottom: 36px;
     }
 
-    .hero-content {
-        max-width: 100%;
-    }
-
-    .hero-content h1 {
-        font-size: 2.4rem;
-    }
-
-    .hero-cta-group {
-        justify-content: center;
+    .hero-cta-bar .btn {
+        width: 80%;
+        max-width: 300px;
     }
 
     /* 전화번호 폰트 축소 */
@@ -429,15 +389,6 @@ h6 {
 }
 
 @media (max-width: 480px) {
-    .hero-content h1 {
-        font-size: 1.9rem;
-    }
-
-    .hero-content p {
-        font-size: 1rem;
-        margin-bottom: 28px;
-    }
-
     .section-title h2 {
         font-size: 1.7rem;
     }
