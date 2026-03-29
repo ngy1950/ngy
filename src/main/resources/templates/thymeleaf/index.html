@@ -502,6 +502,23 @@
             }
         });
     </script>
+    <script>
+    (function () {
+        if (window.innerWidth > 768) return;
+        var lastY = 0;
+        var bar = document.querySelector('.hero-cta-bar');
+        if (!bar) return;
+        window.addEventListener('scroll', function () {
+            var y = window.scrollY;
+            if (y > lastY && y > 80) {
+                bar.classList.add('cta-bar-hidden');
+            } else {
+                bar.classList.remove('cta-bar-hidden');
+            }
+            lastY = y;
+        }, { passive: true });
+    }());
+    </script>
 </body>
 
 </html>
