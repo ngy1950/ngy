@@ -123,9 +123,14 @@ h6 {
     min-height: 600px;
     display: flex;
     align-items: center;
-    justify-content: center;
-    text-align: center;
-    background: linear-gradient(rgba(44, 39, 36, 0.8), rgba(44, 39, 36, 0.8)), url('/assets/img/banner.png') no-repeat center center;
+    justify-content: flex-start;
+    text-align: left;
+    background: linear-gradient(
+        to right,
+        rgba(44, 39, 36, 0.92) 0%,
+        rgba(44, 39, 36, 0.75) 45%,
+        rgba(44, 39, 36, 0.35) 100%
+    ), url('/assets/img/banner.png') no-repeat center center;
     background-size: cover;
     background-attachment: fixed;
     color: var(--white);
@@ -133,18 +138,24 @@ h6 {
     /* 네비게이션 높이 보정 */
 }
 
+.hero-content {
+    max-width: 600px;
+    padding-left: 2rem;
+}
+
 .hero-content h1 {
     color: var(--white);
     font-size: 4rem;
     font-weight: 800;
     margin-bottom: 20px;
-    text-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.6);
 }
 
 .hero-content p {
     font-size: 1.5rem;
     font-weight: 300;
     margin-bottom: 40px;
+    text-shadow: 0 2px 6px rgba(0, 0, 0, 0.5);
 }
 
 /* -------------------------------------
@@ -364,9 +375,19 @@ h6 {
         font-size: 2rem;
     }
 
-    /* iOS Safari background-attachment: fixed 렌더링 버그 해결 */
+    /* iOS Safari background-attachment: fixed 렌더링 버그 해결 + 모바일 중앙 정렬 복귀 */
     .hero-section {
         background-attachment: scroll;
+        background: linear-gradient(rgba(44, 39, 36, 0.85), rgba(44, 39, 36, 0.85)),
+                    url('/assets/img/banner.png') no-repeat center center;
+        background-size: cover;
+        justify-content: center;
+        text-align: center;
+    }
+
+    .hero-content {
+        max-width: 100%;
+        padding-left: 0;
     }
 
     /* 전화번호 폰트 축소 */
