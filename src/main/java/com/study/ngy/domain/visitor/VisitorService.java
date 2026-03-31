@@ -6,11 +6,11 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
+import java.time.format.DateTimeFormatter;
+import java.util.*;;
 
 @Service
 @RequiredArgsConstructor
@@ -102,6 +102,60 @@ public class VisitorService {
     public List<String> getRecentSessionIds() {
         LocalDateTime from = LocalDateTime.now().minusHours(24);
         return visitorRawLogRepository.findRecentSessionIds(from);
+    }
+
+    /** 유입소스 일별 집계 → 일별/주별/월별 차트 데이터 반환 */
+    @Transactional(readOnly = true)
+    public Map<String, Object> getReferrerChartData(String period) {
+        LocalDateTime from = switch (period) {
+            case "weekly"  -> LocalDateTime.now().minusWeeks(8);
+            case "monthly" -> LocalDateTime.now().minusMonths(6);
+            default        -> LocalDateTime.now().minusDays(13);
+        };
+
+        List<Object[]> rows = visitorRawLogRepository.findDailyReferrerStats(from);
+
+        // bucket key → (source → count)
+        Map<String, Map<String, Long>> buckets = new LinkedHashMap<>();
+        Set<String> sources = new LinkedHashSet<>();
+
+        for (Object[] row : rows) {
+            LocalDate date = toLocalDate(row[0]);
+            String source = (String) row[1];
+            long count = ((Number) row[2]).longValue();
+
+            String label = switch (period) {
+                case "weekly"  -> date.with(DayOfWeek.MONDAY)
+                                      .format(DateTimeFormatter.ofPattern("MM-dd"));
+                case "monthly" -> date.format(DateTimeFormatter.ofPattern("yyyy-MM"));
+                default        -> date.format(DateTimeFormatter.ofPattern("MM-dd"));
+            };
+
+            buckets.computeIfAbsent(label, k -> new LinkedHashMap<>())
+                   .merge(source, count, Long::sum);
+            sources.add(source);
+        }
+
+        List<String> labels = new ArrayList<>(buckets.keySet());
+        Map<String, List<Long>> datasets = new LinkedHashMap<>();
+        for (String src : sources) {
+            List<Long> data = new ArrayList<>();
+            for (String label : labels) {
+                data.add(buckets.getOrDefault(label, Map.of()).getOrDefault(src, 0L));
+            }
+            datasets.put(src, data);
+        }
+
+        Map<String, Object> result = new LinkedHashMap<>();
+        result.put("labels", labels);
+        result.put("datasets", datasets);
+        return result;
+    }
+
+    private LocalDate toLocalDate(Object o) {
+        if (o instanceof java.sql.Date d) return d.toLocalDate();
+        if (o instanceof LocalDate d)    return d;
+        return LocalDate.parse(o.toString());
     }
 
     /** 순 방문자 수 (오늘 / 최근 7일 / 최근 30일) — IP 기준 중복 제거 */

@@ -45,4 +45,11 @@ public interface VisitorRawLogRepository extends JpaRepository<VisitorRawLog, Lo
     /** 기간 내 순 방문자 수 (IP 기준 중복 제거) */
     @Query("SELECT COUNT(DISTINCT v.ip) FROM VisitorRawLog v WHERE v.visitedAt >= :from")
     Long countDistinctIpSince(@Param("from") LocalDateTime from);
+
+    /** 일별 유입소스 집계 — 차트용 */
+    @Query(value = "SELECT CAST(visited_at AS DATE), referrer_source, COUNT(*) " +
+                   "FROM visitor_raw_log WHERE visited_at >= :from " +
+                   "GROUP BY CAST(visited_at AS DATE), referrer_source " +
+                   "ORDER BY CAST(visited_at AS DATE)", nativeQuery = true)
+    List<Object[]> findDailyReferrerStats(@Param("from") LocalDateTime from);
 }

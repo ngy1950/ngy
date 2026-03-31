@@ -7,6 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
     <style>
         .stat-value { color: #5c3d1e; font-size: 1.5rem; font-weight: 700; line-height: 1.2; }
         .stat-label { color: #888; font-size: 0.75rem; }
@@ -159,6 +160,30 @@
                             </div>
                         </div>
                     </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 유입 경로 트렌드 차트 -->
+        <div class="card shadow-sm mb-4">
+            <div class="card-header fw-bold section-green d-flex justify-content-between align-items-center">
+                <span><i class="fas fa-chart-line me-2"></i>유입 경로 트렌드</span>
+                <div class="btn-group btn-group-sm" role="group">
+                    <button type="button" class="btn btn-warning fw-bold" id="btn-daily"
+                            onclick="loadChart('daily')">일별</button>
+                    <button type="button" class="btn btn-outline-light" id="btn-weekly"
+                            onclick="loadChart('weekly')">주별</button>
+                    <button type="button" class="btn btn-outline-light" id="btn-monthly"
+                            onclick="loadChart('monthly')">월별</button>
+                </div>
+            </div>
+            <div class="card-body">
+                <div id="chartLoading" class="text-center text-muted py-4">
+                    <i class="fas fa-spinner fa-spin me-2"></i>불러오는 중...
+                </div>
+                <canvas id="referrerChart" style="display:none; max-height:300px;"></canvas>
+                <div id="chartEmpty" class="text-center text-muted py-4" style="display:none;">
+                    데이터가 없습니다.
                 </div>
             </div>
         </div>
@@ -425,6 +450,91 @@
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script>
+        // ── 유입 경로 차트 ──────────────────────────────────────────
+        const SOURCE_COLORS = {
+            'DIRECT':       '#6c757d',
+            'NAVER_PLACE':  '#03c75a',
+            'NAVER_SEARCH': '#1db320',
+            'NAVER_MAP':    '#3a9e50',
+            'NAVER_BLOG':   '#78c96e',
+            'NAVER_CAFE':   '#a8dd8a',
+            'NAVER_OTHER':  '#cde8a0',
+            'KAKAO_TALK':   '#f9e000',
+            'KAKAO_MAP':    '#f5a623',
+            'KAKAO_OTHER':  '#f9c84e',
+            'GOOGLE':       '#4285F4',
+            'INSTAGRAM':    '#C13584',
+            'FACEBOOK':     '#1877F2',
+            'YOUTUBE':      '#FF0000',
+            'BAND':         '#00c73c',
+            'OTHER':        '#adb5bd',
+        };
+        function colorFor(src) {
+            return SOURCE_COLORS[src] || '#' + Math.floor(Math.random()*0xffffff).toString(16).padStart(6,'0');
+        }
+
+        let chartInstance = null;
+
+        function loadChart(period) {
+            // 버튼 상태
+            ['daily','weekly','monthly'].forEach(p => {
+                const btn = document.getElementById('btn-' + p);
+                btn.className = p === period
+                    ? 'btn btn-warning fw-bold'
+                    : 'btn btn-outline-light';
+            });
+
+            document.getElementById('chartLoading').style.display = '';
+            document.getElementById('referrerChart').style.display = 'none';
+            document.getElementById('chartEmpty').style.display = 'none';
+
+            fetch('/admin/visitor/chart?period=' + period)
+                .then(r => r.json())
+                .then(data => {
+                    document.getElementById('chartLoading').style.display = 'none';
+                    if (!data.labels || data.labels.length === 0) {
+                        document.getElementById('chartEmpty').style.display = '';
+                        return;
+                    }
+                    const canvas = document.getElementById('referrerChart');
+                    canvas.style.display = '';
+
+                    const datasets = Object.entries(data.datasets).map(([src, vals]) => ({
+                        label: src,
+                        data: vals,
+                        backgroundColor: colorFor(src),
+                        borderColor: colorFor(src),
+                        borderWidth: 1,
+                    }));
+
+                    if (chartInstance) chartInstance.destroy();
+                    chartInstance = new Chart(canvas, {
+                        type: 'bar',
+                        data: { labels: data.labels, datasets },
+                        options: {
+                            responsive: true,
+                            maintainAspectRatio: true,
+                            plugins: {
+                                legend: { position: 'bottom', labels: { boxWidth: 12, font: { size: 11 } } },
+                                tooltip: { mode: 'index', intersect: false },
+                            },
+                            scales: {
+                                x: { stacked: true, ticks: { font: { size: 11 } } },
+                                y: { stacked: true, beginAtZero: true, ticks: { precision: 0 } },
+                            },
+                        },
+                    });
+                })
+                .catch(() => {
+                    document.getElementById('chartLoading').style.display = 'none';
+                    document.getElementById('chartEmpty').style.display = '';
+                });
+        }
+
+        // 페이지 로드 시 일별 차트 자동 표시
+        loadChart('daily');
+
+        // ── 세션 흐름 모달 ──────────────────────────────────────────
         function showFlow(sessionId) {
             const modal = new bootstrap.Modal(document.getElementById('flowModal'));
             const body = document.getElementById('flowBody');

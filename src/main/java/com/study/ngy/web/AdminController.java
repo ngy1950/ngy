@@ -46,6 +46,13 @@ public class AdminController {
         return "admin/dashboard";
     }
 
+    @GetMapping("/visitor/chart")
+    @ResponseBody
+    public java.util.Map<String, Object> referrerChart(
+            @RequestParam(defaultValue = "daily") String period) {
+        return visitorService.getReferrerChartData(period);
+    }
+
     @GetMapping("/visitor/session/{sessionId}")
     @ResponseBody
     public java.util.List<java.util.Map<String, Object>> sessionFlow(@PathVariable String sessionId) {
