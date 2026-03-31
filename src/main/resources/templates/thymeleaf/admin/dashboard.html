@@ -129,9 +129,11 @@
                                 <td>
                                     <span class="badge"
                                           th:classappend="${log.referrerSource == 'DIRECT'} ? 'bg-secondary' :
-                                                          (${log.referrerSource == 'NAVER'} ? 'bg-success' :
+                                                          (${#strings.startsWith(log.referrerSource, 'NAVER')} ? 'bg-success' :
                                                           (${log.referrerSource == 'GOOGLE'} ? 'bg-primary' :
-                                                          (${log.referrerSource == 'KAKAO'} ? 'bg-warning text-dark' : 'bg-info')))"
+                                                          (${#strings.startsWith(log.referrerSource, 'KAKAO')} ? 'bg-warning text-dark' :
+                                                          (${log.referrerSource == 'BAND'} ? 'bg-success bg-opacity-50' : 'bg-info'))))"
+                                          th:title="${log.referrer}"
                                           th:text="${log.referrerSource}"></span>
                                 </td>
                                 <td>

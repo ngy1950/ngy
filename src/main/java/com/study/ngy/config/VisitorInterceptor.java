@@ -58,16 +58,27 @@ public class VisitorInterceptor implements HandlerInterceptor {
         return request.getRemoteAddr();
     }
 
-    /** Referer 헤더를 DIRECT / NAVER / GOOGLE / KAKAO / OTHER 로 분류 */
+    /** Referer 헤더를 상세 유입 소스로 분류 */
     private String parseReferrerSource(String referrer) {
         if (referrer == null || referrer.isBlank()) return "DIRECT";
         String lower = referrer.toLowerCase();
-        if (lower.contains("naver.com")) return "NAVER";
-        if (lower.contains("google.")) return "GOOGLE";
-        if (lower.contains("kakao.com") || lower.contains("kakaotalk")) return "KAKAO";
-        if (lower.contains("instagram.com")) return "INSTAGRAM";
+        // 네이버 세부 채널
+        if (lower.contains("place.naver.com"))  return "NAVER_PLACE";   // 스마트플레이스
+        if (lower.contains("map.naver.com"))    return "NAVER_MAP";     // 네이버 지도
+        if (lower.contains("blog.naver.com"))   return "NAVER_BLOG";    // 네이버 블로그
+        if (lower.contains("cafe.naver.com"))   return "NAVER_CAFE";    // 네이버 카페
+        if (lower.contains("search.naver.com")) return "NAVER_SEARCH";  // 네이버 검색
+        if (lower.contains("naver.com"))        return "NAVER_OTHER";   // 기타 네이버
+        // 카카오 세부 채널
+        if (lower.contains("map.kakao.com"))    return "KAKAO_MAP";     // 카카오맵
+        if (lower.contains("kakaotalk") || lower.contains("kakaolink")) return "KAKAO_TALK"; // 카카오톡
+        if (lower.contains("kakao.com"))        return "KAKAO_OTHER";   // 기타 카카오
+        // 기타 채널
+        if (lower.contains("google."))          return "GOOGLE";
+        if (lower.contains("instagram.com"))    return "INSTAGRAM";
         if (lower.contains("facebook.com") || lower.contains("fb.com")) return "FACEBOOK";
-        if (lower.contains("youtube.com")) return "YOUTUBE";
+        if (lower.contains("youtube.com"))      return "YOUTUBE";
+        if (lower.contains("band.us"))          return "BAND";          // 네이버 밴드
         return "OTHER";
     }
 
