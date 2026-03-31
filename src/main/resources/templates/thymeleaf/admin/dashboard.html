@@ -50,6 +50,62 @@
             </div>
         </div>
 
+        <!-- CTA 클릭 집계 -->
+        <div class="card shadow-sm mb-3">
+            <div class="card-header fw-bold small section-brown d-flex justify-content-between align-items-center">
+                <span><i class="fas fa-bullhorn me-1"></i> 문의 버튼 클릭 집계</span>
+                <span class="fw-normal opacity-75" style="font-size:0.75rem;">오늘 / 7일 / 30일</span>
+            </div>
+            <div class="card-body py-2">
+                <div class="row g-2">
+                    <!-- 전화 -->
+                    <div class="col-6">
+                        <div class="d-flex align-items-center gap-2 p-2 rounded" style="background:#f8f4ef;">
+                            <i class="fas fa-phone-alt fa-lg" style="color:#5c3d1e;"></i>
+                            <div>
+                                <div class="fw-bold small">전화 문의</div>
+                                <div class="text-muted" style="font-size:0.78rem;">
+                                    <span class="fw-semibold text-dark" th:text="${ctaStats.phone_today}">0</span>건 /
+                                    <span th:text="${ctaStats.phone_7days}">0</span> /
+                                    <span th:text="${ctaStats.phone_30days}">0</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- 카카오 -->
+                    <div class="col-6">
+                        <div class="d-flex align-items-center gap-2 p-2 rounded" style="background:#fffde7;">
+                            <i class="fas fa-comment fa-lg" style="color:#f9e000; -webkit-text-stroke:1px #ccc;"></i>
+                            <div>
+                                <div class="fw-bold small">카카오 문의</div>
+                                <div class="text-muted" style="font-size:0.78rem;">
+                                    <span class="fw-semibold text-dark" th:text="${ctaStats.kakao_today}">0</span>건 /
+                                    <span th:text="${ctaStats.kakao_7days}">0</span> /
+                                    <span th:text="${ctaStats.kakao_30days}">0</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- 페이지별 분석 (최근 7일) -->
+                <div th:if="${!#lists.isEmpty(ctaStats.byPage)}" class="mt-2 pt-2 border-top">
+                    <div class="small text-muted mb-1">페이지별 클릭 <span class="fw-normal">(최근 7일)</span></div>
+                    <div th:each="row : ${ctaStats.byPage}"
+                         class="d-flex justify-content-between align-items-center mb-1">
+                        <span class="small text-truncate me-2" th:text="${row.page}"></span>
+                        <div class="d-flex gap-1 flex-shrink-0">
+                            <span th:if="${row.type == 'PHONE'}" class="badge bg-secondary">
+                                <i class="fas fa-phone-alt me-1"></i><span th:text="${row.count}"></span>
+                            </span>
+                            <span th:if="${row.type == 'KAKAO'}" class="badge" style="background:#f9e000; color:#333;">
+                                <i class="fas fa-comment me-1"></i><span th:text="${row.count}"></span>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <!-- 통계: 모바일은 탭, 데스크탑은 3컬럼 카드 -->
         <div class="d-md-none mb-3">
             <ul class="nav nav-tabs nav-fill" id="statTabs" role="tablist">

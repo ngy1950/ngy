@@ -1,5 +1,6 @@
 package com.study.ngy.web;
 
+import com.study.ngy.domain.cta.CtaService;
 import com.study.ngy.domain.gallery.GalleryService;
 import com.study.ngy.domain.review.ReviewService;
 import com.study.ngy.domain.visitor.VisitorService;
@@ -25,6 +26,7 @@ public class AdminController {
     private final GalleryService galleryService;
     private final ReviewService reviewService;
     private final VisitorService visitorService;
+    private final CtaService ctaService;
 
     @GetMapping("/login")
     public String loginPage() {
@@ -43,6 +45,7 @@ public class AdminController {
         model.addAttribute("ipStats", visitorService.getIpStats());
         model.addAttribute("recentSessionIds", visitorService.getRecentSessionIds());
         model.addAttribute("uniqueVisitorCounts", visitorService.getUniqueVisitorCounts());
+        model.addAttribute("ctaStats", ctaService.getCtaStats());
         return "admin/dashboard";
     }
 

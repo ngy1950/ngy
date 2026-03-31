@@ -67,6 +67,18 @@
   <link rel="stylesheet" th:href="@{/css/subpages.css}">
   <!-- Bootstrap JS (defer: body 파싱 완료 후 실행) -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" defer></script>
+  <!-- CTA 클릭 트래킹 -->
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      document.querySelectorAll('a[href^="tel:"], a[href*="pf.kakao.com"]').forEach(function (el) {
+        el.addEventListener('click', function () {
+          var type = el.href.startsWith('tel:') ? 'PHONE' : 'KAKAO';
+          var page = window.location.pathname;
+          fetch('/track/cta?type=' + type + '&page=' + encodeURIComponent(page), { keepalive: true });
+        });
+      });
+    });
+  </script>
 </head>
 
 </html>
