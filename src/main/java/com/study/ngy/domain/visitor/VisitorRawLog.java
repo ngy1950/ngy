@@ -44,6 +44,10 @@ public class VisitorRawLog {
     @Column(length = 100)
     private String sessionId;
 
+    /** 페이지 체류 시간 (초). JS가 이탈 시 전송. null = 미수집 */
+    @Column(name = "dwell_seconds")
+    private Integer dwellSeconds;
+
     public VisitorRawLog(String page, String ip, String referrer, String referrerSource,
                          String deviceType, String sessionId) {
         this.visitedAt = LocalDateTime.now();
@@ -53,5 +57,9 @@ public class VisitorRawLog {
         this.referrerSource = referrerSource;
         this.deviceType = deviceType;
         this.sessionId = sessionId;
+    }
+
+    public void updateDwellSeconds(int seconds) {
+        this.dwellSeconds = seconds;
     }
 }

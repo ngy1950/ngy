@@ -1,12 +1,14 @@
 package com.study.ngy.config;
 
 import com.study.ngy.domain.visitor.VisitorService;
+import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
+
+import java.util.UUID;
 
 @Component
 @RequiredArgsConstructor
@@ -37,7 +39,7 @@ public class VisitorInterceptor implements HandlerInterceptor {
         String referrer = request.getHeader("Referer");
         String referrerSource = parseReferrerSource(referrer);
         String deviceType = parseDeviceType(request.getHeader("User-Agent"));
-        String sessionId = getSessionId(request);
+        String sessionId = getOrCreateVid(request, response);
 
         visitorService.recordRawVisit(page, ip, referrer, referrerSource, deviceType, sessionId);
 
@@ -97,9 +99,20 @@ public class VisitorInterceptor implements HandlerInterceptor {
         return "DESKTOP";
     }
 
-    /** 세션 ID (없으면 새로 생성) */
-    private String getSessionId(HttpServletRequest request) {
-        HttpSession session = request.getSession(true);
-        return session.getId();
+    /**
+     * vid 쿠키 — JS에서도 읽을 수 있는 방문자 추적 UUID.
+     * JSESSIONID 대신 별도 쿠키를 사용해 세션 보안과 분리.
+     */
+    private String getOrCreateVid(HttpServletRequest request, HttpServletResponse response) {
+        if (request.getCookies() != null) {
+            for (Cookie c : request.getCookies()) {
+                if ("vid".equals(c.getName())) return c.getValue();
+            }
+        }
+        String vid = UUID.randomUUID().toString();
+        // SameSite=Lax 는 Jakarta Cookie API 미지원 → Set-Cookie 헤더 직접 설정
+        response.addHeader("Set-Cookie",
+                "vid=" + vid + "; Max-Age=2592000; Path=/; SameSite=Lax");
+        return vid;
     }
 }

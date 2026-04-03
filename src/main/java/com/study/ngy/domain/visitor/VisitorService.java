@@ -2,6 +2,7 @@ package com.study.ngy.domain.visitor;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -156,6 +157,59 @@ public class VisitorService {
         if (o instanceof java.sql.Date d) return d.toLocalDate();
         if (o instanceof LocalDate d)    return d;
         return LocalDate.parse(o.toString());
+    }
+
+    /** 체류 시간 업데이트 — vid + page 기준 가장 최근 로그에 기록 */
+    @Transactional
+    public void updateDwellTime(String vid, String page, int seconds) {
+        List<VisitorRawLog> logs = visitorRawLogRepository.findTopBySessionIdAndPage(
+                vid, page, PageRequest.of(0, 1));
+        if (!logs.isEmpty()) logs.get(0).updateDwellSeconds(seconds);
+    }
+
+    /** 페이지별 평균 체류 시간 (최근 7일, 측정된 것만) */
+    @Transactional(readOnly = true)
+    public List<Map<String, Object>> getDwellTimeStats() {
+        LocalDateTime from = LocalDateTime.now().minusDays(7);
+        List<Object[]> rows = visitorRawLogRepository.avgDwellTimeByPageSince(from);
+        List<Map<String, Object>> result = new ArrayList<>();
+        for (Object[] row : rows) {
+            Map<String, Object> map = new LinkedHashMap<>();
+            map.put("page", row[0]);
+            map.put("avgSeconds", row[1] != null ? ((Number) row[1]).intValue() : 0);
+            map.put("count", ((Number) row[2]).longValue());
+            result.add(map);
+        }
+        return result;
+    }
+
+    /** 페이지별 이탈률 (최근 7일) */
+    @Transactional(readOnly = true)
+    public List<Map<String, Object>> getBounceRateByPage() {
+        LocalDateTime from = LocalDateTime.now().minusDays(7);
+        List<Object[]> rows = visitorRawLogRepository.getBounceStatsByPage(from);
+        List<Map<String, Object>> result = new ArrayList<>();
+        for (Object[] row : rows) {
+            long bounced = ((Number) row[1]).longValue();
+            long total   = ((Number) row[2]).longValue();
+            Map<String, Object> map = new LinkedHashMap<>();
+            map.put("page",    row[0]);
+            map.put("bounced", bounced);
+            map.put("total",   total);
+            map.put("rate",    total > 0 ? (int) Math.round(bounced * 100.0 / total) : 0);
+            result.add(map);
+        }
+        return result;
+    }
+
+    /** 메인 → 메뉴 → CTA 퍼널 (최근 7일 세션 수) */
+    @Transactional(readOnly = true)
+    public Map<String, Long> getFunnelStats() {
+        LocalDateTime from = LocalDateTime.now().minusDays(7);
+        Map<String, Long> funnel = new LinkedHashMap<>();
+        funnel.put("메인 방문",  visitorRawLogRepository.countDistinctSessionsByPageSince("/", from));
+        funnel.put("메뉴 진입",  visitorRawLogRepository.countDistinctSessionsByMenuPageSince(from));
+        return funnel;
     }
 
     /** 순 방문자 수 (오늘 / 최근 7일 / 최근 30일) — IP 기준 중복 제거 */

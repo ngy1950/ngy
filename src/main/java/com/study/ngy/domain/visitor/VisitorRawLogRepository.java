@@ -52,4 +52,38 @@ public interface VisitorRawLogRepository extends JpaRepository<VisitorRawLog, Lo
                    "GROUP BY CAST(visited_at AS DATE), referrer_source " +
                    "ORDER BY CAST(visited_at AS DATE)", nativeQuery = true)
     List<Object[]> findDailyReferrerStats(@Param("from") LocalDateTime from);
+
+    /** 체류 시간 업데이트용 — vid(sessionId) + page 기준 가장 최근 로그 1건 */
+    @Query("SELECT v FROM VisitorRawLog v WHERE v.sessionId = :sessionId AND v.page = :page ORDER BY v.visitedAt DESC")
+    List<VisitorRawLog> findTopBySessionIdAndPage(@Param("sessionId") String sessionId,
+                                                  @Param("page") String page,
+                                                  org.springframework.data.domain.Pageable pageable);
+
+    /** 페이지별 평균 체류 시간 (측정된 것만) */
+    @Query("SELECT v.page, AVG(v.dwellSeconds), COUNT(v) FROM VisitorRawLog v " +
+           "WHERE v.visitedAt >= :from AND v.dwellSeconds IS NOT NULL " +
+           "GROUP BY v.page ORDER BY COUNT(v) DESC")
+    List<Object[]> avgDwellTimeByPageSince(@Param("from") LocalDateTime from);
+
+    /** 이탈률 — 세션별 첫 진입 페이지 + 단일 페이지 여부 */
+    @Query(value = "SELECT sub.first_page, " +
+                   "SUM(CASE WHEN sub.page_cnt = 1 THEN 1 ELSE 0 END) AS bounced, " +
+                   "COUNT(*) AS total " +
+                   "FROM (SELECT session_id, MIN(page) AS first_page, COUNT(DISTINCT page) AS page_cnt " +
+                   "      FROM visitor_raw_log " +
+                   "      WHERE visited_at >= :from AND session_id IS NOT NULL " +
+                   "      GROUP BY session_id) sub " +
+                   "GROUP BY sub.first_page ORDER BY total DESC", nativeQuery = true)
+    List<Object[]> getBounceStatsByPage(@Param("from") LocalDateTime from);
+
+    /** 퍼널용 — 특정 페이지 방문 순 세션 수 */
+    @Query("SELECT COUNT(DISTINCT v.sessionId) FROM VisitorRawLog v " +
+           "WHERE v.page = :page AND v.visitedAt >= :from AND v.sessionId IS NOT NULL")
+    Long countDistinctSessionsByPageSince(@Param("page") String page,
+                                          @Param("from") LocalDateTime from);
+
+    /** 퍼널용 — /menu/* 방문 순 세션 수 */
+    @Query("SELECT COUNT(DISTINCT v.sessionId) FROM VisitorRawLog v " +
+           "WHERE v.page LIKE '/menu/%' AND v.visitedAt >= :from AND v.sessionId IS NOT NULL")
+    Long countDistinctSessionsByMenuPageSince(@Param("from") LocalDateTime from);
 }
