@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.DayOfWeek;
+import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -19,6 +20,7 @@ public class VisitorService {
 
     private final VisitorLogRepository visitorLogRepository;
     private final VisitorRawLogRepository visitorRawLogRepository;
+    private final VisitorSessionRepository visitorSessionRepository;
 
     /** 기존 집계 카운트 업데이트 */
     @Transactional
@@ -31,13 +33,26 @@ public class VisitorService {
                 );
     }
 
-    /** 원시 로그 저장 (IP/유입경로/기기/세션) */
+    /** 원시 로그 저장 (IP/유입경로/기기/세션/UTM) */
     @Transactional
     public void recordRawVisit(String page, String ip, String referrer,
-                               String referrerSource, String deviceType, String sessionId) {
+                               String referrerSource, String deviceType, String sessionId,
+                               String utmSource, String utmMedium, String utmCampaign) {
         visitorRawLogRepository.save(
-                new VisitorRawLog(page, ip, referrer, referrerSource, deviceType, sessionId)
+                new VisitorRawLog(page, ip, referrer, referrerSource, deviceType, sessionId,
+                        utmSource, utmMedium, utmCampaign)
         );
+    }
+
+    /** 세션 최초 생성 또는 갱신 */
+    @Transactional
+    public void upsertSession(String sessionId) {
+        if (sessionId == null || sessionId.isBlank()) return;
+        visitorSessionRepository.findById(sessionId)
+                .ifPresentOrElse(
+                        VisitorSession::touch,
+                        () -> visitorSessionRepository.save(new VisitorSession(sessionId))
+                );
     }
 
     // ─── 집계 통계 ───────────────────────────────────────────────
@@ -116,7 +131,6 @@ public class VisitorService {
 
         List<Object[]> rows = visitorRawLogRepository.findDailyReferrerStats(from);
 
-        // bucket key → (source → count)
         Map<String, Map<String, Long>> buckets = new LinkedHashMap<>();
         Set<String> sources = new LinkedHashSet<>();
 
@@ -159,7 +173,7 @@ public class VisitorService {
         return LocalDate.parse(o.toString());
     }
 
-    /** 체류 시간 업데이트 — vid + page 기준 가장 최근 로그에 기록 */
+    /** 체류 시간 업데이트 — vid + page 기준 가장 최근 로그에 기록 (exitedAt도 자동 계산) */
     @Transactional
     public void updateDwellTime(String vid, String page, int seconds) {
         List<VisitorRawLog> logs = visitorRawLogRepository.findTopBySessionIdAndPage(
@@ -181,6 +195,59 @@ public class VisitorService {
             result.add(map);
         }
         return result;
+    }
+
+    /** 이탈 페이지 TOP5 (최근 7일) */
+    @Transactional(readOnly = true)
+    public List<Map<String, Object>> getExitPageStats() {
+        LocalDateTime from = LocalDateTime.now().minusDays(7);
+        List<Object[]> rows = visitorRawLogRepository.countExitsByPageSince(from);
+        List<Map<String, Object>> result = new ArrayList<>();
+        int limit = 5;
+        for (Object[] row : rows) {
+            if (limit-- <= 0) break;
+            Map<String, Object> map = new LinkedHashMap<>();
+            map.put("page",  row[0]);
+            map.put("count", ((Number) row[1]).longValue());
+            result.add(map);
+        }
+        return result;
+    }
+
+    /** UTM 소스·매체별 집계 (최근 7일) */
+    @Transactional(readOnly = true)
+    public List<Map<String, Object>> getUtmStats() {
+        LocalDateTime from = LocalDateTime.now().minusDays(7);
+        List<Object[]> rows = visitorRawLogRepository.countByUtmSince(from);
+        List<Map<String, Object>> result = new ArrayList<>();
+        for (Object[] row : rows) {
+            Map<String, Object> map = new LinkedHashMap<>();
+            map.put("source", row[0]);
+            map.put("medium", row[1]);
+            map.put("count",  ((Number) row[2]).longValue());
+            result.add(map);
+        }
+        return result;
+    }
+
+    /** 평균 세션 지속시간 (최근 7일) */
+    @Transactional(readOnly = true)
+    public Map<String, Object> getSessionStats() {
+        LocalDateTime from = LocalDateTime.now().minusDays(7);
+        List<VisitorSession> sessions = visitorSessionRepository.findByFirstVisitAtAfter(from);
+        if (sessions.isEmpty()) {
+            Map<String, Object> empty = new LinkedHashMap<>();
+            empty.put("avgSeconds", 0);
+            empty.put("count", 0);
+            return empty;
+        }
+        long totalSeconds = sessions.stream()
+                .mapToLong(s -> Duration.between(s.getFirstVisitAt(), s.getLastActivityAt()).getSeconds())
+                .sum();
+        Map<String, Object> map = new LinkedHashMap<>();
+        map.put("avgSeconds", (int) (totalSeconds / sessions.size()));
+        map.put("count", sessions.size());
+        return map;
     }
 
     /** 페이지별 이탈률 (최근 7일) */

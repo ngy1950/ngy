@@ -1,8 +1,10 @@
 package com.study.ngy.web;
 
 import com.study.ngy.domain.cta.CtaService;
+import com.study.ngy.domain.event.EventService;
 import com.study.ngy.domain.gallery.GalleryService;
 import com.study.ngy.domain.review.ReviewService;
+import com.study.ngy.domain.scroll.ScrollService;
 import com.study.ngy.domain.visitor.VisitorService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -27,6 +29,8 @@ public class AdminController {
     private final ReviewService reviewService;
     private final VisitorService visitorService;
     private final CtaService ctaService;
+    private final EventService eventService;
+    private final ScrollService scrollService;
 
     @GetMapping("/login")
     public String loginPage() {
@@ -49,8 +53,14 @@ public class AdminController {
         model.addAttribute("dwellTimeStats", visitorService.getDwellTimeStats());
         model.addAttribute("bounceRate", visitorService.getBounceRateByPage());
         java.util.Map<String, Long> funnel = visitorService.getFunnelStats();
+        funnel.put("메뉴 카드 클릭", eventService.countMenuClickSessions());
         funnel.put("CTA 클릭", ctaService.getTotalCtaCount());
         model.addAttribute("funnelStats", funnel);
+        model.addAttribute("exitPageStats",  visitorService.getExitPageStats());
+        model.addAttribute("scrollStats",    scrollService.getScrollStats());
+        model.addAttribute("eventStats",     eventService.getEventStats());
+        model.addAttribute("utmStats",       visitorService.getUtmStats());
+        model.addAttribute("sessionStats",   visitorService.getSessionStats());
         return "admin/dashboard";
     }
 

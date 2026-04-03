@@ -44,7 +44,8 @@
             <!-- 갤러리 카드 그리드 -->
             <div class="row g-4" th:unless="${#lists.isEmpty(posts)}">
                 <div class="col-12 col-sm-6 col-lg-4" th:each="post : ${posts}">
-                    <a th:href="@{/gallery/{id}(id=${post.id})}" class="text-decoration-none">
+                    <a th:href="@{/gallery/{id}(id=${post.id})}" class="text-decoration-none"
+                       data-track-action="gallery_click" th:data-track-label="${post.id}">
                         <div class="gallery-card card h-100 border-0 shadow-sm">
                             <!-- 대표 이미지 -->
                             <div class="gallery-card-img-wrap">

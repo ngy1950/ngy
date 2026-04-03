@@ -342,6 +342,101 @@
             </div>
         </div>
 
+        <!-- 이탈 페이지 TOP5 + 세션 평균 지속시간 (2컬럼) -->
+        <div class="row g-3 mb-3">
+            <div class="col-md-6">
+                <div class="card shadow-sm h-100">
+                    <div class="card-header fw-bold small section-green">
+                        <i class="fas fa-door-open me-1"></i> 이탈 페이지 TOP5 <span class="fw-normal">(최근 7일)</span>
+                    </div>
+                    <div class="card-body py-2">
+                        <div th:if="${#lists.isEmpty(exitPageStats)}" class="text-center text-muted small py-2">데이터 없음</div>
+                        <div th:each="row : ${exitPageStats}" class="d-flex justify-content-between align-items-center mb-1">
+                            <code class="small text-truncate me-2" th:text="${row.page}" style="max-width:70%;"></code>
+                            <span class="badge bg-secondary flex-shrink-0" th:text="${row.count} + '건'"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="card shadow-sm h-100">
+                    <div class="card-header fw-bold small section-green">
+                        <i class="fas fa-hourglass-half me-1"></i> 평균 세션 지속시간 <span class="fw-normal">(최근 7일)</span>
+                    </div>
+                    <div class="card-body py-3 text-center">
+                        <div th:if="${sessionStats.count == 0}" class="text-muted small py-2">데이터 없음</div>
+                        <div th:unless="${sessionStats.count == 0}">
+                            <div class="stat-value" th:with="m=${sessionStats.avgSeconds / 60}, s=${sessionStats.avgSeconds % 60}">
+                                <span th:if="${m > 0}" th:text="${m} + '분 '"></span>
+                                <span th:text="${s} + '초'"></span>
+                            </div>
+                            <div class="stat-label mt-1">
+                                총 <span th:text="${sessionStats.count}"></span>개 세션 기준
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 메뉴·갤러리 클릭 관심도 + 스크롤 깊이 (2컬럼) -->
+        <div class="row g-3 mb-3">
+            <div class="col-md-6">
+                <div class="card shadow-sm h-100">
+                    <div class="card-header fw-bold small section-brown">
+                        <i class="fas fa-hand-pointer me-1"></i> 콘텐츠 클릭 관심도 <span class="fw-normal">(최근 7일)</span>
+                    </div>
+                    <div class="card-body py-2">
+                        <div th:if="${#lists.isEmpty(eventStats)}" class="text-center text-muted small py-2">데이터 없음</div>
+                        <div th:each="row : ${eventStats}" class="d-flex justify-content-between align-items-center mb-1">
+                            <span class="small">
+                                <span class="badge me-1"
+                                      th:classappend="${row.action == 'menu_click'} ? 'bg-warning text-dark' : 'bg-info text-dark'"
+                                      th:text="${row.action == 'menu_click'} ? '메뉴' : '갤러리'"></span>
+                                <span th:text="${row.label}"></span>
+                            </span>
+                            <span class="badge bg-secondary flex-shrink-0" th:text="${row.count} + '클릭'"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="card shadow-sm h-100">
+                    <div class="card-header fw-bold small section-brown">
+                        <i class="fas fa-scroll me-1"></i> 스크롤 깊이 도달률 <span class="fw-normal">(최근 7일)</span>
+                    </div>
+                    <div class="card-body py-2">
+                        <div th:if="${#lists.isEmpty(scrollStats)}" class="text-center text-muted small py-2">데이터 없음</div>
+                        <div th:each="row : ${scrollStats}" class="mb-2">
+                            <div class="small fw-semibold text-truncate mb-1" th:text="${row.page}"></div>
+                            <div class="d-flex gap-1 flex-wrap">
+                                <span class="badge bg-success">25%: <span th:text="${row.d25}"></span></span>
+                                <span class="badge bg-primary">50%: <span th:text="${row.d50}"></span></span>
+                                <span class="badge bg-warning text-dark">75%: <span th:text="${row.d75}"></span></span>
+                                <span class="badge bg-danger">100%: <span th:text="${row.d100}"></span></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- UTM 파라미터 통계 -->
+        <div th:if="${!#lists.isEmpty(utmStats)}" class="card shadow-sm mb-3">
+            <div class="card-header fw-bold small section-green">
+                <i class="fas fa-tag me-1"></i> UTM 광고 유입 <span class="fw-normal">(최근 7일)</span>
+            </div>
+            <div class="card-body py-2">
+                <div th:each="row : ${utmStats}" class="d-flex justify-content-between align-items-center mb-1">
+                    <span class="small">
+                        <span class="fw-semibold" th:text="${row.source}"></span>
+                        <span th:if="${row.medium != null}" class="text-muted ms-1" th:text="'/ ' + ${row.medium}"></span>
+                    </span>
+                    <span class="badge bg-secondary" th:text="${row.count} + '건'"></span>
+                </div>
+            </div>
+        </div>
+
         <!-- 방문 로그 -->
         <div class="card shadow-sm mb-4">
             <div class="card-header fw-bold section-green d-flex justify-content-between align-items-center">

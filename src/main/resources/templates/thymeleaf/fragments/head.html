@@ -97,6 +97,52 @@
       });
     });
   </script>
+  <!-- 스크롤 깊이 트래킹 — 25/50/75/100% 도달 시 전송 -->
+  <script>
+    (function () {
+      var sent = {};
+      var page = location.pathname;
+      function checkScroll() {
+        var docH = document.documentElement.scrollHeight - window.innerHeight;
+        if (docH <= 0) return;
+        var pct = Math.round(window.scrollY / docH * 100);
+        [25, 50, 75, 100].forEach(function (d) {
+          if (!sent[d] && pct >= d) {
+            sent[d] = true;
+            fetch('/track/scroll?depth=' + d + '&page=' + encodeURIComponent(page), { keepalive: true });
+          }
+        });
+      }
+      window.addEventListener('scroll', checkScroll, { passive: true });
+    })();
+  </script>
+  <!-- 이벤트 트래킹 — data-track-action 속성이 있는 요소 클릭 시 -->
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      document.querySelectorAll('[data-track-action]').forEach(function (el) {
+        el.addEventListener('click', function () {
+          var action = el.dataset.trackAction;
+          var label  = el.dataset.trackLabel || '';
+          fetch('/track/event?action=' + encodeURIComponent(action)
+            + '&label=' + encodeURIComponent(label)
+            + '&page='  + encodeURIComponent(location.pathname), { keepalive: true });
+        });
+      });
+    });
+  </script>
+  <!-- UTM 파라미터 쿠키 저장 — 랜딩 시 URL에 있으면 30분간 보존 -->
+  <script>
+    (function () {
+      var params = new URLSearchParams(location.search);
+      ['utm_source', 'utm_medium', 'utm_campaign'].forEach(function (key) {
+        var val = params.get(key);
+        if (val) {
+          document.cookie = key + '=' + encodeURIComponent(val)
+            + '; Max-Age=1800; Path=/; SameSite=Lax';
+        }
+      });
+    })();
+  </script>
 </head>
 
 </html>

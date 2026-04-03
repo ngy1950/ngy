@@ -34,14 +34,21 @@ public class VisitorInterceptor implements HandlerInterceptor {
         // 기존 집계 카운트
         visitorService.recordVisit(page);
 
-        // 원시 로그 — IP / 유입경로 / 기기 / 세션
+        // 원시 로그 — IP / 유입경로 / 기기 / 세션 / UTM
         String ip = extractIp(request);
         String referrer = request.getHeader("Referer");
         String referrerSource = parseReferrerSource(referrer);
         String deviceType = parseDeviceType(request.getHeader("User-Agent"));
         String sessionId = getOrCreateVid(request, response);
 
-        visitorService.recordRawVisit(page, ip, referrer, referrerSource, deviceType, sessionId);
+        // UTM 파라미터 — URL 우선, 없으면 쿠키에서 읽음
+        String utmSource   = firstNonBlank(request.getParameter("utm_source"),   getCookie(request, "utm_source"));
+        String utmMedium   = firstNonBlank(request.getParameter("utm_medium"),   getCookie(request, "utm_medium"));
+        String utmCampaign = firstNonBlank(request.getParameter("utm_campaign"), getCookie(request, "utm_campaign"));
+
+        visitorService.recordRawVisit(page, ip, referrer, referrerSource, deviceType, sessionId,
+                utmSource, utmMedium, utmCampaign);
+        visitorService.upsertSession(sessionId);
 
         return true;
     }
@@ -97,6 +104,20 @@ public class VisitorInterceptor implements HandlerInterceptor {
             return "MOBILE";
         }
         return "DESKTOP";
+    }
+
+    private String firstNonBlank(String a, String b) {
+        if (a != null && !a.isBlank()) return a;
+        if (b != null && !b.isBlank()) return b;
+        return null;
+    }
+
+    private String getCookie(HttpServletRequest request, String name) {
+        if (request.getCookies() == null) return null;
+        for (Cookie c : request.getCookies()) {
+            if (name.equals(c.getName())) return c.getValue();
+        }
+        return null;
     }
 
     /**

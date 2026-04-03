@@ -48,8 +48,23 @@ public class VisitorRawLog {
     @Column(name = "dwell_seconds")
     private Integer dwellSeconds;
 
+    /** 이탈 시각 — visitedAt + dwellSeconds 로 계산. null = 미수집 */
+    @Column
+    private LocalDateTime exitedAt;
+
+    /** UTM 파라미터 — 광고 유입 추적용 */
+    @Column(length = 50)
+    private String utmSource;
+
+    @Column(length = 50)
+    private String utmMedium;
+
+    @Column(length = 100)
+    private String utmCampaign;
+
     public VisitorRawLog(String page, String ip, String referrer, String referrerSource,
-                         String deviceType, String sessionId) {
+                         String deviceType, String sessionId,
+                         String utmSource, String utmMedium, String utmCampaign) {
         this.visitedAt = LocalDateTime.now();
         this.page = page;
         this.ip = ip;
@@ -57,9 +72,13 @@ public class VisitorRawLog {
         this.referrerSource = referrerSource;
         this.deviceType = deviceType;
         this.sessionId = sessionId;
+        this.utmSource = utmSource;
+        this.utmMedium = utmMedium;
+        this.utmCampaign = utmCampaign;
     }
 
     public void updateDwellSeconds(int seconds) {
         this.dwellSeconds = seconds;
+        this.exitedAt = this.visitedAt.plusSeconds(seconds);
     }
 }

@@ -86,4 +86,16 @@ public interface VisitorRawLogRepository extends JpaRepository<VisitorRawLog, Lo
     @Query("SELECT COUNT(DISTINCT v.sessionId) FROM VisitorRawLog v " +
            "WHERE v.page LIKE '/menu/%' AND v.visitedAt >= :from AND v.sessionId IS NOT NULL")
     Long countDistinctSessionsByMenuPageSince(@Param("from") LocalDateTime from);
+
+    /** 이탈 페이지 집계 — exitedAt 기준 (최근 7일) */
+    @Query("SELECT v.page, COUNT(v) FROM VisitorRawLog v " +
+           "WHERE v.exitedAt IS NOT NULL AND v.exitedAt >= :from " +
+           "GROUP BY v.page ORDER BY COUNT(v) DESC")
+    List<Object[]> countExitsByPageSince(@Param("from") LocalDateTime from);
+
+    /** UTM 소스·매체별 집계 */
+    @Query("SELECT v.utmSource, v.utmMedium, COUNT(v) FROM VisitorRawLog v " +
+           "WHERE v.visitedAt >= :from AND v.utmSource IS NOT NULL " +
+           "GROUP BY v.utmSource, v.utmMedium ORDER BY COUNT(v) DESC")
+    List<Object[]> countByUtmSince(@Param("from") LocalDateTime from);
 }
