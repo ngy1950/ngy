@@ -24,6 +24,13 @@ public class CtaService {
         ctaClickRepository.save(new CtaClick(safeType, safePage));
     }
 
+    /** 최근 7일 전체 CTA 클릭 수 (퍼널용) */
+    @Transactional(readOnly = true)
+    public long getTotalCtaCount() {
+        return ctaClickRepository.countByClickedAtGreaterThanEqual(
+                LocalDateTime.now().minusDays(7));
+    }
+
     /** 오늘 / 7일 / 30일 전화·카카오 클릭 수 */
     @Transactional(readOnly = true)
     public Map<String, Object> getCtaStats() {

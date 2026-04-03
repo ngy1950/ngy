@@ -244,6 +244,104 @@
             </div>
         </div>
 
+        <!-- 이탈률 + 퍼널 (2컬럼) -->
+        <div class="row g-3 mb-3">
+
+            <!-- 이탈률 -->
+            <div class="col-md-6">
+                <div class="card shadow-sm h-100">
+                    <div class="card-header fw-bold small section-green">
+                        <i class="fas fa-sign-out-alt me-1"></i> 페이지별 이탈률 <span class="fw-normal">(최근 7일)</span>
+                    </div>
+                    <div class="card-body py-2">
+                        <div th:if="${#lists.isEmpty(bounceRate)}" class="text-center text-muted small py-2">데이터 없음</div>
+                        <div th:each="row : ${bounceRate}" class="mb-2">
+                            <div class="d-flex justify-content-between align-items-center mb-1">
+                                <span class="small text-truncate me-2" th:text="${row.page}" style="max-width:60%;"></span>
+                                <span class="small fw-semibold"
+                                      th:text="${row.rate} + '% (' + ${row.bounced} + '/' + ${row.total} + ')'"></span>
+                            </div>
+                            <div class="progress" style="height:6px;">
+                                <div class="progress-bar"
+                                     th:classappend="${row.rate >= 80} ? 'bg-danger' : (${row.rate >= 50} ? 'bg-warning' : 'bg-success')"
+                                     role="progressbar"
+                                     th:style="'width:' + ${row.rate} + '%'"
+                                     th:attr="aria-valuenow=${row.rate}"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 전환 퍼널 -->
+            <div class="col-md-6">
+                <div class="card shadow-sm h-100">
+                    <div class="card-header fw-bold small section-green">
+                        <i class="fas fa-filter me-1"></i> 전환 퍼널 <span class="fw-normal">(최근 7일 세션)</span>
+                    </div>
+                    <div class="card-body py-3">
+                        <div th:if="${funnelStats == null or funnelStats.isEmpty()}" class="text-center text-muted small py-2">데이터 없음</div>
+                        <div th:unless="${funnelStats == null or funnelStats.isEmpty()}">
+                            <th:block th:with="keys=${funnelStats.keySet().toArray()}, first=${funnelStats.get(keys[0])}">
+                                <div th:each="entry,iterStat : ${funnelStats}" class="mb-2">
+                                    <div class="d-flex justify-content-between align-items-center mb-1">
+                                        <span class="small fw-semibold" th:text="${entry.key}"></span>
+                                        <span class="small text-muted">
+                                            <span class="fw-bold text-dark" th:text="${entry.value}">0</span>
+                                            <span th:if="${iterStat.index > 0 and first > 0}"
+                                                  th:text="' (' + ${#numbers.formatDecimal(entry.value * 100.0 / first, 1, 1)} + '%)'"></span>
+                                        </span>
+                                    </div>
+                                    <div class="progress" style="height:10px;">
+                                        <div class="progress-bar bg-success" role="progressbar"
+                                             th:style="'width:' + (${first > 0} ? ${entry.value * 100 / first} : 0) + '%'"></div>
+                                    </div>
+                                    <div th:if="${!iterStat.last}" class="text-center text-muted small my-1">
+                                        <i class="fas fa-arrow-down"></i>
+                                    </div>
+                                </div>
+                            </th:block>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 체류 시간 테이블 -->
+        <div class="card shadow-sm mb-3">
+            <div class="card-header fw-bold small section-green d-flex justify-content-between align-items-center">
+                <span><i class="fas fa-clock me-1"></i> 페이지별 평균 체류 시간 <span class="fw-normal">(최근 7일, 측정된 것만)</span></span>
+                <button class="btn btn-sm btn-outline-light" type="button"
+                        data-bs-toggle="collapse" data-bs-target="#dwellTable">펼치기/접기</button>
+            </div>
+            <div class="collapse show" id="dwellTable">
+                <div th:if="${#lists.isEmpty(dwellTimeStats)}" class="text-center text-muted small py-3">아직 측정된 데이터가 없습니다.</div>
+                <div th:unless="${#lists.isEmpty(dwellTimeStats)}" class="table-responsive">
+                    <table class="table table-sm table-hover mb-0 align-middle">
+                        <thead class="table-light">
+                            <tr>
+                                <th>페이지</th>
+                                <th class="text-end">평균 체류</th>
+                                <th class="text-end">측정 건수</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr th:each="row : ${dwellTimeStats}">
+                                <td class="small" th:text="${row.page}"></td>
+                                <td class="text-end small fw-semibold">
+                                    <span th:with="m=${row.avgSeconds / 60}, s=${row.avgSeconds % 60}">
+                                        <span th:if="${m > 0}" th:text="${m} + '분 '"></span>
+                                        <span th:text="${s} + '초'"></span>
+                                    </span>
+                                </td>
+                                <td class="text-end small text-muted" th:text="${row.count}"></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
         <!-- 방문 로그 -->
         <div class="card shadow-sm mb-4">
             <div class="card-header fw-bold section-green d-flex justify-content-between align-items-center">

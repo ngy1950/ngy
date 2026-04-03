@@ -46,6 +46,11 @@ public class AdminController {
         model.addAttribute("recentSessionIds", visitorService.getRecentSessionIds());
         model.addAttribute("uniqueVisitorCounts", visitorService.getUniqueVisitorCounts());
         model.addAttribute("ctaStats", ctaService.getCtaStats());
+        model.addAttribute("dwellTimeStats", visitorService.getDwellTimeStats());
+        model.addAttribute("bounceRate", visitorService.getBounceRateByPage());
+        java.util.Map<String, Long> funnel = visitorService.getFunnelStats();
+        funnel.put("CTA 클릭", ctaService.getTotalCtaCount());
+        model.addAttribute("funnelStats", funnel);
         return "admin/dashboard";
     }
 

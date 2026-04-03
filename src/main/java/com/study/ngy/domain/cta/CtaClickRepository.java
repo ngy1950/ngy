@@ -12,6 +12,9 @@ public interface CtaClickRepository extends JpaRepository<CtaClick, Long> {
     /** 기간 내 특정 타입 클릭 수 */
     long countByTypeAndClickedAtGreaterThanEqual(String type, LocalDateTime from);
 
+    /** 기간 내 전체 CTA 클릭 수 (퍼널용) */
+    long countByClickedAtGreaterThanEqual(LocalDateTime from);
+
     /** 기간 내 페이지별 타입별 클릭 수 */
     @Query("SELECT c.page, c.type, COUNT(c) FROM CtaClick c " +
            "WHERE c.clickedAt >= :from " +

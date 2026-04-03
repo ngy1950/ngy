@@ -67,6 +67,24 @@
   <link rel="stylesheet" th:href="@{/css/subpages.css}">
   <!-- Bootstrap JS (defer: body 파싱 완료 후 실행) -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" defer></script>
+  <!-- 체류 시간 트래킹 — 페이지 이탈 시 sendBeacon으로 전송 -->
+  <script>
+    (function () {
+      var start = Date.now();
+      var page = location.pathname;
+      var vid = (document.cookie.match(/(?:^|;\s*)vid=([^;]+)/) || [])[1] || '';
+      function send() {
+        var s = Math.round((Date.now() - start) / 1000);
+        if (s < 2 || !vid) return;
+        navigator.sendBeacon('/track/dwell?vid=' + encodeURIComponent(vid)
+          + '&page=' + encodeURIComponent(page) + '&seconds=' + s);
+      }
+      document.addEventListener('visibilitychange', function () {
+        if (document.visibilityState === 'hidden') send();
+      });
+      window.addEventListener('pagehide', send);
+    })();
+  </script>
   <!-- CTA 클릭 트래킹 -->
   <script>
     document.addEventListener('DOMContentLoaded', function () {
