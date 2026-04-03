@@ -199,35 +199,50 @@ h6 {
     background: var(--white);
     border-radius: 12px;
     overflow: hidden;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
-    transition: all 0.4s ease;
+    /* 기본 테두리 + 그림자 — "이건 누를 수 있는 것" 시각 신호 */
+    border: 1.5px solid #e0d5c8;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.07);
+    transition: all 0.3s ease;
     height: 100%;
     text-decoration: none;
     color: inherit;
 }
 
 .service-card:hover {
-    transform: translateY(-10px);
-    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.1);
+    transform: translateY(-8px);
+    box-shadow: 0 16px 40px rgba(0, 0, 0, 0.13);
+    border-color: var(--secondary-color);
 }
 
 .service-card:active {
-    transform: translateY(-4px);
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+    transform: translateY(-3px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+    border-color: var(--secondary-color);
 }
 
+/* 버튼 스타일 — 어르신도 "이건 버튼이다" 바로 인식 */
 .service-link-btn {
     display: inline-block;
-    margin-top: 0.75rem;
-    font-size: 0.9rem;
+    margin-top: 1rem;
+    padding: 0.45rem 1.2rem;
+    font-size: 0.88rem;
     color: var(--secondary-color);
-    font-weight: 600;
+    font-weight: 700;
+    border: 2px solid var(--secondary-color);
+    border-radius: 50px;
     letter-spacing: 0.02em;
+    transition: background 0.2s, color 0.2s;
 }
 
 .service-link-btn i {
-    font-size: 0.8rem;
+    font-size: 0.78rem;
     transition: transform 0.2s;
+}
+
+.service-card:hover .service-link-btn,
+.service-card:active .service-link-btn {
+    background: var(--secondary-color);
+    color: #fff;
 }
 
 .service-card:hover .service-link-btn i,
