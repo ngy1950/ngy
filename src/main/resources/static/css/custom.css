@@ -195,17 +195,44 @@ h6 {
 }
 
 .service-card {
+    display: block;
     background: var(--white);
     border-radius: 12px;
     overflow: hidden;
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
     transition: all 0.4s ease;
     height: 100%;
+    text-decoration: none;
+    color: inherit;
 }
 
 .service-card:hover {
     transform: translateY(-10px);
     box-shadow: 0 15px 40px rgba(0, 0, 0, 0.1);
+}
+
+.service-card:active {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+}
+
+.service-link-btn {
+    display: inline-block;
+    margin-top: 0.75rem;
+    font-size: 0.9rem;
+    color: var(--secondary-color);
+    font-weight: 600;
+    letter-spacing: 0.02em;
+}
+
+.service-link-btn i {
+    font-size: 0.8rem;
+    transition: transform 0.2s;
+}
+
+.service-card:hover .service-link-btn i,
+.service-card:active .service-link-btn i {
+    transform: translateX(4px);
 }
 
 .service-img-wrapper {
