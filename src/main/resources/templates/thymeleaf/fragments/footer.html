@@ -2,29 +2,45 @@
 <html xmlns:th="http://www.thymeleaf.org">
 
 <body>
-    <!-- Footer -->
-    <footer class="footer" th:fragment="footerFragment">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-6 footer-info mb-4 mb-lg-0">
-                    <span class="footer-brand" th:onclick="|location.href='@{/}'|"
-                        style="cursor:pointer">
-                        <img th:src="@{/assets/img/daewon_logo.jpg}" alt="대원 케이터링" class="footer-logo">
-                    </span>
-                    <p>대표자 : 남태우 | 사업자등록번호 : 764-06-00988</p>
-                    <p>주소 : 충북 청주시 흥덕구 비하로 27</p>
-                </div>
-                <div class="col-lg-6 text-lg-end">
-                    <p class="mb-2"><strong>고객센터</strong></p>
-                    <h3 class="text-white mb-3">010-8916-7074</h3>
-                    <p>운영시간 : 평일 09:00 ~ 18:00 (주말 및 공휴일 예약상담 가능)</p>
-                </div>
-            </div>
-            <div class="footer-bottom">
-                <p class="mb-0">&copy; 2026 대원 All Rights Reserved.</p>
-            </div>
+    <th:block th:fragment="footerFragment">
+        <!-- 모바일 하단 고정 CTA 바 -->
+        <div class="mobile-cta-bar d-lg-none">
+            <a href="tel:010-8916-7074" class="mobile-cta-btn mobile-cta-phone">
+                <i class="fas fa-phone-alt"></i>
+                <span>전화 상담</span>
+            </a>
+            <a href="https://pf.kakao.com/_cEzZX/chat" target="_blank" rel="noopener" class="mobile-cta-btn mobile-cta-kakao">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="#191919" style="flex-shrink:0">
+                    <path d="M12 3C6.477 3 2 6.477 2 10.5c0 2.63 1.576 4.955 3.97 6.33L4.5 21l5.02-2.67A11.26 11.26 0 0 0 12 18c5.523 0 10-3.477 10-7.5S17.523 3 12 3z"/>
+                </svg>
+                <span>카카오 문의</span>
+            </a>
         </div>
-    </footer>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-6 footer-info mb-4 mb-lg-0">
+                        <span class="footer-brand" th:onclick="|location.href='@{/}'|"
+                            style="cursor:pointer">
+                            <img th:src="@{/assets/img/daewon_logo.jpg}" alt="대원 케이터링" class="footer-logo">
+                        </span>
+                        <p>대표자 : 남태우 | 사업자등록번호 : 764-06-00988</p>
+                        <p>주소 : 충북 청주시 흥덕구 비하로 27</p>
+                    </div>
+                    <div class="col-lg-6 text-lg-end">
+                        <p class="mb-2"><strong>고객센터</strong></p>
+                        <h3 class="text-white mb-3">010-8916-7074</h3>
+                        <p>운영시간 : 평일 09:00 ~ 18:00 (주말 및 공휴일 예약상담 가능)</p>
+                    </div>
+                </div>
+                <div class="footer-bottom">
+                    <p class="mb-0">&copy; 2026 대원 All Rights Reserved.</p>
+                </div>
+            </div>
+        </footer>
+    </th:block>
 </body>
 
 </html>

@@ -65,8 +65,13 @@ var reservation = () => {
       dataType : 'text',
       data : JSON.stringify(formData),
       success : function(result){
-        debugger;
-        result == 'Y' ? $util.alert('', '최대한 빠르게 연락드리겠습니다. 감사합니다.', 'success') : $util.alert('다시 시도해주세요.', '', 'warning');
+        if (result == 'Y') {
+          bootstrap.Modal.getInstance(document.getElementById('inquiryModal'))?.hide();
+          $('#contactForm')[0].reset();
+          $util.alert('', '접수 완료! 영업시간 내 빠르게 연락드리겠습니다.', 'success');
+        } else {
+          $util.alert('다시 시도해주세요.', '', 'warning');
+        }
       },
       error : function (request, status, error) {
         $util.alert('다시 시도해주세요.', '', 'warning');
