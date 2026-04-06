@@ -387,6 +387,13 @@
     color: var(--secondary-color);
 }
 
+.package-price-note {
+    display: block;
+    font-size: 0.82rem;
+    color: var(--text-muted);
+    margin-top: 4px;
+}
+
 @media (max-width: 991px) {
     .package-card-img {
         height: auto;
