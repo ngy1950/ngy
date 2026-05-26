@@ -86,32 +86,34 @@
                     문의</span>
             </div>
 
-            <!-- 패키지 1: 기본 제사상 -->
+            <!-- 패키지 2: 알뜰 제사상 (사진 우측) -->
             <div class="package-card">
-                <div class="row g-0 align-items-stretch">
+                <div class="row g-0 align-items-stretch flex-lg-row-reverse">
                     <div class="col-lg-5 d-flex flex-column">
-                        <img src="/assets/img/menu/menu-jesa.jpg" alt="맞춤 제사상 차림" class="package-card-img">
+                        <img src="/assets/img/menu/15.png" alt="알뜰 제사상 차림" class="package-card-img">
                         <a th:href="@{/gallery(category='jesa')}" class="pkg-gallery-link">
                             <i class="fas fa-images me-1"></i>후기 보러가기 →
                         </a>
                     </div>
                     <div class="col-lg-7">
                         <div class="package-card-body">
-                            <span class="package-badge">기본</span>
-                            <h3>맞춤 제사상</h3>
-                            <p class="package-sub">맞춤주문 · 기제사 / 차례 / 명절에 적합</p>
+                            <span class="package-badge" style="background: #6b8c42;">알뜰상</span>
+                            <h3>알뜰 제사상</h3>
+                            <p class="package-sub">2~3인 · 기제사 / 차례 / 명절에 적합</p>
 
                             <ul class="package-item-list">
+                                <ul class="package-item-list">
                                 <li><i class="fas fa-check text-success me-2"
-                                        style="font-size:0.8rem;"></i><strong>적류</strong> : 산적, 어적, 계적</li>
+                                        style="font-size:0.8rem;"></i><strong>1열</strong> : 탕국 1팩(1kg)</li>
                                 <li><i class="fas fa-check text-success me-2"
-                                        style="font-size:0.8rem;"></i><strong>전·튀김류</strong> : 동태전, 동그랑땡, 배추전(3종)</li>
+                                        style="font-size:0.8rem;"></i><strong>2열</strong> : 두부, 동그랑땡, 동태전, 배추전</li>
                                 <li><i class="fas fa-check text-success me-2"
-                                        style="font-size:0.8rem;"></i><strong>나물류</strong> : 고사리, 흰 나물, 파란 나물(삼색나물)</li>
+                                        style="font-size:0.8rem;"></i><strong>3열</strong> : </li>
                                 <li><i class="fas fa-check text-success me-2"
-                                        style="font-size:0.8rem;"></i><strong>국·탕류</strong> : 무국, 두부탕</li>
+                                        style="font-size:0.8rem;"></i><strong>4열</strong> : 복어포, 고사리, 도라지, 파란나물, 김</li>
                                 <li><i class="fas fa-check text-success me-2"
-                                        style="font-size:0.8rem;"></i><strong>기타</strong> : 사과, 배, 단감(곶감), 떡, 포 등</li>
+                                        style="font-size:0.8rem;"></i><strong>5열</strong> : 대추, 밤, 곶감,  배, 사과, 약과, 옥춘, 산자</li>
+                            </ul>
                             </ul>
 
                             <div class="package-price-wrap">
@@ -134,35 +136,40 @@
                 </div>
             </div>
 
-            <!-- 패키지 2: 프리미엄 제사상 (사진 우측) -->
-            <!-- <div class="package-card">
-                <div class="row g-0 align-items-stretch flex-lg-row-reverse">
+            <!-- 패키지 3: 가족상 (사진 좌측) -->
+            <div class="package-card">
+                <div class="row g-0 align-items-stretch">
                     <div class="col-lg-5 d-flex flex-column">
-                        <img src="https://picsum.photos/seed/jesa2/800/600" alt="프리미엄 제사상 차림" class="package-card-img">
+                        <img src="/assets/img/menu/30-2.png" alt="가족상 차림" class="package-card-img">
                         <a th:href="@{/gallery(category='jesa')}" class="pkg-gallery-link">
                             <i class="fas fa-images me-1"></i>후기 보러가기 →
                         </a>
                     </div>
                     <div class="col-lg-7">
                         <div class="package-card-body">
-                            <span class="package-badge" style="background: var(--primary-color);">프리미엄</span>
-                            <h3>프리미엄 제사상</h3>
-                            <p class="package-sub">10인 이상 · 문중 시제 / 대규모 차례에 적합</p>
+                            <span class="package-badge" style="background: var(--primary-color);">가족상</span>
+                            <h3>가족상</h3>
+                            <p class="package-sub">4~5인 · 가족 제사 / 명절 차례에 적합</p>
 
                             <ul class="package-item-list">
-                                <li><i class="fas fa-check text-success me-2" style="font-size:0.8rem;"></i><strong>기본
-                                        제사상 품목 전반</strong> + 양 증대</li>
-                                <li><i class="fas fa-check text-success me-2" style="font-size:0.8rem;"></i><strong>고급
-                                        추가</strong> : 전복적, 특대 참조기</li>
+                                <ul class="package-item-list">
                                 <li><i class="fas fa-check text-success me-2"
-                                        style="font-size:0.8rem;"></i><strong>다과류</strong> : 다식, 약과, 정과 등 고급 구성</li>
-                                <li><i class="fas fa-check text-success me-2" style="font-size:0.8rem;"></i><strong>상차림
-                                        연출</strong> : 격식에 맞춘 배치 및 포장</li>
+                                        style="font-size:0.8rem;"></i><strong>1열</strong> : 탕국 1팩(1kg), 편떡</li>
+                                <li><i class="fas fa-check text-success me-2"
+                                        style="font-size:0.8rem;"></i><strong>2열</strong> : 산적(소고기), 두부전, 동그랑땡, 동태전, 배추전</li>
+                                <li><i class="fas fa-check text-success me-2"
+                                        style="font-size:0.8rem;"></i><strong>3열</strong> : 삼탕, 간장</li>
+                                <li><i class="fas fa-check text-success me-2"
+                                        style="font-size:0.8rem;"></i><strong>4열</strong> : 북어포, 고사리, 도라지, 파란나물, 김, 조기</li>
+                                <li><i class="fas fa-check text-success me-2"
+                                        style="font-size:0.8rem;"></i><strong>5열</strong> : 밤, 곶감, 사과, 배, 약과, 옥춘, 산자</li>
+                            </ul>
                             </ul>
 
                             <div class="package-price-wrap">
                                 <span class="package-price-label">가격</span>
-                                <span class="package-price-value">350,000원~</span>
+                                <span class="package-price-value">300,000원~</span>
+                                <span class="package-price-note">구성·인원에 따라 협의</span>
                             </div>
 
                             <div class="cta-pair mt-3">
@@ -177,7 +184,7 @@
                         </div>
                     </div>
                 </div>
-            </div> -->
+            </div>
 
             <p class="text-center text-muted fst-italic mt-4">* 계절 및 시장 상황에 따라 일부 품목은 변동될 수 있습니다.</p>
         </div>
