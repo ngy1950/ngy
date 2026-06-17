@@ -3,6 +3,8 @@ package com.study.ngy.web;
 import com.study.ngy.domain.cta.CtaService;
 import com.study.ngy.domain.event.EventService;
 import com.study.ngy.domain.gallery.GalleryService;
+import com.study.ngy.domain.order.Order;
+import com.study.ngy.domain.order.OrderService;
 import com.study.ngy.domain.review.ReviewService;
 import com.study.ngy.domain.scroll.ScrollService;
 import com.study.ngy.domain.visitor.VisitorService;
@@ -31,6 +33,7 @@ public class AdminController {
     private final CtaService ctaService;
     private final EventService eventService;
     private final ScrollService scrollService;
+    private final OrderService orderService;
 
     @GetMapping("/login")
     public String loginPage() {
@@ -133,5 +136,71 @@ public class AdminController {
     public String deleteReview(@PathVariable Long id) {
         reviewService.delete(id);
         return "redirect:/admin/dashboard";
+    }
+
+    // ── 주문 관리 ──────────────────────────────────────────
+
+    @GetMapping("/orders")
+    public String orderList(Model model) {
+        model.addAttribute("orders", orderService.findAll());
+        model.addAttribute("today", java.time.LocalDate.now());
+        return "admin/orders";
+    }
+
+    @GetMapping("/orders/new")
+    public String orderForm(Model model) {
+        model.addAttribute("order", new Order());
+        model.addAttribute("editMode", false);
+        return "admin/order-form";
+    }
+
+    @PostMapping("/orders/new")
+    public String orderCreate(
+            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate deliveryDate,
+            @RequestParam(required = false) String menuDescription,
+            @RequestParam(defaultValue = "false") boolean paid,
+            @RequestParam(required = false) String trackingNumber,
+            @RequestParam String recipientName,
+            @RequestParam String recipientPhone,
+            @RequestParam(required = false) String recipientAddress,
+            @RequestParam(required = false) String memo) {
+        orderService.create(deliveryDate, menuDescription, paid, trackingNumber,
+                recipientName, recipientPhone, recipientAddress, memo);
+        return "redirect:/admin/orders";
+    }
+
+    @GetMapping("/orders/{id}/edit")
+    public String orderEditForm(@PathVariable Long id, Model model) {
+        model.addAttribute("order", orderService.findById(id));
+        model.addAttribute("editMode", true);
+        return "admin/order-form";
+    }
+
+    @PostMapping("/orders/{id}/edit")
+    public String orderUpdate(
+            @PathVariable Long id,
+            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate deliveryDate,
+            @RequestParam(required = false) String menuDescription,
+            @RequestParam(defaultValue = "false") boolean paid,
+            @RequestParam(required = false) String trackingNumber,
+            @RequestParam String recipientName,
+            @RequestParam String recipientPhone,
+            @RequestParam(required = false) String recipientAddress,
+            @RequestParam(required = false) String memo) {
+        orderService.update(id, deliveryDate, menuDescription, paid, trackingNumber,
+                recipientName, recipientPhone, recipientAddress, memo);
+        return "redirect:/admin/orders";
+    }
+
+    @PostMapping("/orders/{id}/paid")
+    public String togglePaid(@PathVariable Long id) {
+        orderService.togglePaid(id);
+        return "redirect:/admin/orders";
+    }
+
+    @PostMapping("/orders/{id}/delete")
+    public String deleteOrder(@PathVariable Long id) {
+        orderService.delete(id);
+        return "redirect:/admin/orders";
     }
 }

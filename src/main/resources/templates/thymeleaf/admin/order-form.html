@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="${editMode} ? '주문 수정 | 대원 관리자' : '새 주문 등록 | 대원 관리자'">주문 등록 | 대원 관리자</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body { background: #f5f2ee; font-size: 17px; }
+        .top-bar { background: #5c3d1e; color: white; padding: 14px 20px; display: flex; align-items: center; justify-content: space-between; }
+        .top-bar a { color: rgba(255,255,255,0.75); text-decoration: none; font-size: 15px; }
+        .form-label { font-size: 1rem; font-weight: 700; color: #3a2a1a; margin-bottom: 6px; }
+        .form-control, .form-check-input { font-size: 1rem; }
+        .form-control:focus { border-color: #8b5a2b; box-shadow: 0 0 0 0.2rem rgba(139,90,43,0.2); }
+        .section-divider { border-top: 2px dashed #e0d5c8; margin: 24px 0; }
+        .section-label { font-size: 0.85rem; font-weight: 700; color: #8b5a2b; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 14px; }
+        .paid-check-wrap { display: flex; align-items: center; gap: 14px; background: #faf7f3; border-radius: 10px; padding: 14px 18px; }
+        .form-check-input[type=checkbox] { width: 28px; height: 28px; cursor: pointer; }
+        .paid-label { font-size: 1.1rem; font-weight: 700; cursor: pointer; }
+        .btn-submit { background: #8b5a2b; color: white; border: none; border-radius: 8px; padding: 12px 32px; font-size: 1.05rem; font-weight: 700; }
+        .btn-submit:hover { background: #7a4e26; color: white; }
+    </style>
+</head>
+<body>
+
+<div class="top-bar">
+    <span style="font-weight:800; font-size:1.1rem;">
+        <i class="fas fa-clipboard-list me-2"></i>
+        <span th:text="${editMode} ? '주문 수정' : '새 주문 등록'">주문 등록</span>
+    </span>
+    <a th:href="@{/admin/orders}">← 주문 목록</a>
+</div>
+
+<div class="container py-4" style="max-width: 680px;">
+    <div class="card shadow-sm" style="border-radius:14px; border:none;">
+        <div class="card-body p-4">
+
+            <form th:action="${editMode} ? @{/admin/orders/{id}/edit(id=${order.id})} : @{/admin/orders/new}"
+                  method="post">
+
+                <!-- 배송 정보 -->
+                <div class="section-label"><i class="fas fa-truck me-1"></i>배송 정보</div>
+
+                <div class="mb-4">
+                    <label class="form-label">배송받을 날짜 <span class="text-danger">*</span></label>
+                    <input type="date" name="deliveryDate" class="form-control form-control-lg" required
+                           th:value="${order.deliveryDate}">
+                </div>
+
+                <div class="mb-4">
+                    <label class="form-label">받으시는 분 성명 <span class="text-danger">*</span></label>
+                    <input type="text" name="recipientName" class="form-control form-control-lg" required
+                           placeholder="예: 홍길동" maxlength="100"
+                           th:value="${order.recipientName}">
+                </div>
+
+                <div class="mb-4">
+                    <label class="form-label">받으시는 분 전화번호 <span class="text-danger">*</span></label>
+                    <input type="tel" name="recipientPhone" class="form-control form-control-lg" required
+                           placeholder="예: 010-1234-5678" maxlength="30"
+                           th:value="${order.recipientPhone}">
+                </div>
+
+                <div class="mb-4">
+                    <label class="form-label">받으시는 분 주소</label>
+                    <textarea name="recipientAddress" class="form-control" rows="2"
+                              placeholder="예: 충북 청주시 흥덕구 비하로 27"
+                              th:text="${order.recipientAddress}"></textarea>
+                </div>
+
+                <div class="section-divider"></div>
+
+                <!-- 주문 내용 -->
+                <div class="section-label"><i class="fas fa-utensils me-1"></i>주문 내용</div>
+
+                <div class="mb-4">
+                    <label class="form-label">메뉴 및 음식 구성</label>
+                    <textarea name="menuDescription" class="form-control" rows="4"
+                              placeholder="예: 알뜰 제사상 2~3인&#10;추가: 육원전 1팩, 과일 세트"
+                              th:text="${order.menuDescription}"></textarea>
+                </div>
+
+                <div class="section-divider"></div>
+
+                <!-- 결제 / 배송 -->
+                <div class="section-label"><i class="fas fa-won-sign me-1"></i>결제 및 배송</div>
+
+                <div class="mb-4">
+                    <div class="paid-check-wrap">
+                        <input type="checkbox" name="paid" id="paid" class="form-check-input"
+                               th:checked="${order.paid}">
+                        <label for="paid" class="paid-label">입금 완료</label>
+                        <span class="text-muted" style="font-size:0.9rem;">체크하면 입금완료로 표시됩니다</span>
+                    </div>
+                </div>
+
+                <div class="mb-4">
+                    <label class="form-label">송장번호</label>
+                    <input type="text" name="trackingNumber" class="form-control form-control-lg"
+                           placeholder="예: 1234-5678-9012" maxlength="100"
+                           th:value="${order.trackingNumber}">
+                </div>
+
+                <div class="mb-4">
+                    <label class="form-label">메모</label>
+                    <textarea name="memo" class="form-control" rows="2"
+                              placeholder="기타 전달사항, 요청사항 등"
+                              th:text="${order.memo}"></textarea>
+                </div>
+
+                <div class="d-flex gap-3 mt-2">
+                    <button type="submit" class="btn-submit">
+                        <i class="fas fa-save me-1"></i>
+                        <span th:text="${editMode} ? '수정 저장' : '주문 등록'">등록</span>
+                    </button>
+                    <a th:href="@{/admin/orders}" class="btn btn-outline-secondary px-4" style="font-size:1rem;">취소</a>
+                </div>
+
+            </form>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
