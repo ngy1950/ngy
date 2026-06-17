@@ -8,6 +8,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
 
+import java.util.Set;
 import java.util.UUID;
 
 @Component
@@ -17,7 +18,11 @@ public class VisitorInterceptor implements HandlerInterceptor {
     private final VisitorService visitorService;
 
     private static final String STATIC_EXT_REGEX =
-            ".*\\.(css|js|ico|png|jpg|jpeg|gif|svg|webp|woff|woff2|ttf|eot|map)$";
+            ".*\\.(css|js|ico|png|jpg|jpeg|gif|svg|webp|woff|woff2|ttf|eot|map|xml|txt)$";
+
+    private static final Set<String> CRAWLER_PATHS = Set.of(
+            "/sitemap.xml", "/robots.txt", "/favicon.ico"
+    );
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) {
@@ -25,14 +30,28 @@ public class VisitorInterceptor implements HandlerInterceptor {
             return true;
         }
         String uri = request.getRequestURI();
-        if (uri.matches(STATIC_EXT_REGEX) || uri.startsWith("/admin")) {
+        if (uri.matches(STATIC_EXT_REGEX) || uri.startsWith("/admin")
+                || CRAWLER_PATHS.contains(uri) || uri.startsWith("/.well-known/")) {
             return true;
+        }
+
+        // 크롤러/봇 User-Agent 차단
+        String ua = request.getHeader("User-Agent");
+        if (ua != null) {
+            String uaLower = ua.toLowerCase();
+            if (uaLower.contains("bot") || uaLower.contains("crawler")
+                    || uaLower.contains("spider") || uaLower.contains("slurp")
+                    || uaLower.contains("curl") || uaLower.contains("wget")) {
+                return true;
+            }
         }
 
         String page = normalise(uri);
 
-        // 기존 집계 카운트
-        visitorService.recordVisit(page);
+        // 내부 운영 경로(달력 뷰 등)는 집계 카운트 제외, 원시 로그는 유지
+        if (!uri.startsWith("/schedule/")) {
+            visitorService.recordVisit(page);
+        }
 
         // 원시 로그 — IP / 유입경로 / 기기 / 세션 / UTM
         String ip = extractIp(request);

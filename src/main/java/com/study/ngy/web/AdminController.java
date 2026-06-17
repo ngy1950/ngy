@@ -64,6 +64,7 @@ public class AdminController {
         model.addAttribute("eventStats",     eventService.getEventStats());
         model.addAttribute("utmStats",       visitorService.getUtmStats());
         model.addAttribute("sessionStats",   visitorService.getSessionStats());
+        model.addAttribute("recentCtaClicks", ctaService.getRecentCtaClicks());
         return "admin/dashboard";
     }
 

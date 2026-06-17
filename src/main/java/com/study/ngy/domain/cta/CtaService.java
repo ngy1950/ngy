@@ -24,6 +24,12 @@ public class CtaService {
         ctaClickRepository.save(new CtaClick(safeType, safePage));
     }
 
+    /** 최근 CTA 클릭 20건 (대시보드 로그 표시용) */
+    @Transactional(readOnly = true)
+    public List<CtaClick> getRecentCtaClicks() {
+        return ctaClickRepository.findTop20ByOrderByClickedAtDesc();
+    }
+
     /** 최근 7일 전체 CTA 클릭 수 (퍼널용) */
     @Transactional(readOnly = true)
     public long getTotalCtaCount() {
