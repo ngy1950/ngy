@@ -145,7 +145,17 @@
             padding: 16px;
             scroll-margin-top: 80px;
         }
-        .order-card.today-card { border: 2px solid #e8a020; }
+        .order-card.action-today-card { border: 3px solid #e8a020; }
+        .action-banner {
+            background: #e8a020;
+            color: white;
+            font-size: 17px;
+            font-weight: 800;
+            padding: 10px 14px;
+            border-radius: 10px 10px 0 0;
+            margin: -16px -16px 14px -16px;
+            letter-spacing: 0.02em;
+        }
         .recipient-row {
             display: flex;
             align-items: baseline;
@@ -153,10 +163,10 @@
             flex-wrap: wrap;
             margin-bottom: 8px;
         }
-        .recipient-name { font-size: 22px; font-weight: 800; }
-        .recipient-phone { font-size: 18px; color: #555; }
+        .recipient-name { font-size: 24px; font-weight: 800; }
+        .recipient-phone { font-size: 20px; color: #555; }
         .info-line {
-            font-size: 16px;
+            font-size: 17px;
             color: #444;
             margin-top: 5px;
             line-height: 1.6;
@@ -169,15 +179,17 @@
             padding: 10px 12px;
             border-radius: 0 8px 8px 0;
             margin-top: 10px;
-            font-size: 16px;
+            font-size: 17px;
             white-space: pre-wrap;
             word-break: keep-all;
             line-height: 1.7;
         }
         .status-row { margin-top: 12px; display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
-        .badge-paid   { background: #d1f0e0; color: #198754; font-weight: 700; padding: 6px 16px; border-radius: 20px; font-size: 16px; }
-        .badge-unpaid { background: #fde8e8; color: #dc3545; font-weight: 700; padding: 6px 16px; border-radius: 20px; font-size: 16px; }
-        .tracking-chip { background: #f0e9df; color: #5c3d1e; font-size: 15px; padding: 5px 12px; border-radius: 20px; font-weight: 600; }
+        .badge-paid   { background: #d1f0e0; color: #198754; font-weight: 700; padding: 8px 18px; border-radius: 20px; font-size: 17px; }
+        .badge-unpaid { background: #fde8e8; color: #dc3545; font-weight: 700; padding: 8px 18px; border-radius: 20px; font-size: 17px; }
+        .tracking-chip { background: #f0e9df; color: #5c3d1e; font-size: 16px; padding: 6px 14px; border-radius: 20px; font-weight: 600; }
+        .today-action-section { margin-bottom: 28px; }
+        .today-action-title { font-size: 1.1rem; font-weight: 800; color: #dc3545; margin-bottom: 10px; }
 
         .empty-msg { text-align: center; padding: 48px 16px; color: #aaa; font-size: 1.05rem; line-height: 2; }
 
@@ -212,7 +224,7 @@
         }
         .dday-chip.dday-0 { background: #dc3545; }
         .dday-chip.warning-chip { background: #dc3545; animation: none; }
-        .type-chip { font-size: 14px; font-weight: 700; padding: 4px 12px; border-radius: 20px; }
+        .type-chip { font-size: 15px; font-weight: 700; padding: 6px 14px; border-radius: 20px; }
         .type-parcel { background: #e8f0fe; color: #1a56c4; }
         .type-direct { background: #e8f4e8; color: #2d7a2d; }
 
@@ -263,6 +275,38 @@
 <!-- 주문 목록 -->
 <div class="orders-section">
 
+    <!-- 오늘 처리할 주문 (있을 때만 표시) -->
+    <div th:if="${!todayActionOrders.isEmpty()}" class="today-action-section">
+        <div class="today-action-title">🔔 오늘 처리할 주문 <span th:text="'(' + ${todayActionOrders.size()} + '건)'"></span></div>
+        <div th:each="order : ${todayActionOrders}" class="order-card action-today-card">
+            <div class="action-banner">🚚 오늘 배송 — 지금 준비하세요!</div>
+            <div class="recipient-row">
+                <span class="recipient-name" th:text="${order.recipientName}"></span>
+                <span class="recipient-phone" th:text="${order.recipientPhone}"></span>
+            </div>
+            <div class="info-line" th:if="${order.recipientAddress != null and !order.recipientAddress.isBlank()}">
+                <strong>주소</strong> : <span th:text="${order.recipientAddress}"></span>
+            </div>
+            <div th:if="${order.menuDescription != null and !order.menuDescription.isBlank()}"
+                 class="menu-box" th:text="${order.menuDescription}"></div>
+            <div class="status-row">
+                <span th:class="${order.deliveryType == '직접배송'} ? 'type-chip type-direct' : 'type-chip type-parcel'">
+                    <span th:if="${order.deliveryType == '직접배송'}">🚗 직접배송</span>
+                    <span th:unless="${order.deliveryType == '직접배송'}">📦 택배</span>
+                </span>
+                <span th:if="${order.paid}" class="badge-paid">✅ 입금완료</span>
+                <span th:unless="${order.paid}" class="badge-unpaid">❌ 미입금</span>
+                <span th:if="${order.trackingNumber != null and !order.trackingNumber.isBlank()}"
+                      class="tracking-chip" th:text="'송장 : ' + ${order.trackingNumber}"></span>
+            </div>
+            <div class="info-line" th:if="${order.memo != null and !order.memo.isBlank()}"
+                 style="margin-top:8px; color:#888;">
+                <strong>메모</strong> : <span th:text="${order.memo}"></span>
+            </div>
+        </div>
+        <hr style="border-color:#e0d5c8; margin: 8px 0 20px;">
+    </div>
+
     <div th:if="${byDate.isEmpty()}" class="empty-msg">
         이번 달 등록된 주문이 없습니다.<br>
         <span style="color:#bbb; font-size:0.9rem;">다른 달을 선택해 보세요.</span>
@@ -287,7 +331,16 @@
 
         <!-- 해당 날짜 주문 카드들 -->
         <div th:each="order : ${entry.value}"
-             th:class="${order.deliveryDate == today} ? 'order-card today-card' : 'order-card'">
+             th:with="isDirectOrder=${order.deliveryType == '직접배송'},
+                      orderDow=${order.deliveryDate.dayOfWeek.value},
+                      orderEffDate=${isDirectOrder ? order.deliveryDate :
+                                     (orderDow == 7 ? order.deliveryDate.minusDays(2) :
+                                      (orderDow == 1 ? order.deliveryDate.minusDays(3) :
+                                       order.deliveryDate.minusDays(1)))},
+                      isActionToday=${orderEffDate == today}"
+             th:class="${isActionToday} ? 'order-card action-today-card' : 'order-card'">
+
+            <div th:if="${isActionToday}" class="action-banner">🚚 오늘 배송 — 지금 준비하세요!</div>
 
             <div class="recipient-row">
                 <span class="recipient-name" th:text="${order.recipientName}"></span>
@@ -302,8 +355,10 @@
                  class="menu-box" th:text="${order.menuDescription}"></div>
 
             <div class="status-row">
-                <span th:text="${order.deliveryType != null ? order.deliveryType : '택배'}"
-                      th:class="${order.deliveryType == '직접배송'} ? 'type-chip type-direct' : 'type-chip type-parcel'"></span>
+                <span th:class="${order.deliveryType == '직접배송'} ? 'type-chip type-direct' : 'type-chip type-parcel'">
+                    <span th:if="${order.deliveryType == '직접배송'}">🚗 직접배송</span>
+                    <span th:unless="${order.deliveryType == '직접배송'}">📦 택배</span>
+                </span>
                 <span th:if="${order.paid}" class="badge-paid">✅ 입금완료</span>
                 <span th:unless="${order.paid}" class="badge-unpaid">❌ 미입금</span>
                 <span th:if="${order.trackingNumber != null and !order.trackingNumber.isBlank()}"
