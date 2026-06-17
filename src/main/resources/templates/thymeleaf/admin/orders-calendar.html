@@ -284,6 +284,9 @@
                 <span class="recipient-name" th:text="${order.recipientName}"></span>
                 <span class="recipient-phone" th:text="${order.recipientPhone}"></span>
             </div>
+            <div class="info-line" style="color:#8b5a2b; font-weight:700;">
+                📅 배송일 : <span th:text="${#temporals.format(order.deliveryDate, 'M월 d일 (E)')}"></span>
+            </div>
             <div class="info-line" th:if="${order.recipientAddress != null and !order.recipientAddress.isBlank()}">
                 <strong>주소</strong> : <span th:text="${order.recipientAddress}"></span>
             </div>
