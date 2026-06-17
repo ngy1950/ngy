@@ -35,6 +35,11 @@ public class AdminController {
     private final ScrollService scrollService;
     private final OrderService orderService;
 
+    @GetMapping({"", "/"})
+    public String adminRoot() {
+        return "redirect:/admin/dashboard";
+    }
+
     @GetMapping("/login")
     public String loginPage() {
         return "admin/login";
