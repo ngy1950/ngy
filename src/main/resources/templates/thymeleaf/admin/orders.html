@@ -38,6 +38,7 @@
         .sale-box .label { font-size: 0.8rem; color: #888; margin-bottom: 4px; }
         .sale-box .amount { font-size: 1.25rem; font-weight: 800; color: #5c3d1e; }
         .price-badge { background: #eaf4ea; color: #2d7a2d; font-weight: 700; padding: 3px 10px; border-radius: 14px; font-size: 0.9rem; }
+        .badge-delivery { font-weight: 700; padding: 5px 12px; border-radius: 20px; font-size: 0.88rem; }
         .chart-wrap { background: white; border-radius: 14px; box-shadow: 0 2px 10px rgba(0,0,0,0.08); padding: 18px 16px; margin-bottom: 22px; }
         .chart-title { font-size: 0.9rem; font-weight: 700; color: #5c3d1e; margin-bottom: 12px; }
     </style>
@@ -96,6 +97,11 @@
                     <span th:text="${#temporals.format(order.deliveryDate, 'yyyy년 M월 d일 (E)')}"></span>
                 </span>
                 <span th:if="${order.deliveryDate == today}" class="today-badge">오늘 배송</span>
+                <!-- 배송 유형 뱃지 -->
+                <span class="badge-delivery"
+                      th:text="${order.deliveryType != null ? order.deliveryType : '택배'}"
+                      th:style="${order.deliveryType == '직접배송'} ? 'background:#e8f4e8; color:#2d7a2d;' : 'background:#e8f0fe; color:#1a56c4;'">
+                </span>
                 <!-- 입금 상태 뱃지 -->
                 <span th:if="${order.paid}" class="badge-paid">✅ 입금완료</span>
                 <span th:unless="${order.paid}" class="badge-unpaid">❌ 미입금</span>

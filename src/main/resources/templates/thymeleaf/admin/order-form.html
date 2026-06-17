@@ -43,6 +43,25 @@
                 <div class="section-label"><i class="fas fa-truck me-1"></i>배송 정보</div>
 
                 <div class="mb-4">
+                    <label class="form-label">배송 유형</label>
+                    <div class="d-flex gap-4" style="background:#faf7f3; border-radius:10px; padding:14px 18px;">
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="deliveryType"
+                                   value="택배" id="typeParcel"
+                                   th:checked="${order.deliveryType == null or order.deliveryType == '택배' or order.deliveryType == ''}">
+                            <label class="form-check-label fw-bold" for="typeParcel">📦 택배</label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="deliveryType"
+                                   value="직접배송" id="typeDirect"
+                                   th:checked="${order.deliveryType == '직접배송'}">
+                            <label class="form-check-label fw-bold" for="typeDirect">🚗 직접배송</label>
+                        </div>
+                    </div>
+                    <div class="form-text">직접배송은 배송일 당일에 '오늘 배송' 알림이 표시됩니다.</div>
+                </div>
+
+                <div class="mb-4">
                     <label class="form-label">배송받을 날짜 <span class="text-danger">*</span></label>
                     <input type="date" name="deliveryDate" class="form-control form-control-lg" required
                            th:value="${order.deliveryDate}">

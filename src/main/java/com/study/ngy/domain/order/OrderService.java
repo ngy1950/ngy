@@ -32,7 +32,7 @@ public class OrderService {
     public void create(LocalDate deliveryDate, String menuDescription, boolean paid,
                        String trackingNumber, String recipientName,
                        String recipientPhone, String recipientAddress, String memo,
-                       Integer price) {
+                       Integer price, String deliveryType) {
         Order order = new Order();
         order.setDeliveryDate(deliveryDate);
         order.setMenuDescription(menuDescription);
@@ -43,6 +43,7 @@ public class OrderService {
         order.setRecipientAddress(recipientAddress);
         order.setMemo(memo);
         order.setPrice(price);
+        order.setDeliveryType(deliveryType != null ? deliveryType : "택배");
         orderRepository.save(order);
     }
 
@@ -50,7 +51,7 @@ public class OrderService {
     public void update(Long id, LocalDate deliveryDate, String menuDescription, boolean paid,
                        String trackingNumber, String recipientName,
                        String recipientPhone, String recipientAddress, String memo,
-                       Integer price) {
+                       Integer price, String deliveryType) {
         Order order = findById(id);
         order.setDeliveryDate(deliveryDate);
         order.setMenuDescription(menuDescription);
@@ -61,6 +62,7 @@ public class OrderService {
         order.setRecipientAddress(recipientAddress);
         order.setMemo(memo);
         order.setPrice(price);
+        order.setDeliveryType(deliveryType != null ? deliveryType : "택배");
     }
 
     @Transactional

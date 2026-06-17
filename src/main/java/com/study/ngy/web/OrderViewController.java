@@ -51,9 +51,16 @@ public class OrderViewController {
                 .map(LocalDate::getDayOfMonth)
                 .collect(Collectors.toSet());
 
+        Set<Integer> directDeliveryDays = byDate.entrySet().stream()
+                .filter(e -> e.getValue().stream()
+                        .anyMatch(o -> "직접배송".equals(o.getDeliveryType())))
+                .map(e -> e.getKey().getDayOfMonth())
+                .collect(Collectors.toSet());
+
         model.addAttribute("ym", ym);
         model.addAttribute("byDate", byDate);
         model.addAttribute("orderDays", orderDays);
+        model.addAttribute("directDeliveryDays", directDeliveryDays);
         model.addAttribute("token", token);
         model.addAttribute("today", LocalDate.now());
         model.addAttribute("prevYm", ym.minusMonths(1));

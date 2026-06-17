@@ -211,6 +211,10 @@
             animation: blink-soft 1.6s ease-in-out infinite;
         }
         .dday-chip.dday-0 { background: #dc3545; }
+        .dday-chip.warning-chip { background: #dc3545; animation: none; }
+        .type-chip { font-size: 14px; font-weight: 700; padding: 4px 12px; border-radius: 20px; }
+        .type-parcel { background: #e8f0fe; color: #1a56c4; }
+        .type-direct { background: #e8f4e8; color: #2d7a2d; }
 
         @keyframes blink-soft {
             0%, 100% { opacity: 1; }
@@ -268,8 +272,14 @@
         <!-- 날짜 헤더 -->
         <div class="date-heading"
              th:id="'day-' + ${entry.key.dayOfMonth}"
-             th:with="diff=${entry.key.toEpochDay() - today.toEpochDay()}">
+             th:with="isDirectDay=${directDeliveryDays.contains(entry.key.dayOfMonth)},
+                      dow=${entry.key.dayOfWeek.value},
+                      effDate=${isDirectDay ? entry.key : (dow == 7 ? entry.key.minusDays(2) : (dow == 1 ? entry.key.minusDays(3) : entry.key.minusDays(1)))},
+                      diff=${effDate.toEpochDay() - today.toEpochDay()}">
             <span th:text="${#temporals.format(entry.key, 'M월 d일 (E)')}"></span>
+            <!-- 일/월 배송 + 택배인 경우만 토수령 안내 -->
+            <span th:if="${!isDirectDay and (dow == 7 or dow == 1)}" class="dday-chip warning-chip">⚠️ 토요일 수령 안내</span>
+            <!-- 발송 타이밍 뱃지 -->
             <span th:if="${diff == 0}" class="dday-chip dday-0">오늘 배송</span>
             <span th:if="${diff == 1}" class="dday-chip">D-1</span>
             <span th:if="${diff == 2}" class="dday-chip">D-2</span>
@@ -292,6 +302,8 @@
                  class="menu-box" th:text="${order.menuDescription}"></div>
 
             <div class="status-row">
+                <span th:text="${order.deliveryType != null ? order.deliveryType : '택배'}"
+                      th:class="${order.deliveryType == '직접배송'} ? 'type-chip type-direct' : 'type-chip type-parcel'"></span>
                 <span th:if="${order.paid}" class="badge-paid">✅ 입금완료</span>
                 <span th:unless="${order.paid}" class="badge-unpaid">❌ 미입금</span>
                 <span th:if="${order.trackingNumber != null and !order.trackingNumber.isBlank()}"
@@ -313,13 +325,23 @@
     const today = /*[[${today.dayOfMonth}]]*/ 0;
     const todayYear  = /*[[${today.year}]]*/ 0;
     const todayMonth = /*[[${today.monthValue}]]*/ 0;
-    const orderDays  = new Set(/*[[${orderDays}]]*/ []);
+    const orderDays         = new Set(/*[[${orderDays}]]*/ []);
+    const directDeliveryDays = new Set(/*[[${directDeliveryDays}]]*/ []);
 
-    const grid    = document.getElementById('calGrid');
+    const grid     = document.getElementById('calGrid');
     const firstDay = new Date(year, month - 1, 1).getDay();
     const lastDay  = new Date(year, month, 0).getDate();
     // 다른 달을 보고 있으면 임박 판정 비활성화
     const todayDay = (year === todayYear && month === todayMonth) ? today : -99;
+
+    // 유효 발송일: 직접배송은 당일, 일요일 택배 → d-2(금), 월요일 택배 → d-3(금), 나머지 → d-1(전날)
+    function effectiveActionDay(d) {
+        if (directDeliveryDays.has(d)) return d;
+        const dow = new Date(year, month - 1, d).getDay(); // 0=일, 1=월
+        if (dow === 0) return d - 2;
+        if (dow === 1) return d - 3;
+        return d - 1;
+    }
 
     // 빈 칸
     for (let i = 0; i < firstDay; i++) {
@@ -334,7 +356,8 @@
         const cell     = document.createElement('div');
         const isToday  = (d === today && year === todayYear && month === todayMonth);
         const hasOrder = orderDays.has(d);
-        const daysLeft = d - todayDay;
+        const ead      = effectiveActionDay(d);
+        const daysLeft = ead - todayDay;
         const isSoon   = hasOrder && daysLeft >= 0 && daysLeft <= 2;
 
         let cls = 'cal-cell';
@@ -367,7 +390,7 @@
 
     // 2일 이내 임박 배송이 있으면 상단 배너 표시
     const hasSoon = [...orderDays].some(d => {
-        const diff = d - todayDay;
+        const diff = effectiveActionDay(d) - todayDay;
         return diff >= 0 && diff <= 2;
     });
     if (hasSoon) {

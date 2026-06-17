@@ -171,9 +171,10 @@ public class AdminController {
             @RequestParam String recipientPhone,
             @RequestParam(required = false) String recipientAddress,
             @RequestParam(required = false) String memo,
-            @RequestParam(required = false) Integer price) {
+            @RequestParam(required = false) Integer price,
+            @RequestParam(defaultValue = "택배") String deliveryType) {
         orderService.create(deliveryDate, menuDescription, paid, trackingNumber,
-                recipientName, recipientPhone, recipientAddress, memo, price);
+                recipientName, recipientPhone, recipientAddress, memo, price, deliveryType);
         return "redirect:/admin/orders";
     }
 
@@ -195,9 +196,10 @@ public class AdminController {
             @RequestParam String recipientPhone,
             @RequestParam(required = false) String recipientAddress,
             @RequestParam(required = false) String memo,
-            @RequestParam(required = false) Integer price) {
+            @RequestParam(required = false) Integer price,
+            @RequestParam(defaultValue = "택배") String deliveryType) {
         orderService.update(id, deliveryDate, menuDescription, paid, trackingNumber,
-                recipientName, recipientPhone, recipientAddress, memo, price);
+                recipientName, recipientPhone, recipientAddress, memo, price, deliveryType);
         return "redirect:/admin/orders";
     }
 

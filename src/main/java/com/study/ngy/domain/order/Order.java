@@ -44,6 +44,9 @@ public class Order {
     @Column
     private Integer price;
 
+    @Column(length = 20)
+    private String deliveryType = "택배";  // "택배" | "직접배송"
+
     @Column(updatable = false)
     private LocalDateTime createdAt;
 
