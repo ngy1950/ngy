@@ -40,9 +40,14 @@ public class OrderViewController {
         YearMonth ym = (year != null && month != null)
                 ? YearMonth.of(year, month) : YearMonth.now();
 
+        LocalDate todayDate = LocalDate.now();
+
+        // 이번 달이면 오늘 이전 날짜 주문 제외, 과거/미래 달이면 전부 표시
         List<Order> orders = orderRepository
-                .findByDeliveryDateBetweenOrderByDeliveryDateAsc(
-                        ym.atDay(1), ym.atEndOfMonth());
+                .findByDeliveryDateBetweenOrderByDeliveryDateAsc(ym.atDay(1), ym.atEndOfMonth())
+                .stream()
+                .filter(o -> !ym.equals(YearMonth.now()) || !o.getDeliveryDate().isBefore(todayDate))
+                .collect(Collectors.toList());
 
         Map<LocalDate, List<Order>> byDate = orders.stream()
                 .collect(Collectors.groupingBy(Order::getDeliveryDate,
@@ -58,7 +63,6 @@ public class OrderViewController {
                 .map(e -> e.getKey().getDayOfMonth())
                 .collect(Collectors.toSet());
 
-        LocalDate todayDate = LocalDate.now();
         List<Order> todayActionOrders = orders.stream()
                 .filter(o -> getEffectiveActionDate(o).equals(todayDate))
                 .collect(Collectors.toList());
