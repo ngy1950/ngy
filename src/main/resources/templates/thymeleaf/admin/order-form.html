@@ -96,6 +96,14 @@
                 </div>
 
                 <div class="mb-4">
+                    <label class="form-label">금액 (원)</label>
+                    <input type="number" name="price" class="form-control form-control-lg"
+                           placeholder="예: 150000" min="0" step="1000"
+                           th:value="${order.price}">
+                    <div class="form-text">입금 전에도 미리 입력해 두세요. 매출 통계에 활용됩니다.</div>
+                </div>
+
+                <div class="mb-4">
                     <label class="form-label">송장번호</label>
                     <input type="text" name="trackingNumber" class="form-control form-control-lg"
                            placeholder="예: 1234-5678-9012" maxlength="100"

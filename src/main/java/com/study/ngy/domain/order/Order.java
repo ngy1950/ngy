@@ -41,6 +41,9 @@ public class Order {
     @Column(columnDefinition = "TEXT")
     private String memo;
 
+    @Column
+    private Integer price;
+
     @Column(updatable = false)
     private LocalDateTime createdAt;
 

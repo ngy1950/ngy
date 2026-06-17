@@ -180,11 +180,51 @@
         .tracking-chip { background: #f0e9df; color: #5c3d1e; font-size: 15px; padding: 5px 12px; border-radius: 20px; font-weight: 600; }
 
         .empty-msg { text-align: center; padding: 48px 16px; color: #aaa; font-size: 1.05rem; line-height: 2; }
+
+        /* 임박 배송 달력 셀 */
+        .cal-cell.is-soon { background: #e8a020; cursor: pointer; }
+        .cal-cell.is-soon .cal-day-num { color: white; }
+        .cal-cell.is-soon:active { background: #d09010; }
+
+        /* 상단 경고 배너 */
+        .alert-banner {
+            background: #fff8e6;
+            border-left: 5px solid #e8a020;
+            padding: 14px 16px;
+            font-size: 1rem;
+            font-weight: 700;
+            color: #7a5200;
+            display: none;
+        }
+
+        /* D-day 뱃지 */
+        .dday-chip {
+            display: inline-block;
+            background: #e8a020;
+            color: white;
+            font-size: 0.78rem;
+            font-weight: 800;
+            padding: 2px 10px;
+            border-radius: 20px;
+            margin-left: 8px;
+            vertical-align: middle;
+            animation: blink-soft 1.6s ease-in-out infinite;
+        }
+        .dday-chip.dday-0 { background: #dc3545; }
+
+        @keyframes blink-soft {
+            0%, 100% { opacity: 1; }
+            50%       { opacity: 0.55; }
+        }
     </style>
 </head>
 <body>
 
 <div class="top-bar">🗓 대원 주문현황</div>
+
+<div id="alertBanner" class="alert-banner">
+    ⚠️ 1~2일 내 배송 예정이 있습니다. 아래에서 확인하세요 👇
+</div>
 
 <!-- 월 이동 -->
 <div class="month-nav">
@@ -212,6 +252,7 @@
 <!-- 범례 -->
 <div class="legend">
     <span><span class="legend-box" style="background:#8b5a2b;"></span>주문 있는 날</span>
+    <span><span class="legend-box" style="background:#e8a020;"></span>2일 이내</span>
     <span><span class="legend-box" style="background:white; outline:3px solid #e8a020; outline-offset:-3px;"></span>오늘</span>
 </div>
 
@@ -227,7 +268,11 @@
         <!-- 날짜 헤더 -->
         <div class="date-heading"
              th:id="'day-' + ${entry.key.dayOfMonth}"
-             th:text="${#temporals.format(entry.key, 'M월 d일 (E)')}">
+             th:with="diff=${entry.key.toEpochDay() - today.toEpochDay()}">
+            <span th:text="${#temporals.format(entry.key, 'M월 d일 (E)')}"></span>
+            <span th:if="${diff == 0}" class="dday-chip dday-0">오늘 배송</span>
+            <span th:if="${diff == 1}" class="dday-chip">D-1</span>
+            <span th:if="${diff == 2}" class="dday-chip">D-2</span>
         </div>
 
         <!-- 해당 날짜 주문 카드들 -->
@@ -270,9 +315,11 @@
     const todayMonth = /*[[${today.monthValue}]]*/ 0;
     const orderDays  = new Set(/*[[${orderDays}]]*/ []);
 
-    const grid = document.getElementById('calGrid');
-    const firstDay = new Date(year, month - 1, 1).getDay(); // 0=일
+    const grid    = document.getElementById('calGrid');
+    const firstDay = new Date(year, month - 1, 1).getDay();
     const lastDay  = new Date(year, month, 0).getDate();
+    // 다른 달을 보고 있으면 임박 판정 비활성화
+    const todayDay = (year === todayYear && month === todayMonth) ? today : -99;
 
     // 빈 칸
     for (let i = 0; i < firstDay; i++) {
@@ -283,16 +330,19 @@
 
     // 날짜 칸
     for (let d = 1; d <= lastDay; d++) {
-        const dow = (firstDay + d - 1) % 7;
-        const cell = document.createElement('div');
-        const isToday = (d === today && year === todayYear && month === todayMonth);
+        const dow      = (firstDay + d - 1) % 7;
+        const cell     = document.createElement('div');
+        const isToday  = (d === today && year === todayYear && month === todayMonth);
         const hasOrder = orderDays.has(d);
+        const daysLeft = d - todayDay;
+        const isSoon   = hasOrder && daysLeft >= 0 && daysLeft <= 2;
 
         let cls = 'cal-cell';
         if (dow === 0) cls += ' sun';
         if (dow === 6) cls += ' sat';
-        if (hasOrder) cls += ' has-order';
-        if (isToday)  cls += ' is-today';
+        if (hasOrder && !isSoon) cls += ' has-order';
+        if (isSoon)              cls += ' is-soon';
+        if (isToday)             cls += ' is-today';
         cell.className = cls;
 
         const num = document.createElement('span');
@@ -313,6 +363,15 @@
         }
 
         grid.appendChild(cell);
+    }
+
+    // 2일 이내 임박 배송이 있으면 상단 배너 표시
+    const hasSoon = [...orderDays].some(d => {
+        const diff = d - todayDay;
+        return diff >= 0 && diff <= 2;
+    });
+    if (hasSoon) {
+        document.getElementById('alertBanner').style.display = 'block';
     }
 </script>
 

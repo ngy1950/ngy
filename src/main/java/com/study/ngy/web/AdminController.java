@@ -150,6 +150,7 @@ public class AdminController {
     public String orderList(Model model) {
         model.addAttribute("orders", orderService.findAll());
         model.addAttribute("today", java.time.LocalDate.now());
+        model.addAttribute("salesStats", orderService.getSalesStats());
         return "admin/orders";
     }
 
@@ -169,9 +170,10 @@ public class AdminController {
             @RequestParam String recipientName,
             @RequestParam String recipientPhone,
             @RequestParam(required = false) String recipientAddress,
-            @RequestParam(required = false) String memo) {
+            @RequestParam(required = false) String memo,
+            @RequestParam(required = false) Integer price) {
         orderService.create(deliveryDate, menuDescription, paid, trackingNumber,
-                recipientName, recipientPhone, recipientAddress, memo);
+                recipientName, recipientPhone, recipientAddress, memo, price);
         return "redirect:/admin/orders";
     }
 
@@ -192,9 +194,10 @@ public class AdminController {
             @RequestParam String recipientName,
             @RequestParam String recipientPhone,
             @RequestParam(required = false) String recipientAddress,
-            @RequestParam(required = false) String memo) {
+            @RequestParam(required = false) String memo,
+            @RequestParam(required = false) Integer price) {
         orderService.update(id, deliveryDate, menuDescription, paid, trackingNumber,
-                recipientName, recipientPhone, recipientAddress, memo);
+                recipientName, recipientPhone, recipientAddress, memo, price);
         return "redirect:/admin/orders";
     }
 
