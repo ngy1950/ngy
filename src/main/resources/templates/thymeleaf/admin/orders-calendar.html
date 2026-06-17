@@ -276,7 +276,7 @@
 <div class="orders-section">
 
     <!-- 오늘 처리할 주문 (있을 때만 표시) -->
-    <div th:if="${!todayActionOrders.isEmpty()}" class="today-action-section">
+    <div th:if="${!todayActionOrders.isEmpty()}" id="todaySection" class="today-action-section">
         <div class="today-action-title">🔔 오늘 처리할 주문 <span th:text="'(' + ${todayActionOrders.size()} + '건)'"></span></div>
         <div th:each="order : ${todayActionOrders}" class="order-card action-today-card">
             <div class="action-banner">🚚 오늘 배송 — 지금 준비하세요!</div>
@@ -330,17 +330,7 @@
         </div>
 
         <!-- 해당 날짜 주문 카드들 -->
-        <div th:each="order : ${entry.value}"
-             th:with="isDirectOrder=${order.deliveryType == '직접배송'},
-                      orderDow=${order.deliveryDate.dayOfWeek.value},
-                      orderEffDate=${isDirectOrder ? order.deliveryDate :
-                                     (orderDow == 7 ? order.deliveryDate.minusDays(2) :
-                                      (orderDow == 1 ? order.deliveryDate.minusDays(3) :
-                                       order.deliveryDate.minusDays(1)))},
-                      isActionToday=${orderEffDate == today}"
-             th:class="${isActionToday} ? 'order-card action-today-card' : 'order-card'">
-
-            <div th:if="${isActionToday}" class="action-banner">🚚 오늘 배송 — 지금 준비하세요!</div>
+        <div th:each="order : ${entry.value}" class="order-card">
 
             <div class="recipient-row">
                 <span class="recipient-name" th:text="${order.recipientName}"></span>
@@ -436,7 +426,13 @@
 
             cell.addEventListener('click', () => {
                 const target = document.getElementById('day-' + d);
-                if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                } else {
+                    // 날짜 섹션이 '오늘 처리할 주문'으로 이동된 경우 상단으로 스크롤
+                    const todaySection = document.getElementById('todaySection');
+                    if (todaySection) todaySection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
             });
         }
 

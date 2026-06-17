@@ -67,6 +67,24 @@ public class OrderViewController {
                 .filter(o -> getEffectiveActionDate(o).equals(todayDate))
                 .collect(Collectors.toList());
 
+        // 오늘 처리 주문을 byDate에서 제거해 중복 표시 방지
+        // orderDays는 달력 셀 강조용이므로 원본 유지
+        if (!todayActionOrders.isEmpty()) {
+            Set<Long> todayIds = todayActionOrders.stream()
+                    .map(Order::getId)
+                    .collect(Collectors.toSet());
+            Map<LocalDate, List<Order>> filteredByDate = new LinkedHashMap<>();
+            for (Map.Entry<LocalDate, List<Order>> entry : byDate.entrySet()) {
+                List<Order> remaining = entry.getValue().stream()
+                        .filter(o -> !todayIds.contains(o.getId()))
+                        .collect(Collectors.toList());
+                if (!remaining.isEmpty()) {
+                    filteredByDate.put(entry.getKey(), remaining);
+                }
+            }
+            byDate = filteredByDate;
+        }
+
         model.addAttribute("ym", ym);
         model.addAttribute("byDate", byDate);
         model.addAttribute("orderDays", orderDays);
