@@ -5,12 +5,14 @@ import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
 
 import java.util.Set;
 import java.util.UUID;
 
+@Slf4j
 @Component
 @RequiredArgsConstructor
 public class VisitorInterceptor implements HandlerInterceptor {
@@ -48,11 +50,6 @@ public class VisitorInterceptor implements HandlerInterceptor {
 
         String page = normalise(uri);
 
-        // 내부 운영 경로(달력 뷰 등)는 집계 카운트 제외, 원시 로그는 유지
-        if (!uri.startsWith("/schedule/")) {
-            visitorService.recordVisit(page);
-        }
-
         // 원시 로그 — IP / 유입경로 / 기기 / 세션 / UTM
         String ip = extractIp(request);
         String referrer = request.getHeader("Referer");
@@ -65,9 +62,17 @@ public class VisitorInterceptor implements HandlerInterceptor {
         String utmMedium   = firstNonBlank(request.getParameter("utm_medium"),   getCookie(request, "utm_medium"));
         String utmCampaign = firstNonBlank(request.getParameter("utm_campaign"), getCookie(request, "utm_campaign"));
 
-        visitorService.recordRawVisit(page, ip, referrer, referrerSource, deviceType, sessionId,
-                utmSource, utmMedium, utmCampaign);
-        visitorService.upsertSession(sessionId);
+        try {
+            // 내부 운영 경로(달력 뷰 등)는 집계 카운트 제외, 원시 로그는 유지
+            if (!uri.startsWith("/schedule/")) {
+                visitorService.recordVisit(page);
+            }
+            visitorService.recordRawVisit(page, ip, referrer, referrerSource, deviceType, sessionId,
+                    utmSource, utmMedium, utmCampaign);
+            visitorService.upsertSession(sessionId);
+        } catch (Exception e) {
+            log.warn("[VisitorInterceptor] DB 저장 실패, 요청은 계속 진행: {}", e.getMessage());
+        }
 
         return true;
     }
